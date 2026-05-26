@@ -1,9 +1,9 @@
 # A-FIRST
 ## AI-Enabled Frontline Integrated Readiness and Skills Training
 
-**Joint Initiative: Africa CDC Digital Health Department & US CDC**
 **Project Lead:** Dr. Abel Mestie Mekonnen, Public Health Informatics Fellow, Africa CDC
-**Fellowship Period:** 2026
+
+**Fellowship Period:** 2025-2027
 
 ---
 
@@ -135,17 +135,6 @@ This project uses Developmental Evaluation (Patton, 2008) as its primary evaluat
 
 ---
 
-## Advisory Team
-
-| Name | Role | Institution |
-|------|------|-------------|
-| Dr. Herman Tolentino | Advisory Lead | US CDC |
-| Dr. Tadesse Wuhib | Technical Advisor | US CDC |
-| Bekure Tamirat | Digital Health Lead | Africa CDC |
-| Adam Terefe | Moodle Administrator | Africa CDC |
-
----
-
 ## Ethical Commitments
 
 - Learner data stays within Africa CDC infrastructure. No learner data sent to external APIs without explicit consent.
@@ -196,4 +185,4 @@ A valid JSON response with a `response` key confirms Ollama is running correctly
 
 ---
 
-*This repository is maintained by Dr. Abel Mestie Mekonnen as part of the Africa CDC Public Health Informatics Fellowship 2026. For questions contact Africa CDC Digital Health Department.*
+*This repository is maintained by Dr. Abel Mestie Mekonnen as part of the Africa CDC Public Health Informatics Fellowship 2026.*
