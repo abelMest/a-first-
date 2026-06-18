@@ -38,19 +38,17 @@ A-FIRST integrates AI into Africa CDC's existing Moodle-based learning managemen
 - Accessibility in low-bandwidth environments
 
 #### 3. Content Governance
-- Alignment with Africa CDC approved Public Health Informatics curriculum
+- Alignment with Africa CDC approved curriculum. 
 - Source grounding: AI must answer from approved content, not open web
 - Curriculum update cycles and version control of training materials
 - SCORM packaging quality of existing course library
 
 #### 4. Institutional Readiness
 - Africa CDC Moodle admin access and IT governance processes
-- GPU server procurement for production AI deployment
-- Ethical clearance timelines from Africa CDC and partner institutions
-- Stakeholder buy-in from US CDC advisory team and MoH counterparts
+- GPU server provision for production AI deployment
+ 
 
 #### 5. Sustainability and Scale
-- Avoiding donor-dependent infrastructure: local model preference over paid API
 - Capacity building for Africa CDC IT team to maintain the system post-fellowship
 - Evidence generation for continental scale-up case
 
@@ -60,10 +58,10 @@ A-FIRST integrates AI into Africa CDC's existing Moodle-based learning managemen
 
 ```
 a-first/
-├── README.md                          # This file: project overview and learning framework
+├── README.md                         
 ├── moodle/
 │   └── blocks/
-│       └── ollama_chat/               # Custom Moodle AI chat block
+│       └── ollama_chat/               
 │           ├── version.php
 │           ├── block_ollama_chat.php
 │           ├── db/
@@ -79,7 +77,7 @@ a-first/
 │   └── project-plan/
 │       └── AFIRST_Project_Plan.docx
 ├── config/
-│   └── ollama-setup.md                # Ollama installation and model configuration guide
+│   └── ollama-setup.md               
 └── .github/
     └── ISSUE_TEMPLATE/
         └── sprint-issue.md
@@ -93,10 +91,9 @@ a-first/
 |-----------|------------|-------|
 | LMS | Moodle 4.5 LTS | Local dev on Windows XAMPP bundle |
 | AI Model (dev) | Ollama llama3.2:1b | Local. No internet dependency. No per-query cost. |
-| AI Model (production fallback) | Claude API (Anthropic) | OpenAI-compatible endpoint |
 | Custom Plugin | block_ollama_chat | 4-file Moodle block. Full admin control. |
 | OS (dev) | Windows 10/11 | XAMPP bundle |
-| OS (production target) | Africa CDC Linux servers | GPU-enabled. Procurement pending. |
+| OS (production target) | Africa CDC Linux servers | GPU-enabled. |
 | Standards | FHIR R4, OpenHIE, DHIS2 | Interoperability alignment |
 
 ---
