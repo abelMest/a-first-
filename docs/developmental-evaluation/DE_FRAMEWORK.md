@@ -57,10 +57,26 @@ These are reviewed at every sprint reflection. New questions are added with a da
 
 Each monthly sprint (Prop §4.1) runs one DE cycle, with the weekly Friday review (WP §10) as the touchpoint:
 
-1. **Observe:** collect what happened (builds, test results, logs, feedback, blockers).
-2. **Make sense:** at the end of the sprint, fill in the sprint reflection. What did we expect? What actually happened? Why the difference?
-3. **Adapt:** turn the insights into decisions (`DECISION_LOG.md`) and adaptations (`DE_LOG.md` §A). Update `PLAN_VS_ACTUAL.md`.
-4. **Report:** the reflection feeds the Thursday pre-Friday brief and the sprint review report to the advisory team.
+These are the four DE practices used since Sprint 1. GitHub issues tag their practice through `.github/ISSUE_TEMPLATE/sprint-issue.md`.
+
+1. **Orienting:** at the start of the sprint, review what has changed in the technical environment, policy context or stakeholder landscape. Record expectations (sprint reflection §1–2).
+2. **Watching:** during the sprint, collect what happens: builds, test results, logs, feedback, developmental moments and integration barriers (`DE_LOG.md`, Jira).
+3. **Sense-making:** at the end of the sprint, fill in the sprint reflection with the advisory team. What did we expect? What actually happened? Why the difference?
+4. **Intervening:** turn the insights into evidence-based pivots: decisions (`DECISION_LOG.md`) and adaptations (`DE_LOG.md` §A). Update `PLAN_VS_ACTUAL.md`. The reflection feeds the Thursday pre-Friday brief and the sprint review report.
+
+### Learning framework: what we pay attention to
+
+This is a living list, first written in Sprint 1 (May 2026) and reviewed at each sprint reflection. Each area points to where the evidence is kept now.
+
+| Area | Watch for | Where it is tracked |
+|---|---|---|
+| 1. Technical integration | Moodle version compatibility with AI plugins; local model vs cloud fallback; FHIR / OpenHIE alignment; data sovereignty (where learner data is stored and processed) | D-03 to D-10, D-15; DQ2; B-01, B-02 |
+| 2. Learner experience | Baseline digital literacy; language and multilingual support across Member States; response quality and hallucination risk; low-bandwidth access | DQ7, D-17; audit and bias results; connection metadata |
+| 3. Content governance | Alignment with the approved curriculum; source grounding (no open web); curriculum update cycles and version control; SCORM packaging quality | Source approval workflow; D-14; DQ5; B-03 |
+| 4. Institutional readiness | Moodle admin access and IT governance; GPU server provision; ethics clearance | B-01, B-04, B-06; Q1, Q4, Q11 |
+| 5. Sustainability and scale | Capacity of the Africa CDC IT team to maintain the system after the fellowship; evidence for continental scale-up; onboarding further courses | D-15, D-16; `docs/ONBOARDING_A_COURSE.md`; replication guide |
+
+Sprint 1 material (the review deck and the original repository README) is in [`sprint-reviews/`](sprint-reviews/) and [`../sprint1-archive/`](../sprint1-archive/).
 
 Rules that keep the DE honest:
 

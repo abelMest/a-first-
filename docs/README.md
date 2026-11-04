@@ -31,10 +31,16 @@ Markdown conversions for reading and searching. The original Word files are in [
 | [`developmental-evaluation/DE_LOG.md`](developmental-evaluation/DE_LOG.md) | Adaptation and learning log, plus the barrier and facilitator register. |
 | [`developmental-evaluation/SPRINT_REFLECTION_TEMPLATE.md`](developmental-evaluation/SPRINT_REFLECTION_TEMPLATE.md) | Monthly reflection template. |
 | [`developmental-evaluation/sprint-reflections/`](developmental-evaluation/sprint-reflections/) | One reflection per sprint. |
+| [`developmental-evaluation/sprint-reviews/`](developmental-evaluation/sprint-reviews/) | Sprint review decks (Sprint 1, May 2026). |
+| [`../.github/ISSUE_TEMPLATE/sprint-issue.md`](../.github/ISSUE_TEMPLATE/sprint-issue.md) | GitHub issue template tagged by DE practice. |
 
 ## Evaluation instruments
 
 See [`../evaluation/README.md`](../evaluation/README.md) for the audit set, bias audit and fairness checklist.
+
+## Sprint 1 archive
+
+[`sprint1-archive/`](sprint1-archive/) holds the original Sprint 1 repository README and setup notes.
 
 ## Phase 2 archive
 
