@@ -282,7 +282,22 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
   2. Add an embedding index with a multilingual model.
   3. Accept the limitation and report it.
 - **Needs:** the fellow's choice. Option 1 also needs D-10/Q4 clearance, because question text already goes to the provider.
-- **Status:** Open.
+- **Update 2026-11-04:** option 1 is implemented behind the site setting *Cross-lingual retrieval*, **off by default**. When it is on and a question finds no passage, the provider translates the question for searching only. The answer is still written from the passages, in the learner's language, and the translated query is logged (`retrievalquery`). The audit results show it in a `retrieval_query` column. Run the bias audit with it off and on, then decide.
+- **Status:** Open (implemented, not enabled).
+
+### D-18: READINESS layer brought into the fellowship as a first version
+
+- **Date:** 2026-11-04
+- **Decision:**
+  - Build READINESS v1 (Project Plan §2.2, third strategy) instead of only the WP §13 handover specification.
+  - Branching outbreak scenarios run as core Lesson activities, built from reviewed scenario files.
+  - A course report (`report_afirst_readiness`) combines the scenario's domain scores, the ADAPTIVE knowledge checks and an optional supervisor rating into: ready for independent work, ready with supervision, or not yet ready.
+  - Design and handover content: [`READINESS_SPEC.md`](READINESS_SPEC.md).
+- **Rationale:** the fellow asked to develop the platform from BASIC through to READINESS. Core Lesson keeps the custom code small (D-04). Authored, reviewed scenarios keep the "no generated curriculum" principle (Prop §3.9).
+- **Scope impact:** Plan §2.2 and WP §13 list READINESS as Phase 4 and out of scope. The pilot protocol (Prop §3.2) does not measure READINESS outcomes. Until the protocol and ethics cover it, READINESS results are `dev` or `beta` evidence only, not pilot findings. The pilot scenario `DS4H-RDY-01` is a draft until a subject-matter expert signs it off; the build script refuses draft scenarios without `--allow-draft`.
+- **Alternatives:** handover specification only (the original plan). Kept as part of `READINESS_SPEC.md`.
+- **Approver:** Fellow. **Pending: advisory team** (scope change) and the content owner (scenario sign-off).
+- **Status:** Proposed.
 
 ---
 

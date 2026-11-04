@@ -36,4 +36,12 @@ if ($ADMIN->fulltree) {
         new lang_string('maxpassages', 'block_afirst_assistant'),
         new lang_string('maxpassages_desc', 'block_afirst_assistant'),
         answerer::DEFAULT_MAX_PASSAGES, array_combine(range(1, 5), range(1, 5))));
+
+    $settings->add(new admin_setting_configcheckbox('block_afirst_assistant/crosslingual',
+        new lang_string('crosslingual', 'block_afirst_assistant'),
+        new lang_string('crosslingual_desc', 'block_afirst_assistant'), 0));
+
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/sourcelanguage',
+        new lang_string('sourcelanguage', 'block_afirst_assistant'),
+        new lang_string('sourcelanguage_desc', 'block_afirst_assistant'), 'English', PARAM_TEXT));
 }

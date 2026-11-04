@@ -64,7 +64,22 @@ php /opt/afirst/course-setup/apply_course_config.php --config=/opt/afirst/course
 
 Read every WARNING and NOTICE in the output. For example, content without completion tracking can never unlock a knowledge check. Justify your thresholds; the pilot uses ≥ 90% to fast-track and < 80% for remediation. Then verify the rules as test students (`course-setup/CHECKLIST.md`, step 8).
 
-## 5. Audit before learners
+## 5. Readiness scenarios (optional)
+
+Write one or more scenarios in `courses/feb/readiness/scenarios/` (format: [`READINESS_SPEC.md`](READINESS_SPEC.md) §2; example: `courses/ds4h/readiness/scenarios/DS4H-RDY-01.json`) and copy `readiness_settings.json` from ds4h. After expert sign-off (set `"status": "approved"`):
+
+```bash
+php report/afirst_readiness/cli/build_scenario.php --scenario=/opt/afirst/courses/feb/readiness/scenarios/FEB-RDY-01.json \
+    --taxonomy=/opt/afirst/courses/feb/taxonomy.json --validate-only
+php report/afirst_readiness/cli/build_scenario.php --courseid=7 --section=5 \
+    --scenario=/opt/afirst/courses/feb/readiness/scenarios/FEB-RDY-01.json \
+    --settings=/opt/afirst/courses/feb/readiness/readiness_settings.json \
+    --course-config=/opt/afirst/courses/feb/course_config.json
+```
+
+Review the hidden Lesson, then make it visible. Results appear under Course › Reports › Readiness.
+
+## 6. Audit before learners
 
 ```bash
 php blocks/afirst_assistant/cli/run_audit.php --courseid=7 --set=/opt/afirst/courses/feb/evaluation/audit_set.csv \
@@ -73,7 +88,7 @@ php blocks/afirst_assistant/cli/run_audit.php --courseid=7 --set=/opt/afirst/cou
 
 Two graders score the results (`evaluation/fairness_checklist.md`). Tune `minscore` from the `top_score` column. Repeat with `bias_audit_sample.csv`. Go live only against the agreed criteria: ≥ 95% accuracy and 100% traceability (Plan §7).
 
-## 6. Commit
+## 7. Commit
 
 Commit `courses/feb/` (no learner data, no secrets) and rebuild the image, so every node carries the same course data.
 

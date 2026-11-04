@@ -19,6 +19,7 @@ namespace block_afirst_assistant\local;
 use context_course;
 use core_ai\aiactions\generate_text;
 use core_ai\manager;
+use block_afirst_assistant\external\ask;
 
 /**
  * Answers a learner question strictly from approved course passages, or refuses.
@@ -84,6 +85,20 @@ class answerer {
             'timecreated' => time(),
         ];
 
+        if (!$grounded && get_config('block_afirst_assistant', 'crosslingual')) {
+            // D-17 option 1: the question may be in another language than the sources. Translate it for searching
+            // only; the answer is still written from the passages, in the learner's language.
+            $translated = $this->translate_for_retrieval($courseid, $userid, $question);
+            if ($translated !== null) {
+                $retranslated = retriever::search($courseid, $translated, $limit);
+                $regrounded = array_values(array_filter($retranslated, fn(passage $p) => $p->score >= $minscore));
+                if ($regrounded) {
+                    [$found, $grounded] = [$retranslated, $regrounded];
+                    $log->retrievalquery = $translated;
+                    $log->topscore = $found[0]->score;
+                }
+            }
+        }
         if (!$grounded) {
             $reason = $found ? answer_result::REASON_LOW_SCORE : answer_result::REASON_NO_MATCH;
             return $this->finish($log, $started, answer_result::STATUS_REFUSED, $reason, null, []);
@@ -126,6 +141,40 @@ class answerer {
         }
         return $this->finish($log, $started, answer_result::STATUS_ANSWERED, null, $text,
             self::citations($grounded, $cited));
+    }
+
+    /**
+     * Translate a question into the sources' language, for retrieval only.
+     *
+     * @param int $courseid
+     * @param int $userid
+     * @param string $question
+     * @return string|null The translation, or null when the provider fails or returns nothing useful.
+     */
+    private function translate_for_retrieval(int $courseid, int $userid, string $question): ?string {
+        $language = trim((string)get_config('block_afirst_assistant', 'sourcelanguage')) ?: 'English';
+        $action = new generate_text(
+            contextid: context_course::instance($courseid)->id,
+            userid: $userid,
+            prompttext: "Translate the question between <question> tags into {$language}. Reply with the translation " .
+                "only, on one line, without answering it. If it is already in {$language}, repeat it unchanged.\n" .
+                "<question>\n" . str_ireplace(['<question>', '</question>'], '', $question) . "\n</question>",
+        );
+        try {
+            $response = $this->aimanager->process_action($action);
+        } catch (\Throwable $e) {
+            debugging('Course assistant translation failed: ' . $e->getMessage(), DEBUG_DEVELOPER);
+            return null;
+        }
+        if (!$response->get_success()) {
+            return null;
+        }
+        $text = trim(preg_replace('/\s+/u', ' ', (string)($response->get_response_data()['generatedcontent'] ?? '')));
+        $text = \core_text::substr($text, 0, ask::MAX_QUESTION_LENGTH);
+        if ($text === '' || \core_text::strtolower($text) === \core_text::strtolower($question)) {
+            return null;
+        }
+        return $text;
     }
 
     /**

@@ -1,0 +1,92 @@
+{
+  "id": "T-1",
+  "title": "Tiny",
+  "version": "1",
+  "status": "draft",
+  "start": "A",
+  "domains": [
+    {
+      "id": "X",
+      "title": "Domain X"
+    },
+    {
+      "id": "Y",
+      "title": "Domain Y"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "A",
+      "title": "A",
+      "question": "Q?",
+      "options": [
+        {
+          "id": "1",
+          "text": "Good",
+          "feedback": "f",
+          "scores": {
+            "X": 3
+          },
+          "next": "C"
+        },
+        {
+          "id": "2",
+          "text": "Poor",
+          "feedback": "f",
+          "scores": {
+            "X": 0
+          },
+          "next": "B"
+        }
+      ]
+    },
+    {
+      "id": "B",
+      "title": "B",
+      "question": "Q?",
+      "options": [
+        {
+          "id": "1",
+          "text": "Fix",
+          "feedback": "f",
+          "scores": {
+            "X": 2
+          },
+          "next": "C"
+        },
+        {
+          "id": "2",
+          "text": "Ignore",
+          "feedback": "f",
+          "next": "C"
+        }
+      ]
+    },
+    {
+      "id": "C",
+      "title": "C",
+      "question": "Q?",
+      "options": [
+        {
+          "id": "1",
+          "text": "Safe",
+          "feedback": "f",
+          "scores": {
+            "Y": 3
+          },
+          "next": "end"
+        },
+        {
+          "id": "2",
+          "text": "Harm",
+          "feedback": "f",
+          "scores": {
+            "Y": 0
+          },
+          "critical": true,
+          "next": "end"
+        }
+      ]
+    }
+  ]
+}

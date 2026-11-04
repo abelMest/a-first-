@@ -1,6 +1,6 @@
 # A-FIRST Docker deployment
 
-One image, `afirst/moodle:<release>`, holds pinned Moodle core (`v5.0.11`), `block_afirst_assistant`, the course-setup tools and the per-course data. The container command selects its role:
+One image, `afirst/moodle:<release>`, holds pinned Moodle core (`v5.0.11`), `block_afirst_assistant`, `report_afirst_readiness`, the course-setup tools and the per-course data. The container command selects its role:
 
 | Role | What it does | How many |
 |---|---|---|
@@ -103,5 +103,7 @@ The assistant's per-course retrieval index is a Moodle application cache, stored
 - 2 web replicas behind Caddy. Requests alternate between replicas. A logged-in session holds 8 of 8 requests across both replicas, after a fresh install and after a cold restart of both. One earlier run lost the session; it was not reproduced in three later runs.
 - Cron loop completes runs. Site settings applied. Redis session handler in use.
 - `generate_course_config.php` and `apply_course_config.php --dry-run` on a second course, `import_sources.php` (including an idempotent re-run), and `run_audit.php` on the audit and bias sets (no provider configured, so retrieval and refusal only).
+
+- READINESS: the pilot scenario built into a course with `build_scenario.php`, played to the end in a browser as a test learner, and the report and CSV checked against a hand calculation. Plugin upgrade (new log column) applied through `init`.
 
 **Not yet tested:** TLS with a real domain, multi-host shared storage, load testing, a live AI provider, and migrating the existing production site (`10.215.70.14`) into this stack.

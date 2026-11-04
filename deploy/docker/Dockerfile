@@ -1,6 +1,6 @@
 # A-FIRST Moodle 5.0 image: Moodle core + block_afirst_assistant + course-setup and evaluation tooling.
 # Build from the repository root:
-#   docker build -f deploy/docker/Dockerfile -t afirst/moodle:0.2.0 .
+#   docker build -f deploy/docker/Dockerfile -t afirst/moodle:0.3.0 .
 # One image runs every role (init, web, cron); the role is the container command. See deploy/docker/README.md.
 
 ARG MOODLE_REF=v5.0.11
@@ -22,6 +22,7 @@ LABEL org.opencontainers.image.title="A-FIRST Moodle" \
 # Code is owned by root and read-only to the web server: plugins are installed by rebuilding the image, never from the UI.
 COPY --from=moodle /moodle /var/www/html
 COPY blocks/afirst_assistant /var/www/html/blocks/afirst_assistant
+COPY report/afirst_readiness /var/www/html/report/afirst_readiness
 COPY deploy/docker/config.php /var/www/html/config.php
 COPY course-setup /opt/afirst/course-setup
 COPY courses /opt/afirst/courses

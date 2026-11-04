@@ -28,10 +28,13 @@ afirst_up() {
     afirst_sync
 }
 
-# Copy the plugin (source of truth: ../blocks/afirst_assistant) into the running Moodle.
+# Copy the plugins (source of truth: ../blocks/afirst_assistant, ../report/afirst_readiness) into the running Moodle.
 afirst_sync() {
-    afirst_exec rm -rf /var/www/html/blocks/afirst_assistant
-    (cd "$DEV_DIR/../blocks" && tar -cf - afirst_assistant) |
-        MSYS_NO_PATHCONV=1 docker exec -i $WEB tar -xf - -C /var/www/html/blocks
-    afirst_exec chown -R www-data:www-data /var/www/html/blocks/afirst_assistant
+    local plugin
+    for plugin in blocks/afirst_assistant report/afirst_readiness; do
+        afirst_exec rm -rf "/var/www/html/$plugin"
+        (cd "$DEV_DIR/../$(dirname $plugin)" && tar -cf - "$(basename $plugin)") |
+            MSYS_NO_PATHCONV=1 docker exec -i $WEB tar -xf - -C "/var/www/html/$(dirname $plugin)"
+        afirst_exec chown -R www-data:www-data "/var/www/html/$plugin"
+    done
 }

@@ -1,0 +1,111 @@
+{
+  "id": "DS4H-RDY-01",
+  "title": "Readiness scenario: suspected cholera cluster, from signal to situation report",
+  "version": "0.1",
+  "status": "draft",
+  "review": {
+    "author": "A-FIRST fellow",
+    "sme_reviewer": null,
+    "approved_on": null,
+    "note": "Draft for subject-matter review. Numbers are fictional. The scenario tests data-science decisions taught in Data Science for Health, not clinical management."
+  },
+  "language": "en",
+  "intro": "<p>You are the data analyst on a district rapid response team. Over the next decisions you will move from an early signal to a situation report for the district health director. Each choice has consequences. Choose what you would actually do at work.</p><p>You may use the course assistant and your course materials, as you would use references on the job. There is one attempt.</p>",
+  "domains": [
+    {"id": "SIG", "title": "Signals and data sources", "competencies": ["COMP-1.1.3", "COMP-4.3.4"]},
+    {"id": "DQW", "title": "Data quality and reproducible wrangling", "competencies": ["COMP-1.2.3", "COMP-1.2.4", "COMP-2.1.2", "COMP-2.1.3", "COMP-2.1.4"]},
+    {"id": "GOV", "title": "Data governance and ethics", "competencies": ["COMP-1.2.1", "COMP-1.2.2", "COMP-3.2.4", "COMP-4.2.4"]},
+    {"id": "ANA", "title": "Analysis and interpretation", "competencies": ["COMP-2.2.2", "COMP-2.2.3", "COMP-3.2.1", "COMP-3.2.2", "COMP-4.1.2", "COMP-4.1.3"]},
+    {"id": "COM", "title": "Communicating results", "competencies": ["COMP-3.1.3", "COMP-3.1.4", "COMP-3.2.3"]}
+  ],
+  "start": "N1",
+  "nodes": [
+    {
+      "id": "N1",
+      "title": "1. An early signal",
+      "inject": "<p>Monday 08:00. A local radio station reports \"many people with watery diarrhoea\" in Kebele 04. The weekly surveillance report shows 6 acute watery diarrhoea cases for the kebele last week, against a usual 1 to 2. An automated scan of news and social media has flagged three posts about the same area.</p>",
+      "question": "What do you do first with this information?",
+      "options": [
+        {"id": "A", "text": "Treat it as a signal to verify: compare the surveillance counts with the expected baseline, contact the reporting health facility to confirm the cases, and log the media items as unverified.", "feedback": "Good. Event-based signals from media and automated scans are useful early warnings, but they must be verified against indicator-based surveillance and the facility before action.", "scores": {"SIG": 3}, "next": "N2"},
+        {"id": "B", "text": "Declare an outbreak immediately and publish the radio report figures in a district alert.", "feedback": "Premature. The media figures are unverified and the alert may be wrong. Verification of the signal comes first.", "scores": {"SIG": 0}, "next": "N2"},
+        {"id": "C", "text": "Wait for next week's surveillance report to see if the numbers stay high.", "feedback": "Too slow. A threefold rise plus independent media signals justifies verification now, not in a week.", "scores": {"SIG": 1}, "next": "N2"}
+      ]
+    },
+    {
+      "id": "N2",
+      "title": "2. The line list arrives",
+      "inject": "<p>The facility confirms the cases and sends a line list of 40 suspected cases as a spreadsheet. You notice: 3 rows appear twice, 5 rows have no onset date, dates mix the formats 03/11/2026 and 2026-11-03, and one age is recorded as 210.</p>",
+      "question": "How do you prepare the data for analysis?",
+      "options": [
+        {"id": "A", "text": "Keep the raw file untouched. In a script, standardise the dates, flag and remove exact duplicates, set the impossible age to missing, keep rows with missing onset (flagged), and record every step in a cleaning log.", "feedback": "This is the reproducible approach: raw data preserved, each transformation scripted and documented, and missing values handled explicitly instead of silently dropped.", "scores": {"DQW": 3}, "next": "N3"},
+        {"id": "B", "text": "Fix the problems by hand in the original spreadsheet and save over it.", "feedback": "The errors may be fixed, but nobody can see or repeat what was changed, and the original data are lost. When the next version of the line list arrives you will have to do it again by hand.", "scores": {"DQW": 1}, "next": "N2B"},
+        {"id": "C", "text": "Delete every row that has any problem so that only clean rows remain.", "feedback": "Dropping 9 of 40 cases biases every count and rate. Problems should be corrected or flagged, not deleted.", "scores": {"DQW": 0}, "next": "N2B"}
+      ]
+    },
+    {
+      "id": "N2B",
+      "title": "2b. The numbers do not reconcile",
+      "inject": "<p>The district surveillance officer reports 40 cases; your table shows a different number, and you cannot say why. A corrected version of the line list arrives the same afternoon.</p>",
+      "question": "What do you change in your way of working?",
+      "options": [
+        {"id": "A", "text": "Start again from the new raw file with a script that applies each cleaning step and produces a log, so the count can be explained and re-run on every update.", "feedback": "Right. A scripted pipeline makes counts traceable and lets you re-run the same steps on each update.", "scores": {"DQW": 2}, "next": "N3"},
+        {"id": "B", "text": "Repeat the same manual edits on the new file, more carefully.", "feedback": "The underlying problem remains: the work is not reproducible or auditable.", "scores": {"DQW": 0}, "next": "N3"}
+      ]
+    },
+    {
+      "id": "N3",
+      "title": "3. A request for the data",
+      "inject": "<p>The line list contains names, phone numbers and household locations. A journalist asks for \"the list\" to report the story. A partner NGO asks for data to plan water point chlorination. A colleague suggests posting the spreadsheet in the response team's large messaging group so everyone has it.</p>",
+      "question": "How do you handle the data?",
+      "options": [
+        {"id": "A", "text": "Share nothing identifiable outside the authorised team. Give the NGO aggregated counts by village and water point under the data-sharing agreement, refer the journalist to the communications officer, and keep the line list in the access-controlled folder.", "feedback": "Correct stewardship: minimum necessary data, aggregation for partners, an agreed channel for media, and access control for personal data.", "scores": {"GOV": 3}, "next": "N4"},
+        {"id": "B", "text": "Post the full spreadsheet in the messaging group; it is faster and everyone in the group works on the response.", "feedback": "Critical error. Personal health data in a large chat group cannot be controlled, can be forwarded, and breaches the people's confidentiality and trust.", "scores": {"GOV": 0}, "critical": true, "next": "N4"},
+        {"id": "C", "text": "Send the full line list to the NGO, because they are helping the response.", "feedback": "Helping the response does not justify sharing identities. Aggregated data meet the NGO's planning need without exposing individuals.", "scores": {"GOV": 1}, "next": "N4"}
+      ]
+    },
+    {
+      "id": "N4",
+      "title": "4. Looking for a source",
+      "inject": "<p>Your cleaned data: of 120 people who used Well A, 30 became cases. Of 200 people who used other water sources, 10 became cases.</p>",
+      "question": "Which interpretation is correct?",
+      "options": [
+        {"id": "A", "text": "The attack rate is 25% among Well A users and 5% among others, so the risk ratio is 5.0. Well A is strongly associated with illness and is a priority hypothesis, but association alone does not prove it is the source.", "feedback": "Correct calculation and careful interpretation: a strong association that guides action and further investigation, such as water testing.", "scores": {"ANA": 3}, "next": "N5"},
+        {"id": "B", "text": "30 cases against 10 cases means Well A users are 3 times as likely to be ill.", "feedback": "Comparing raw counts ignores how many people were exposed. Use attack rates: 30/120 = 25% vs 10/200 = 5%, a risk ratio of 5.0.", "scores": {"ANA": 0}, "next": "N5"},
+        {"id": "C", "text": "The risk ratio is 5.0, which proves Well A caused the outbreak.", "feedback": "The calculation is right, but an observational association does not prove causation on its own. Confounding and other sources must be considered.", "scores": {"ANA": 1}, "next": "N5"}
+      ]
+    },
+    {
+      "id": "N5",
+      "title": "5. The epidemic curve",
+      "inject": "<p>You are asked to show how the outbreak is evolving. Onset dates span 9 days. Cases rose sharply over 3 days, and the last 2 days show fewer cases.</p>",
+      "question": "How do you build and read the curve?",
+      "options": [
+        {"id": "A", "text": "Plot cases by day of onset as touching bars, mark the most recent days as possibly incomplete because of reporting delay, and describe the shape without declaring the outbreak over.", "feedback": "Right. Daily intervals suit a short outbreak, and recent days are often under-reported, so an apparent fall may be reporting delay.", "scores": {"ANA": 3}, "next": "N6"},
+        {"id": "B", "text": "Plot cases by week, which gives a single tall bar, and report that the situation is stable.", "feedback": "Weekly bins hide the shape of a 9-day outbreak, and \"stable\" is not supported by the data.", "scores": {"ANA": 0}, "next": "N6"},
+        {"id": "C", "text": "Plot by day and report that the outbreak is ending because the last 2 days are lower.", "feedback": "The interval is right, but the conclusion ignores reporting delay. The decline may not be real yet.", "scores": {"ANA": 1}, "next": "N6"}
+      ]
+    },
+    {
+      "id": "N6",
+      "title": "6. Choosing the analysis",
+      "inject": "<p>The director asks whether age group and water source are independently associated with illness. You have the 40 cases and 280 non-cases from a household survey of the affected villages.</p>",
+      "question": "Which approach do you take?",
+      "options": [
+        {"id": "A", "text": "Fit a logistic regression with illness (yes/no) as the outcome and water source and age group as predictors, and report adjusted odds ratios with 95% confidence intervals.", "feedback": "Appropriate. A binary outcome with a few predictors calls for logistic regression, and adjusted odds ratios with confidence intervals answer the question.", "scores": {"ANA": 3}, "next": "N7"},
+        {"id": "B", "text": "Fit a Poisson regression of case counts per household and report rate ratios.", "feedback": "Poisson models counts or rates. The question is about individual illness (yes/no), which calls for logistic regression.", "scores": {"ANA": 1}, "next": "N7"},
+        {"id": "C", "text": "Train a random forest on all 320 people and report its accuracy on the same data as proof of the risk factors.", "feedback": "Accuracy on the training data overstates performance (overfitting), the model does not give interpretable associations, and the question is explanatory, not predictive.", "scores": {"ANA": 0, "GOV": 0}, "next": "N7"}
+      ]
+    },
+    {
+      "id": "N7",
+      "title": "7. The situation report",
+      "inject": "<p>The district health director needs a one-page situation report and a dashboard view for tomorrow's coordination meeting, attended by partners and local leaders.</p>",
+      "question": "What do you produce?",
+      "options": [
+        {"id": "A", "text": "A few key indicators (cases, attack rate, trend) with the epidemic curve, a map of cases aggregated by village, axes starting at zero, the data date and sources stated, and no information that identifies individuals.", "feedback": "Clear, honest and safe: key indicators first, aggregated geography, undistorted scales, and transparency about data timeliness.", "scores": {"COM": 3, "GOV": 3}, "next": "end"},
+        {"id": "B", "text": "A dashboard with a map pinpointing each case household, so leaders can see exactly where cases are.", "feedback": "Critical error. Household-level points can identify people and lead to stigma. Aggregate to an area large enough to protect identities.", "scores": {"COM": 1, "GOV": 0}, "critical": true, "next": "end"},
+        {"id": "C", "text": "Twelve charts covering every variable, including a 3D pie chart of age groups and a bar chart whose axis starts at 20 to make the rise look clearer.", "feedback": "Too much and misleading: 3D pies distort proportions, and a truncated axis exaggerates change. Decision makers need a few honest visuals.", "scores": {"COM": 0, "GOV": 2}, "next": "end"}
+      ]
+    }
+  ]
+}

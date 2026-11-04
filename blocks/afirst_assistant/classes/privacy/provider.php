@@ -43,6 +43,7 @@ class provider implements
             'question' => 'privacy:metadata:log:question',
             'answer' => 'privacy:metadata:log:answer',
             'connectiontype' => 'privacy:metadata:log:connectiontype',
+            'retrievalquery' => 'privacy:metadata:log:retrievalquery',
             'timecreated' => 'privacy:metadata:log:timecreated',
         ], 'privacy:metadata:log');
         $collection->add_database_table('block_afirst_escalation', [
@@ -118,6 +119,7 @@ class provider implements
                     'answer' => $l->answer,
                     'refused' => transform::yesno($l->refused),
                     'connectiontype' => $l->connectiontype,
+                    'retrievalquery' => $l->retrievalquery,
                     'timecreated' => transform::datetime($l->timecreated),
                 ], $logs)),
                 'reports' => array_values(array_map(fn($r) => (object) [

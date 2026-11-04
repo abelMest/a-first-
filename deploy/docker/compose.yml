@@ -4,7 +4,7 @@
 name: afirst-prod
 
 x-moodle: &moodle
-  image: ${AFIRST_IMAGE:-afirst/moodle:0.2.0}
+  image: ${AFIRST_IMAGE:-afirst/moodle:0.3.0}
   build:
     context: ../..
     dockerfile: deploy/docker/Dockerfile

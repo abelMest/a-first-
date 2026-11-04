@@ -1,6 +1,6 @@
 # A-FIRST: AI-Enabled Frontline Integrated Reference and Skills Training
 
-A source-grounded AI learning assistant and adaptive layer for the Africa CDC Moodle 5.0 environment. It is piloted on the *Data Science for Health* course (course id 2). This is the capstone project of the Africa Epidemic Service Public Health Informatics Fellowship (June 2026 to May 2027).
+The three A-FIRST layers for the Africa CDC Moodle 5.0 environment: BASIC (a source-grounded AI assistant), ADAPTIVE (diagnostics, fast-track and remediation) and READINESS (scenario-based readiness assessment). It is piloted on the *Data Science for Health* course (course id 2). This is the capstone project of the Africa Epidemic Service Public Health Informatics Fellowship (June 2026 to May 2027).
 
 **This repository is the single source of truth** for the code, plans, decisions and Developmental Evaluation record.
 
@@ -9,8 +9,9 @@ A source-grounded AI learning assistant and adaptive layer for the Africa CDC Mo
 | Path | What it is |
 |---|---|
 | [`blocks/afirst_assistant/`](blocks/afirst_assistant/) | BASIC layer: the grounded-chat Moodle block. It gives cited answers, refuses out-of-scope questions, shows the AI disclaimer, logs interactions and has an escalation queue. Works in any course: sources, index and logs are per course. CLI tools: `cli/import_sources.php`, `cli/run_audit.php`. |
+| [`report/afirst_readiness/`](report/afirst_readiness/) | READINESS layer: builds outbreak scenarios as Lesson activities and reports each learner as ready for independent work, ready with supervision, or not yet. See [`docs/READINESS_SPEC.md`](docs/READINESS_SPEC.md). |
 | [`course-setup/`](course-setup/) | ADAPTIVE layer tooling on core Moodle, for any course: competency framework import, config generator, restrict-access rules. Start with [`CHECKLIST.md`](course-setup/CHECKLIST.md). |
-| [`courses/`](courses/) | One folder per course: taxonomy, course config, diagnostics map, evaluation sets, microlearning. The pilot is [`courses/ds4h/`](courses/ds4h/). Adding a course: [`docs/ONBOARDING_A_COURSE.md`](docs/ONBOARDING_A_COURSE.md). |
+| [`courses/`](courses/) | One folder per course: taxonomy, course config, diagnostics map, evaluation sets, microlearning, readiness scenarios. The pilot is [`courses/ds4h/`](courses/ds4h/). Adding a course: [`docs/ONBOARDING_A_COURSE.md`](docs/ONBOARDING_A_COURSE.md). |
 | [`deploy/docker/`](deploy/docker/) | Production Docker stack: one image for web, cron and init; Postgres, Redis and a load balancer. See its README. |
 | [`evaluation/`](evaluation/) | Evaluation method and tools for any course: set formats, fairness checklist, `check_sets.py`. The pilot sets are in `courses/ds4h/evaluation/`. |
 | [`dev/`](dev/) | Local Docker Moodle 5.0 for development. It never talks to production. |

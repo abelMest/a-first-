@@ -34,7 +34,7 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 | O4 | Unanswered question log | **rebuilt** | Built into the plugin log (refused and reason). Proposal Sprint 7 adds "schema defined". |
 | O4 | Content gap inventory | **pending** | Derived from the unanswered log in Sprints 10–12. |
 | O4 | Replication guide (Prop §1.3, §3.10, Sprint 12) | **pending** | Skeleton in `REPLICATION_GUIDE.md`. |
-| — | READINESS handover specification (Plan §11) | **pending** | Sprint 12. |
+| — | READINESS handover specification (Plan §11) | **done** (draft) | [`READINESS_SPEC.md`](READINESS_SPEC.md) covers the WP §13 items, and v1 is built (D-18). Update with beta lessons at Sprint 12. |
 
 ## 2. Integration approach (Plan §3.1, §5, §12; WP §4.1, §5)
 
@@ -100,7 +100,8 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 |---|---|---|
 | Docker packaging, scalable web tier | **done** (dev-tested) | `deploy/docker/` (D-15). Production migration not decided. |
 | Course-agnostic onboarding | **done** (dev-tested) | `courses/<key>/`, `docs/ONBOARDING_A_COURSE.md` (D-16). |
-| Cross-lingual retrieval | **pending decision** | D-17. |
+| Cross-lingual retrieval | **built, off** | D-17 option 1 behind a setting; decide after the bias audit. |
+| READINESS layer v1 | **done** (dev-tested) | `report/afirst_readiness/`, pilot scenario draft, [`READINESS_SPEC.md`](READINESS_SPEC.md) (D-18). Plan listed it as Phase 4. |
 
 ## Open questions for the advisory team
 
@@ -115,4 +116,5 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 9. **Sprint length:** Prop §4.1 has monthly sprints, while Plan §6 and the WP have one-week sprints. Confirm that the monthly calendar is authoritative.
 10. **Synthetic personas:** the Phase 2 test personas use real names (for example "Adam Terefe (U5)"). Should those accounts be renamed now, or only removed in the D-13 purge?
 11. **Docker migration (D-15):** should production move to the Docker stack, and when? Who at Africa CDC operates it?
-12. **Cross-lingual retrieval (D-17):** which option should be used for French and Portuguese questions?
+12. **Cross-lingual retrieval (D-17):** option 1 is built and off. Should it be enabled after the bias audit?
+13. **READINESS scope (D-18):** do you accept READINESS v1 in the fellowship, with results treated as `dev`/`beta` evidence unless the protocol is amended? Who is the subject-matter reviewer for scenario DS4H-RDY-01?

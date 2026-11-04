@@ -59,6 +59,7 @@
         <FIELD NAME="latencyms" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Server-side time from question to answer"/>
         <FIELD NAME="connectiontype" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Browser-reported effective connection type, for the equity analysis"/>
         <FIELD NAME="downlinkmbps" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
+        <FIELD NAME="retrievalquery" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The question as translated for retrieval, when cross-lingual retrieval found the passages"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

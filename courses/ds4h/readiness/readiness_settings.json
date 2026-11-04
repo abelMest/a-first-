@@ -1,0 +1,11 @@
+{
+  "_comment": "Readiness rules for course ds4h (docs/READINESS_SPEC.md section 3). Starting values, to be validated against supervisor judgement during the beta (DQ8). Knowledge-check cmids are read from course_config.json by build_scenario.php --course-config.",
+  "thresholds": {
+    "independent_domain_min": 80,
+    "supervised_domain_min": 60,
+    "knowledge_each_min": 80,
+    "knowledge_mean_min_supervised": 60,
+    "supervisor_min": 70
+  },
+  "supervisor_cmid": null
+}

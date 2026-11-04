@@ -20,7 +20,8 @@ Markdown conversions for reading and searching. The original Word files are in [
 | [`DECISION_LOG.md`](DECISION_LOG.md) | D-01 onward: decisions, rationale, alternatives and approvers. |
 | [`DEPLOYMENT.md`](DEPLOYMENT.md) | How the rebuild reaches the existing production VM (Sprint 8). |
 | [`../deploy/docker/README.md`](../deploy/docker/README.md) | Docker image and scalable stack (D-15). |
-| [`ONBOARDING_A_COURSE.md`](ONBOARDING_A_COURSE.md) | Adding any course: taxonomy, sources, adaptive rules, audit (D-16). |
+| [`ONBOARDING_A_COURSE.md`](ONBOARDING_A_COURSE.md) | Adding any course: taxonomy, sources, adaptive rules, readiness, audit (D-16). |
+| [`READINESS_SPEC.md`](READINESS_SPEC.md) | READINESS layer: scenario format, readiness rules, technology options, handover (D-18). |
 | [`REPLICATION_GUIDE.md`](REPLICATION_GUIDE.md) | Skeleton of the Sprint 12 replication guide. |
 
 ## Developmental Evaluation (DE)

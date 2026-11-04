@@ -212,6 +212,69 @@ final class answerer_test extends \advanced_testcase {
         $this->assertSame([], retriever::search($other->id, 'completeness', 3));
     }
 
+    /**
+     * A manager double that translates (prompts starting "Translate") and answers (everything else).
+     *
+     * @param string|null $translation Null to make the translation call fail.
+     * @param string[] $prompts Receives every prompt sent.
+     * @return manager
+     */
+    private function translating_manager(?string $translation, array &$prompts = []): manager {
+        $manager = $this->createMock(manager::class);
+        $manager->method('process_action')->willReturnCallback(function(generate_text $action) use ($translation, &$prompts) {
+            $prompt = $action->get_configuration('prompttext');
+            $prompts[] = $prompt;
+            $istranslation = str_starts_with($prompt, 'Translate');
+            if ($istranslation && $translation === null) {
+                return new response_generate_text(false, 500, 'Provider down');
+            }
+            $response = new response_generate_text(true);
+            $response->set_response_data(['generatedcontent' => $istranslation ? $translation :
+                'La complétude vérifie que tous les rapports attendus ont été reçus [1].', 'model' => 'test-model']);
+            return $response;
+        });
+        return $manager;
+    }
+
+    public function test_cross_lingual_retrieval_is_off_by_default(): void {
+        $prompts = [];
+        $result = (new answerer($this->translating_manager('What does completeness check?', $prompts)))->answer(
+            $this->course->id, $this->student->id, 'Que vérifie la complétude ?');
+
+        $this->assertSame(answer_result::REASON_NO_MATCH, $result->reason);
+        $this->assertSame([], $prompts, 'no AI call when retrieval finds nothing and the setting is off');
+    }
+
+    public function test_cross_lingual_retrieval_finds_passages_and_answers_in_the_learner_language(): void {
+        global $DB;
+        set_config('crosslingual', 1, 'block_afirst_assistant');
+        $prompts = [];
+        $result = (new answerer($this->translating_manager('What does completeness check?', $prompts)))->answer(
+            $this->course->id, $this->student->id, 'Que vérifie la complétude ?');
+
+        $this->assertSame(answer_result::STATUS_ANSWERED, $result->status);
+        $this->assertCount(2, $prompts);
+        $this->assertStringContainsString('into English', $prompts[0]);
+        // The answering prompt carries the learner's own question, so the answer comes back in French.
+        $this->assertStringContainsString('Que vérifie la complétude ?', $prompts[1]);
+        $this->assertStringContainsString('same language as the question', $prompts[1]);
+        $log = $DB->get_record('block_afirst_log', ['id' => $result->logid]);
+        $this->assertSame('What does completeness check?', $log->retrievalquery);
+        $this->assertSame('Que vérifie la complétude ?', $log->question);
+        $this->assertNotNull($log->topscore);
+    }
+
+    public function test_cross_lingual_translation_failure_still_refuses_cleanly(): void {
+        global $DB;
+        set_config('crosslingual', 1, 'block_afirst_assistant');
+        $result = (new answerer($this->translating_manager(null)))->answer($this->course->id, $this->student->id,
+            'Que vérifie la complétude ?');
+
+        $this->assertSame(answer_result::STATUS_REFUSED, $result->status);
+        $this->assertSame(answer_result::REASON_NO_MATCH, $result->reason);
+        $this->assertNull($DB->get_field('block_afirst_log', 'retrievalquery', ['id' => $result->logid]));
+    }
+
     public function test_resolve_citation_markers(): void {
         [$text, $cited] = answerer::resolve_citation_markers('A [2][1]. B [0] [4].', 3);
         $this->assertSame('A [2][1]. B .', $text);

@@ -38,6 +38,7 @@ These are reviewed at every sprint reflection. New questions are added with a da
 | DQ4 | What refusal threshold balances wrong answers against unhelpful refusals? | 2026-10-25 | Audit runs (`evaluation/`), unanswered-question log |
 | DQ5 | Can a single fellow keep a grounded assistant accurate as content changes? What does maintenance cost? | 2026-10-25 | Re-audit effort, source re-index time, escalation workload |
 | DQ6 | How did learners and facilitators use (or not use) escalation, and did corrective actions close the loop within 48 hours? | 2026-10-25 | Escalation queue and SLA report |
+| DQ8 | Does the READINESS rule agree with supervisors' judgement of who is ready for independent work? Which thresholds and option points need changing? | 2026-11-04 | Beta: rule vs supervisor rating for each volunteer; readiness report CSV |
 | DQ7 | Does the assistant behave equitably across English, French and Portuguese prompts and across bandwidth? | 2026-10-25 | Bias audit (`courses/ds4h/evaluation/bias_audit_sample.csv`), connection metadata |
 
 ## 3. DE instruments in this repository
