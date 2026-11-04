@@ -101,7 +101,8 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 | Docker packaging, scalable web tier | **done** (dev-tested) | `deploy/docker/` (D-15). Production migration not decided. |
 | Course-agnostic onboarding | **done** (dev-tested) | `courses/<key>/`, `docs/ONBOARDING_A_COURSE.md` (D-16). |
 | Cross-lingual retrieval | **built, off** | D-17 option 1 behind a setting; decide after the bias audit. |
-| READINESS layer v1 | **done** (dev-tested) | `report/afirst_readiness/`, pilot scenario draft, [`READINESS_SPEC.md`](READINESS_SPEC.md) (D-18). Plan listed it as Phase 4. |
+| READINESS layer v1 | **parked** (built, dev-tested) | `report/afirst_readiness/`, pilot scenario draft, [`READINESS_SPEC.md`](READINESS_SPEC.md) (D-18). Plan listed it as Phase 4. Not deployed until Gate 3 (D-19). |
+| Staged release BASIC → ADAPTIVE → READINESS | **adopted** | Gates and evidence in [`STAGE_GATES.md`](STAGE_GATES.md) (D-19). Current stage: BASIC. |
 
 ## Open questions for the advisory team
 
@@ -118,3 +119,4 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 11. **Docker migration (D-15):** should production move to the Docker stack, and when? Who at Africa CDC operates it?
 12. **Cross-lingual retrieval (D-17):** option 1 is built and off. Should it be enabled after the bias audit?
 13. **READINESS scope (D-18):** do you accept READINESS v1 in the fellowship, with results treated as `dev`/`beta` evidence unless the protocol is amended? Who is the subject-matter reviewer for scenario DS4H-RDY-01?
+14. **Staged release (D-19):** do you agree that ADAPTIVE starts only after the BASIC go/no-go passes, and READINESS only after the ADAPTIVE beta (gates in [`STAGE_GATES.md`](STAGE_GATES.md))? If Gate 1 slips past Sprint 6, the Sprint 9 launch moves with it.

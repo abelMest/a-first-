@@ -21,6 +21,7 @@ Markdown conversions for reading and searching. The original Word files are in [
 | [`DEPLOYMENT.md`](DEPLOYMENT.md) | How the rebuild reaches the existing production VM (Sprint 8). |
 | [`../deploy/docker/README.md`](../deploy/docker/README.md) | Docker image and scalable stack (D-15). |
 | [`ONBOARDING_A_COURSE.md`](ONBOARDING_A_COURSE.md) | Adding any course: taxonomy, sources, adaptive rules, readiness, audit (D-16). |
+| [`STAGE_GATES.md`](STAGE_GATES.md) | The BASIC → ADAPTIVE → READINESS sequence, and the gate criteria and evidence for each stage (D-19). |
 | [`READINESS_SPEC.md`](READINESS_SPEC.md) | READINESS layer: scenario format, readiness rules, technology options, handover (D-18). |
 | [`REPLICATION_GUIDE.md`](REPLICATION_GUIDE.md) | Skeleton of the Sprint 12 replication guide. |
 

@@ -4,6 +4,8 @@ The three A-FIRST layers for the Africa CDC Moodle 5.0 environment: BASIC (a sou
 
 **This repository is the single source of truth** for the code, plans, decisions and Developmental Evaluation record.
 
+**Sequence:** the layers are released one at a time: **BASIC → ADAPTIVE → READINESS** (D-19). Each starts only after the previous one passes its gate; see [`docs/STAGE_GATES.md`](docs/STAGE_GATES.md). Current stage: **BASIC** (Gate 1 due end of Sprint 6). ADAPTIVE tooling and READINESS v1 are in the repository but not deployed.
+
 ## Layout
 
 | Path | What it is |

@@ -297,7 +297,20 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Scope impact:** Plan §2.2 and WP §13 list READINESS as Phase 4 and out of scope. The pilot protocol (Prop §3.2) does not measure READINESS outcomes. Until the protocol and ethics cover it, READINESS results are `dev` or `beta` evidence only, not pilot findings. The pilot scenario `DS4H-RDY-01` is a draft until a subject-matter expert signs it off; the build script refuses draft scenarios without `--allow-draft`.
 - **Alternatives:** handover specification only (the original plan). Kept as part of `READINESS_SPEC.md`.
 - **Approver:** Fellow. **Pending: advisory team** (scope change) and the content owner (scenario sign-off).
-- **Status:** Proposed.
+- **Status:** Proposed. Parked until Gate 3 (D-19).
+
+### D-19: Layers are built and released in sequence, with gates
+
+- **Date:** 2026-11-04
+- **Decision:**
+  - The rebuild proceeds BASIC → ADAPTIVE → READINESS. A layer starts only after the previous one passes its gate. Gates and evidence: [`STAGE_GATES.md`](STAGE_GATES.md).
+  - Existing code is kept. ADAPTIVE tooling (`course-setup/`) is not applied to any course until Gate 1 passes. READINESS v1 (`report/afirst_readiness/`, D-18) is parked: not deployed or piloted until Gate 3.
+  - Gate 1 is the plan's BASIC go/no-go (D-11): accuracy ≥ 95% and 100% traceability on the 50-question audit, the bias audit, and an advisory team decision.
+  - The Sprint 8 deployment is split: BASIC is deployed after Gate 1; ADAPTIVE is added before the Gate 2 beta.
+- **Rationale:** the fellow's direction ("rebuild starting from the basic, adaptive and then readiness"). It matches the plan's sequence (Plan v3 §6: Sprints 1–5 BASIC, 6–8 ADAPTIVE) and avoids piloting layers whose foundation is unproven.
+- **Alternatives:** restart from an empty repository; rebuild BASIC only from scratch. Both rejected by the fellow in favour of gating the existing code.
+- **Approver:** Fellow (2026-11-04). **Pending: advisory team.**
+- **Status:** Approved by the fellow.
 
 ---
 

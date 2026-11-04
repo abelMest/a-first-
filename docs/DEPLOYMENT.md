@@ -1,8 +1,12 @@
-# A-FIRST Production Deployment (Sprint 8, January 2027)
+# A-FIRST Production Deployment (staged: BASIC, then ADAPTIVE)
 
-This is the rollout of the rebuilt BASIC and ADAPTIVE layers to the Africa CDC Moodle 5.0 site (VM `10.215.70.14`, course 2 "Data Science for Health"), ahead of the beta test with 3 to 5 volunteers (Proposal §4.1, Sprint 8).
+This is the rollout of the rebuilt layers to the Africa CDC Moodle 5.0 site (VM `10.215.70.14`, course 2 "Data Science for Health"). The layers go out in sequence (D-19, [`STAGE_GATES.md`](STAGE_GATES.md)):
 
-> **No step here runs before the Sprint 8 window.** Each production change needs the fellow's go-ahead at the time (DECISION_LOG D-13). Everything is first rehearsed on the local docker Moodle 5.0 (`dev/`), using a restored copy of course 2.
+- **Stage 1, BASIC** (after Gate 1, the Sprint 6 go/no-go): sections 0–4, steps 5.5–5.8, 6, 7 (except 7.6) and 8.
+- **Stage 2, ADAPTIVE** (Sprints 7–8, before the Gate 2 beta with 3 to 5 volunteers): steps 5.1–5.4 and smoke test 7.6, with a fresh backup (section 1) first.
+- **READINESS** (`report/afirst_readiness`) is **not** part of this runbook. It stays parked until Gate 3.
+
+> **No step here runs before its gate has passed.** Each production change needs the fellow's go-ahead at the time (DECISION_LOG D-13). Everything is first rehearsed on the local docker Moodle 5.0 (`dev/`), using a restored copy of course 2.
 
 **Roles**
 
@@ -72,12 +76,14 @@ Cost check: the Proposal §4.2 ceiling is USD 3,000 for the cycle. F reviews usa
 
 ## 5. Course 2 configuration
 
+Steps 5.1–5.4 are **Stage 2 (ADAPTIVE)** and run only after Gate 1 has passed and BASIC is live. Steps 5.5–5.8 are Stage 1 (BASIC).
+
 | # | Step | Who |
 |---|---|---|
-| 5.1 | Import the competency framework `A-FIRST-DS4H-V1` CSV with **Site administration > Competencies > Import competency framework** (`tool_lpimportcsv`). Link the competencies to course 2 | F (A if permissions require) |
-| 5.2 | Import the 9 H5P units into the course content bank and add them as H5P activities | F |
-| 5.3 | Add the 9 per-module diagnostics. Keep the 27-question placement test for the baseline and endline | F |
-| 5.4 | Run the course configuration script, dry run first: `php course-setup/apply_course_config.php --course=2 --dry-run`, then for real. Then work through `course-setup` checklist by hand (fast-track ≥ 90%, remediation < 80%) | F → A (CLI) |
+| 5.1 | **[Stage 2]** Import the competency framework `A-FIRST-DS4H-V1` CSV with **Site administration > Competencies > Import competency framework** (`tool_lpimportcsv`). Link the competencies to course 2 | F (A if permissions require) |
+| 5.2 | **[Stage 2]** Import the 9 H5P units into the course content bank and add them as H5P activities | F |
+| 5.3 | **[Stage 2]** Add the 9 per-module diagnostics. Keep the 27-question placement test for the baseline and endline | F |
+| 5.4 | **[Stage 2]** Run the course configuration script, dry run first: `php course-setup/apply_course_config.php --course=2 --dry-run`, then for real. Then work through `course-setup` checklist by hand (fast-track ≥ 90%, remediation < 80%) | F → A (CLI) |
 | 5.5 | Add the `A-FIRST assistant` block to course 2. Upload the approved sources (step 0.4) to the block's source area and wait for the indexing adhoc task (`php admin/cli/adhoc_task.php --execute` if cron is slow) | F |
 | 5.6 | Assign `block/afirst_assistant:review` to the reviewers (fellow plus a designated content reviewer) for the 48-hour escalation SLA (Proposal §3.9) | F |
 | 5.7 | Enable **AI placements > Course assistance** (summarise and explain) if the advisory team agrees | A |
@@ -100,7 +106,7 @@ Cost check: the Proposal §4.2 ceiling is USD 3,000 for the cycle. F reviews usa
 | 7.3 | An out-of-scope question | Refusal; no model call; logged as refused | F |
 | 7.4 | "Report a problem" | Escalation appears in the reviewer queue with SLA indicator; reviewer gets a notification | F |
 | 7.5 | Rate limit | Exceeding the user limit gives a clear message, not an error page | F |
-| 7.6 | Diagnostics | A score of ≥ 90% shows the fast-track route; below 80% on the knowledge check unlocks the H5P unit | F |
+| 7.6 | **[Stage 2]** Diagnostics | A score of ≥ 90% shows the fast-track route; below 80% on the knowledge check unlocks the H5P unit | F |
 | 7.7 | Mobile width and low bandwidth (browser throttling) | Usable; connection type recorded in the log | F |
 | 7.8 | CSV export | Learner ids are pseudonymised | F |
 | 7.9 | Old block | Not visible to students | F |
