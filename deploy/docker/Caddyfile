@@ -1,0 +1,19 @@
+# Load balancer in front of all web replicas. With a real domain in AFIRST_SITE_ADDRESS, Caddy obtains TLS
+# automatically; then set MOODLE_WWWROOT=https://<domain> and MOODLE_SSLPROXY=1 in .env.
+{$AFIRST_SITE_ADDRESS::80} {
+	encode zstd gzip
+	request_body {
+		max_size 110MB
+	}
+	reverse_proxy {
+		# Re-resolve the "web" service so replicas added with --scale are picked up.
+		dynamic a web 80 {
+			refresh 10s
+		}
+		lb_policy round_robin
+		lb_try_duration 10s
+		health_uri /login/index.php
+		health_interval 30s
+		header_up X-Forwarded-Proto {scheme}
+	}
+}

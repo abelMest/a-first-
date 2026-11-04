@@ -1,0 +1,166 @@
+{
+  "framework_idnumber": "A-FIRST-DS4H-V1",
+  "note": "Directed prerequisite edges (competency requires prerequisite). Not imported as Moodle cross-references, which are symmetric. Use for learning-plan ordering and documentation.",
+  "edges": [
+    {
+      "competency": "COMP-1.1.2",
+      "requires": "COMP-1.1.1"
+    },
+    {
+      "competency": "COMP-1.1.3",
+      "requires": "COMP-1.1.2"
+    },
+    {
+      "competency": "COMP-1.2.1",
+      "requires": "COMP-1.1.1"
+    },
+    {
+      "competency": "COMP-1.2.2",
+      "requires": "COMP-1.2.1"
+    },
+    {
+      "competency": "COMP-1.2.3",
+      "requires": "COMP-1.1.2"
+    },
+    {
+      "competency": "COMP-1.2.3",
+      "requires": "COMP-1.2.1"
+    },
+    {
+      "competency": "COMP-1.2.4",
+      "requires": "COMP-1.2.3"
+    },
+    {
+      "competency": "COMP-2.1.1",
+      "requires": "COMP-1.1.2"
+    },
+    {
+      "competency": "COMP-2.1.2",
+      "requires": "COMP-2.1.1"
+    },
+    {
+      "competency": "COMP-2.1.3",
+      "requires": "COMP-1.2.3"
+    },
+    {
+      "competency": "COMP-2.1.3",
+      "requires": "COMP-2.1.2"
+    },
+    {
+      "competency": "COMP-2.1.4",
+      "requires": "COMP-2.1.2"
+    },
+    {
+      "competency": "COMP-2.2.1",
+      "requires": "COMP-2.1.1"
+    },
+    {
+      "competency": "COMP-2.2.2",
+      "requires": "COMP-2.2.1"
+    },
+    {
+      "competency": "COMP-2.2.3",
+      "requires": "COMP-1.2.3"
+    },
+    {
+      "competency": "COMP-2.2.3",
+      "requires": "COMP-2.2.2"
+    },
+    {
+      "competency": "COMP-2.2.4",
+      "requires": "COMP-2.1.4"
+    },
+    {
+      "competency": "COMP-2.2.4",
+      "requires": "COMP-2.2.2"
+    },
+    {
+      "competency": "COMP-3.1.1",
+      "requires": "COMP-1.1.1"
+    },
+    {
+      "competency": "COMP-3.1.2",
+      "requires": "COMP-1.1.2"
+    },
+    {
+      "competency": "COMP-3.1.2",
+      "requires": "COMP-3.1.1"
+    },
+    {
+      "competency": "COMP-3.1.3",
+      "requires": "COMP-3.1.2"
+    },
+    {
+      "competency": "COMP-3.1.4",
+      "requires": "COMP-3.1.3"
+    },
+    {
+      "competency": "COMP-3.2.1",
+      "requires": "COMP-3.1.3"
+    },
+    {
+      "competency": "COMP-3.2.2",
+      "requires": "COMP-3.2.1"
+    },
+    {
+      "competency": "COMP-3.2.3",
+      "requires": "COMP-3.1.3"
+    },
+    {
+      "competency": "COMP-3.2.3",
+      "requires": "COMP-3.2.1"
+    },
+    {
+      "competency": "COMP-3.2.4",
+      "requires": "COMP-3.2.3"
+    },
+    {
+      "competency": "COMP-4.1.1",
+      "requires": "COMP-2.2.2"
+    },
+    {
+      "competency": "COMP-4.1.2",
+      "requires": "COMP-4.1.1"
+    },
+    {
+      "competency": "COMP-4.1.3",
+      "requires": "COMP-4.1.2"
+    },
+    {
+      "competency": "COMP-4.1.4",
+      "requires": "COMP-4.1.3"
+    },
+    {
+      "competency": "COMP-4.2.1",
+      "requires": "COMP-4.1.1"
+    },
+    {
+      "competency": "COMP-4.2.2",
+      "requires": "COMP-4.2.1"
+    },
+    {
+      "competency": "COMP-4.2.3",
+      "requires": "COMP-4.2.2"
+    },
+    {
+      "competency": "COMP-4.2.4",
+      "requires": "COMP-4.2.3"
+    },
+    {
+      "competency": "COMP-4.3.1",
+      "requires": "COMP-1.1.2"
+    },
+    {
+      "competency": "COMP-4.3.2",
+      "requires": "COMP-4.3.1"
+    },
+    {
+      "competency": "COMP-4.3.3",
+      "requires": "COMP-4.3.2"
+    },
+    {
+      "competency": "COMP-4.3.4",
+      "requires": "COMP-4.3.3"
+    }
+  ]
+}

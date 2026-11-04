@@ -1,0 +1,94 @@
+# A-FIRST production-style stack on one Docker host.
+#   cd deploy/docker && cp .env.example .env && (create secrets/, see README) && docker compose up -d --build
+#   Scale the web tier:  docker compose up -d --scale web=3
+name: afirst-prod
+
+x-moodle: &moodle
+  image: ${AFIRST_IMAGE:-afirst/moodle:0.2.0}
+  build:
+    context: ../..
+    dockerfile: deploy/docker/Dockerfile
+    args:
+      MOODLE_REF: ${MOODLE_REF:-v5.0.11}
+  env_file: .env
+  environment:
+    MOODLE_DBHOST: db
+    MOODLE_REDIS_HOST: redis
+    MOODLE_DBPASS_FILE: /run/secrets/db_password
+    MOODLE_ADMIN_PASSWORD_FILE: /run/secrets/admin_password
+  secrets: [db_password, admin_password]
+  volumes:
+    - moodledata:/var/moodledata
+  restart: unless-stopped
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8"
+    secrets: [db_password]
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U moodle -d moodle"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  init:
+    <<: *moodle
+    command: ["init"]
+    restart: "no"
+    depends_on:
+      db: {condition: service_healthy}
+      redis: {condition: service_healthy}
+
+  web:
+    <<: *moodle
+    command: ["web"]
+    depends_on:
+      init: {condition: service_completed_successfully}
+
+  cron:
+    <<: *moodle
+    command: ["cron"]
+    depends_on:
+      init: {condition: service_completed_successfully}
+
+  proxy:
+    image: caddy:2.10
+    ports:
+      - "${AFIRST_HTTP_PORT:-8720}:80"
+      - "${AFIRST_HTTPS_PORT:-8743}:443"
+    environment:
+      AFIRST_SITE_ADDRESS: ${AFIRST_SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddydata:/data
+    depends_on: [web]
+    restart: unless-stopped
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
+  admin_password:
+    file: ./secrets/admin_password.txt
+
+volumes:
+  pgdata:
+  moodledata:
+  caddydata:

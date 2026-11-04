@@ -1,0 +1,444 @@
+{
+  "description": "Split of Placement Test (quiz 1, cm 10, 27 slots) into 9 three-question module diagnostics, with the existing course-module map for course 2.",
+  "sources": {
+    "slot_to_question": "expand_quiz1.py DIAGNOSTIC_QBES (question_bank_entry ids)",
+    "slot_to_competency": "competency_taxonomy_v1.json pre_test_slots",
+    "quiz_ids": "PHASE_2_ADAPTIVE_LAYER_SPECIFICATION.md section 2A",
+    "cm_ids": "block_ollama_chat.php $cm_to_mod / section map, confirmed against mdl_course_modules and mdl_quiz/mdl_scorm in the local dump afirst_db_phase2_evaluated.sql.gz. Re-check on the target site: cm ids differ after a backup/restore."
+  },
+  "placement_test": {
+    "quiz_id": 1,
+    "cmid": 10,
+    "slots": 27,
+    "keep_for": "baseline and endline score (do not edit)"
+  },
+  "final_assessment": {
+    "quiz_id": 11,
+    "cmid": 35
+  },
+  "course_sections": {
+    "1": "Pre Course Activities (placement test cm 10, feedback cm 9)",
+    "2": "Module 1: modules 1.1, 1.2",
+    "3": "Module 2: modules 2.1, 2.2 (labels cm 19, 20)",
+    "4": "Module 3: modules 3.1, 3.2 (labels cm 25, 26)",
+    "5": "Module 4: modules 4.1, 4.2, 4.3 (labels cm 33, 34)",
+    "6": "Final Course Activities & Assessment (quiz 11 cm 35, feedback cm 36, assign cm 37)",
+    "7": "Certification"
+  },
+  "block_ollama_chat_cm_map_note": "The old block mapped cm 10 -> 'pre', cm 11-34 -> the module of the preceding SCORM, cm 35 -> 'post'.",
+  "modules": [
+    {
+      "module": "1.1",
+      "title": "Foundations of Health Data Literacy",
+      "course_section": 2,
+      "diagnostic": {
+        "proposed_name": "Module 1.1 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-1.1",
+        "questions": [
+          {
+            "placement_slot": 1,
+            "question_bank_entry_id": 2,
+            "topic": "Data literacy definition",
+            "competency": "COMP-1.1.1"
+          },
+          {
+            "placement_slot": 2,
+            "question_bank_entry_id": 3,
+            "topic": "Health data types",
+            "competency": "COMP-1.1.2"
+          },
+          {
+            "placement_slot": 3,
+            "question_bank_entry_id": 4,
+            "topic": "Indicators & data sources",
+            "competency": "COMP-1.1.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 2,
+        "cmid": 12,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 1,
+        "cmid": 11
+      },
+      "microlearning_units": [
+        "ML-1.1-DEF",
+        "ML-1.1-STRUCT",
+        "ML-1.1-SOURCE"
+      ]
+    },
+    {
+      "module": "1.2",
+      "title": "Data Governance and Quality Assurance",
+      "course_section": 2,
+      "diagnostic": {
+        "proposed_name": "Module 1.2 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-1.2",
+        "questions": [
+          {
+            "placement_slot": 4,
+            "question_bank_entry_id": 5,
+            "topic": "Purpose of data governance",
+            "competency": "COMP-1.2.1"
+          },
+          {
+            "placement_slot": 5,
+            "question_bank_entry_id": 8,
+            "topic": "Data quality dimensions",
+            "competency": "COMP-1.2.3"
+          },
+          {
+            "placement_slot": 6,
+            "question_bank_entry_id": 10,
+            "topic": "Quality anomalies (Kifaru)",
+            "competency": "COMP-1.2.4"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 3,
+        "cmid": 14,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 2,
+        "cmid": 13
+      },
+      "microlearning_units": [
+        "ML-1.2-GOV",
+        "ML-1.2-RISK",
+        "ML-1.2-DIMS",
+        "ML-1.2-ANOM"
+      ]
+    },
+    {
+      "module": "2.1",
+      "title": "Data Wrangling and Reproducible Workflows",
+      "course_section": 3,
+      "diagnostic": {
+        "proposed_name": "Module 2.1 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-2.1",
+        "questions": [
+          {
+            "placement_slot": 7,
+            "question_bank_entry_id": 52,
+            "topic": "Data wrangling purpose",
+            "competency": "COMP-2.1.1"
+          },
+          {
+            "placement_slot": 8,
+            "question_bank_entry_id": 53,
+            "topic": "Reproducible workflows",
+            "competency": "COMP-2.1.2"
+          },
+          {
+            "placement_slot": 9,
+            "question_bank_entry_id": 54,
+            "topic": "Data cleaning techniques",
+            "competency": "COMP-2.1.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 4,
+        "cmid": 16,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 3,
+        "cmid": 15
+      },
+      "microlearning_units": [
+        "ML-2.1-INTRO",
+        "ML-2.1-STEPS",
+        "ML-2.1-CLEAN",
+        "ML-2.1-REPRO"
+      ]
+    },
+    {
+      "module": "2.2",
+      "title": "Exploratory Data Analysis",
+      "course_section": 3,
+      "diagnostic": {
+        "proposed_name": "Module 2.2 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-2.2",
+        "questions": [
+          {
+            "placement_slot": 10,
+            "question_bank_entry_id": 78,
+            "topic": "Wrangling vs EDA",
+            "competency": "COMP-2.2.1"
+          },
+          {
+            "placement_slot": 11,
+            "question_bank_entry_id": 79,
+            "topic": "Univariate EDA",
+            "competency": "COMP-2.2.2"
+          },
+          {
+            "placement_slot": 12,
+            "question_bank_entry_id": 80,
+            "topic": "Bivariate 2x2 tables",
+            "competency": "COMP-2.2.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 5,
+        "cmid": 18,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 4,
+        "cmid": 17
+      },
+      "microlearning_units": [
+        "ML-2.2-EDA",
+        "ML-2.2-TABLES",
+        "ML-2.2-CHECK",
+        "ML-2.2-PY"
+      ]
+    },
+    {
+      "module": "3.1",
+      "title": "Foundations of Data Visualisation",
+      "course_section": 4,
+      "diagnostic": {
+        "proposed_name": "Module 3.1 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-3.1",
+        "questions": [
+          {
+            "placement_slot": 13,
+            "question_bank_entry_id": 57,
+            "topic": "Why visualise data",
+            "competency": "COMP-3.1.1"
+          },
+          {
+            "placement_slot": 14,
+            "question_bank_entry_id": 58,
+            "topic": "Trends over time charts",
+            "competency": "COMP-3.1.2"
+          },
+          {
+            "placement_slot": 15,
+            "question_bank_entry_id": 59,
+            "topic": "Comparing distributions",
+            "competency": "COMP-3.1.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 6,
+        "cmid": 22,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 5,
+        "cmid": 21
+      },
+      "microlearning_units": [
+        "ML-3.1-VALUE",
+        "ML-3.1-TYPES",
+        "ML-3.1-SELECT",
+        "ML-3.1-AUDIT"
+      ]
+    },
+    {
+      "module": "3.2",
+      "title": "Time Series and Dashboards",
+      "course_section": 4,
+      "diagnostic": {
+        "proposed_name": "Module 3.2 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-3.2",
+        "questions": [
+          {
+            "placement_slot": 16,
+            "question_bank_entry_id": 83,
+            "topic": "Time-series in surveillance",
+            "competency": "COMP-3.2.1"
+          },
+          {
+            "placement_slot": 17,
+            "question_bank_entry_id": 84,
+            "topic": "Dashboard role",
+            "competency": "COMP-3.2.2"
+          },
+          {
+            "placement_slot": 18,
+            "question_bank_entry_id": 85,
+            "topic": "Epidemic curves",
+            "competency": "COMP-3.2.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 7,
+        "cmid": 24,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 6,
+        "cmid": 23
+      },
+      "microlearning_units": [
+        "ML-3.2-TIME",
+        "ML-3.2-EPICURVE",
+        "ML-3.2-KPI",
+        "ML-3.2-RULES"
+      ]
+    },
+    {
+      "module": "4.1",
+      "title": "Advanced Analytics: Generalized Linear Models (GLMs)",
+      "course_section": 5,
+      "diagnostic": {
+        "proposed_name": "Module 4.1 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-4.1",
+        "questions": [
+          {
+            "placement_slot": 19,
+            "question_bank_entry_id": 62,
+            "topic": "Role of GLMs",
+            "competency": "COMP-4.1.1"
+          },
+          {
+            "placement_slot": 20,
+            "question_bank_entry_id": 63,
+            "topic": "Logistic regression",
+            "competency": "COMP-4.1.2"
+          },
+          {
+            "placement_slot": 21,
+            "question_bank_entry_id": 65,
+            "topic": "Risk & odds ratios",
+            "competency": "COMP-4.1.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 8,
+        "cmid": 28,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 7,
+        "cmid": 27
+      },
+      "microlearning_units": [
+        "ML-4.1-GLM",
+        "ML-4.1-DIFF",
+        "ML-4.1-OR",
+        "ML-4.1-CASE"
+      ]
+    },
+    {
+      "module": "4.2",
+      "title": "Applied Analytics: Machine Learning",
+      "course_section": 5,
+      "diagnostic": {
+        "proposed_name": "Module 4.2 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-4.2",
+        "questions": [
+          {
+            "placement_slot": 22,
+            "question_bank_entry_id": 93,
+            "topic": "ML vs traditional stats",
+            "competency": "COMP-4.2.1"
+          },
+          {
+            "placement_slot": 23,
+            "question_bank_entry_id": 94,
+            "topic": "Supervised learning",
+            "competency": "COMP-4.2.2"
+          },
+          {
+            "placement_slot": 24,
+            "question_bank_entry_id": 96,
+            "topic": "Overfitting & validation",
+            "competency": "COMP-4.2.4"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 9,
+        "cmid": 30,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 8,
+        "cmid": 29
+      },
+      "microlearning_units": [
+        "ML-4.2-STATS",
+        "ML-4.2-TASKS",
+        "ML-4.2-TREES",
+        "ML-4.2-EVAL"
+      ]
+    },
+    {
+      "module": "4.3",
+      "title": "Advanced Methods: Natural Language Processing (NLP)",
+      "course_section": 5,
+      "diagnostic": {
+        "proposed_name": "Module 4.3 Diagnostic",
+        "proposed_idnumber": "AFIRST-DIAG-4.3",
+        "questions": [
+          {
+            "placement_slot": 25,
+            "question_bank_entry_id": 88,
+            "topic": "NLP in public health",
+            "competency": "COMP-4.3.1"
+          },
+          {
+            "placement_slot": 26,
+            "question_bank_entry_id": 89,
+            "topic": "Unstructured health data",
+            "competency": "COMP-4.3.2"
+          },
+          {
+            "placement_slot": 27,
+            "question_bank_entry_id": 90,
+            "topic": "NLP preprocessing pipeline",
+            "competency": "COMP-4.3.3"
+          }
+        ],
+        "fasttrack_min_percent": 90
+      },
+      "knowledge_check": {
+        "quiz_id": 10,
+        "cmid": 32,
+        "remediation_below_percent": 80
+      },
+      "content": {
+        "activity": "scorm",
+        "scorm_id": 9,
+        "cmid": 31
+      },
+      "microlearning_units": [
+        "ML-4.3-NLP",
+        "ML-4.3-PIPE",
+        "ML-4.3-TFIDF",
+        "ML-4.3-OUTBREAK"
+      ]
+    }
+  ]
+}

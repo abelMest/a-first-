@@ -1,0 +1,11 @@
+# moodle-docker override (copied to moodle-docker/local.yml by afirst_up).
+# Serves Moodle from a Linux Docker volume instead of the Windows bind mount, which is too slow for Moodle's CLI.
+services:
+  webserver:
+    volumes:
+      - "moodlecode:/var/www/html"
+  selenium:
+    volumes:
+      - "moodlecode:/var/www/html:ro"
+volumes:
+  moodlecode:

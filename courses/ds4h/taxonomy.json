@@ -1,0 +1,659 @@
+{
+  "framework_id": "A-FIRST-DS4H-V1",
+  "title": "A-FIRST Data Science and Analytics for Health Competency Framework",
+  "version": "1.0",
+  "course_id": 2,
+  "course_name": "Data Science for Health",
+  "total_modules": 9,
+  "total_competencies": 35,
+  "modules": [
+    {
+      "id": "1.1",
+      "title": "Foundations of Health Data Literacy",
+      "competencies": [
+        {
+          "id": "COMP-1.1.1",
+          "code": "DATA_LITERACY_FOUNDATION",
+          "title": "Define and articulate health data literacy in public health",
+          "learning_objective": "Define data literacy and core concepts related to health data",
+          "bloom_level": "Remember/Understand",
+          "pre_test_slots": [
+            1
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-1.1-DEF",
+          "prerequisites": []
+        },
+        {
+          "id": "COMP-1.1.2",
+          "code": "HEALTH_DATA_TYPES",
+          "title": "Classify health data by structure and functional domain",
+          "learning_objective": "Distinguish between the main types of health data",
+          "bloom_level": "Understand/Analyze",
+          "pre_test_slots": [
+            2
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-1.1-STRUCT",
+          "prerequisites": [
+            "COMP-1.1.1"
+          ]
+        },
+        {
+          "id": "COMP-1.1.3",
+          "code": "HEALTH_DATA_SOURCES",
+          "title": "Identify internal and external health data sources and surveillance systems",
+          "learning_objective": "Identify typical internal and external data sources used for key public health questions",
+          "bloom_level": "Apply",
+          "pre_test_slots": [
+            3
+          ],
+          "quiz_slots": [
+            3,
+            4,
+            5
+          ],
+          "recommended_microlearning": "ML-1.1-SOURCE",
+          "prerequisites": [
+            "COMP-1.1.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "1.2",
+      "title": "Data Governance and Quality Assurance",
+      "competencies": [
+        {
+          "id": "COMP-1.2.1",
+          "code": "DATA_GOVERNANCE_PRINCIPLES",
+          "title": "Explain data governance and stewardship in health systems",
+          "learning_objective": "Define data governance and data quality in the public health context",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            4
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-1.2-GOV",
+          "prerequisites": [
+            "COMP-1.1.1"
+          ]
+        },
+        {
+          "id": "COMP-1.2.2",
+          "code": "GOVERNANCE_RISK_ASSESSMENT",
+          "title": "Evaluate consequences and risks of weak governance",
+          "learning_objective": "Explain why good data governance and high data quality are essential for sound public health decision-making",
+          "bloom_level": "Understand/Evaluate",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-1.2-RISK",
+          "prerequisites": [
+            "COMP-1.2.1"
+          ]
+        },
+        {
+          "id": "COMP-1.2.3",
+          "code": "DATA_QUALITY_DIMENSIONS",
+          "title": "Assess public health data across key quality dimensions",
+          "learning_objective": "Describe key dimensions of data quality and simple checks that can be used to assess them",
+          "bloom_level": "Analyze",
+          "pre_test_slots": [
+            5
+          ],
+          "quiz_slots": [
+            3,
+            4
+          ],
+          "recommended_microlearning": "ML-1.2-DIMS",
+          "prerequisites": [
+            "COMP-1.1.2",
+            "COMP-1.2.1"
+          ]
+        },
+        {
+          "id": "COMP-1.2.4",
+          "code": "DATA_ANOMALY_DETECTION",
+          "title": "Detect governance gaps and quality anomalies in health datasets",
+          "learning_objective": "Recognise common governance gaps and data quality issues in small public health datasets",
+          "bloom_level": "Apply/Evaluate",
+          "pre_test_slots": [
+            6
+          ],
+          "quiz_slots": [
+            5
+          ],
+          "recommended_microlearning": "ML-1.2-ANOM",
+          "prerequisites": [
+            "COMP-1.2.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.1",
+      "title": "Data Wrangling and Reproducible Workflows",
+      "competencies": [
+        {
+          "id": "COMP-2.1.1",
+          "code": "DATA_WRANGLING_FOUNDATION",
+          "title": "Define data wrangling and contrast raw vs analysis-ready data",
+          "learning_objective": "Define data wrangling and its importance in public health data analysis",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            7
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-2.1-INTRO",
+          "prerequisites": [
+            "COMP-1.1.2"
+          ]
+        },
+        {
+          "id": "COMP-2.1.2",
+          "code": "WRANGLING_STAGES",
+          "title": "Sequence and execute the 5 stages of data wrangling",
+          "learning_objective": "Explain the core steps in the data wrangling process, from discovery to validation",
+          "bloom_level": "Understand/Apply",
+          "pre_test_slots": [
+            8
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-2.1-STEPS",
+          "prerequisites": [
+            "COMP-2.1.1"
+          ]
+        },
+        {
+          "id": "COMP-2.1.3",
+          "code": "DATA_CLEANING_TECHNIQUES",
+          "title": "Apply techniques for handling missing values, duplicates, and outliers",
+          "learning_objective": "Describe basic data cleaning techniques and how they improve data quality",
+          "bloom_level": "Apply",
+          "pre_test_slots": [
+            9
+          ],
+          "quiz_slots": [
+            3
+          ],
+          "recommended_microlearning": "ML-2.1-CLEAN",
+          "prerequisites": [
+            "COMP-1.2.3",
+            "COMP-2.1.2"
+          ]
+        },
+        {
+          "id": "COMP-2.1.4",
+          "code": "REPRODUCIBLE_WORKFLOWS",
+          "title": "Implement reproducible pipelines using scripts, version control, and documentation",
+          "learning_objective": "Recognise the importance of reproducible workflows and their role in ensuring transparency and consistency in data analysis",
+          "bloom_level": "Analyze/Create",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            4,
+            5
+          ],
+          "recommended_microlearning": "ML-2.1-REPRO",
+          "prerequisites": [
+            "COMP-2.1.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "2.2",
+      "title": "Exploratory Data Analysis",
+      "competencies": [
+        {
+          "id": "COMP-2.2.1",
+          "code": "EDA_PURPOSE",
+          "title": "Define the purpose and scope of Exploratory Data Analysis",
+          "learning_objective": "Explain what exploratory data analysis (EDA) is and why it is important in public health",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            10
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-2.2-EDA",
+          "prerequisites": [
+            "COMP-2.1.1"
+          ]
+        },
+        {
+          "id": "COMP-2.2.2",
+          "code": "UNIVARIATE_BIVARIATE_EDA",
+          "title": "Calculate and interpret summary statistics and 2x2 contingency tables",
+          "learning_objective": "Describe how to explore single variables and simple relationships between variables using basic summaries and tables",
+          "bloom_level": "Apply/Analyze",
+          "pre_test_slots": [
+            11
+          ],
+          "quiz_slots": [
+            2,
+            3
+          ],
+          "recommended_microlearning": "ML-2.2-TABLES",
+          "prerequisites": [
+            "COMP-2.2.1"
+          ]
+        },
+        {
+          "id": "COMP-2.2.3",
+          "code": "QUALITY_AUDIT_EDA",
+          "title": "Identify remaining data quality issues and anomalies through EDA summaries",
+          "learning_objective": "Explain how EDA can reveal remaining data quality issues and guide further analysis",
+          "bloom_level": "Evaluate",
+          "pre_test_slots": [
+            12
+          ],
+          "quiz_slots": [
+            4
+          ],
+          "recommended_microlearning": "ML-2.2-CHECK",
+          "prerequisites": [
+            "COMP-1.2.3",
+            "COMP-2.2.2"
+          ]
+        },
+        {
+          "id": "COMP-2.2.4",
+          "code": "PYTHON_EDA_SCRIPTS",
+          "title": "Interpret simple Python scripts for data wrangling, EDA, and 2x2 tables",
+          "learning_objective": "Describe, in simple terms, how Python scripts can be used to carry out basic data wrangling, EDA, and produce summary statistics",
+          "bloom_level": "Apply",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            5
+          ],
+          "recommended_microlearning": "ML-2.2-PY",
+          "prerequisites": [
+            "COMP-2.1.4",
+            "COMP-2.2.2"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.1",
+      "title": "Foundations of Data Visualisation",
+      "competencies": [
+        {
+          "id": "COMP-3.1.1",
+          "code": "VISUALISATION_VALUE",
+          "title": "Explain cognitive advantages and principles of visual data communication",
+          "learning_objective": "Explain why data visualisation is important for public health decisions",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            13
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-3.1-VALUE",
+          "prerequisites": [
+            "COMP-1.1.1"
+          ]
+        },
+        {
+          "id": "COMP-3.1.2",
+          "code": "VISUAL_DATA_TYPES",
+          "title": "Match variables and scale types to visual representations",
+          "learning_objective": "Distinguish between different data types",
+          "bloom_level": "Understand/Analyze",
+          "pre_test_slots": [
+            14
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-3.1-TYPES",
+          "prerequisites": [
+            "COMP-1.1.2",
+            "COMP-3.1.1"
+          ]
+        },
+        {
+          "id": "COMP-3.1.3",
+          "code": "CHART_SELECTION",
+          "title": "Select appropriate visual formats for specific public health inquiries",
+          "learning_objective": "Describe which types of visualisation are appropriate for different data types and public health questions",
+          "bloom_level": "Apply/Create",
+          "pre_test_slots": [
+            15
+          ],
+          "quiz_slots": [
+            3,
+            4
+          ],
+          "recommended_microlearning": "ML-3.1-SELECT",
+          "prerequisites": [
+            "COMP-3.1.2"
+          ]
+        },
+        {
+          "id": "COMP-3.1.4",
+          "code": "VISUAL_AUDIT",
+          "title": "Audit and interpret charts, detecting misleading scales and distorted axes",
+          "learning_objective": "Interpret key messages from these visualisations",
+          "bloom_level": "Evaluate",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            5
+          ],
+          "recommended_microlearning": "ML-3.1-AUDIT",
+          "prerequisites": [
+            "COMP-3.1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "3.2",
+      "title": "Time Series and Dashboards",
+      "competencies": [
+        {
+          "id": "COMP-3.2.1",
+          "code": "TIME_SERIES_DECONSTRUCTION",
+          "title": "Deconstruct time series into level, trend, seasonality, and anomalies",
+          "learning_objective": "Explain the importance of time-series analysis in tracking public health trends and interventions",
+          "bloom_level": "Understand/Analyze",
+          "pre_test_slots": [
+            16
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-3.2-TIME",
+          "prerequisites": [
+            "COMP-3.1.3"
+          ]
+        },
+        {
+          "id": "COMP-3.2.2",
+          "code": "EPI_CURVES_THRESHOLDS",
+          "title": "Construct and interpret epidemic curves and surveillance alert thresholds",
+          "learning_objective": "Identify key features of time-series data",
+          "bloom_level": "Apply",
+          "pre_test_slots": [
+            17
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-3.2-EPICURVE",
+          "prerequisites": [
+            "COMP-3.2.1"
+          ]
+        },
+        {
+          "id": "COMP-3.2.3",
+          "code": "DASHBOARD_ARCHITECTURE",
+          "title": "Structure public health dashboards with KPIs, maps, and interactive filters",
+          "learning_objective": "Describe how dashboards combine multiple visualisations to support public health decision-making",
+          "bloom_level": "Analyze/Create",
+          "pre_test_slots": [
+            18
+          ],
+          "quiz_slots": [
+            3,
+            4
+          ],
+          "recommended_microlearning": "ML-3.2-KPI",
+          "prerequisites": [
+            "COMP-3.1.3",
+            "COMP-3.2.1"
+          ]
+        },
+        {
+          "id": "COMP-3.2.4",
+          "code": "DASHBOARD_USABILITY_ETHICS",
+          "title": "Apply usability and ethical design rules to public health dashboards",
+          "learning_objective": "Apply best practices in dashboard design to ensure clarity, usability, and ethical data representation",
+          "bloom_level": "Evaluate",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            5
+          ],
+          "recommended_microlearning": "ML-3.2-RULES",
+          "prerequisites": [
+            "COMP-3.2.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4.1",
+      "title": "Advanced Analytics: Generalized Linear Models (GLMs)",
+      "competencies": [
+        {
+          "id": "COMP-4.1.1",
+          "code": "GLM_FOUNDATIONS",
+          "title": "Explain the role and mathematical foundation of Generalized Linear Models",
+          "learning_objective": "Define Generalised Linear Models (GLMs) and their role in public health",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            19
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-4.1-GLM",
+          "prerequisites": [
+            "COMP-2.2.2"
+          ]
+        },
+        {
+          "id": "COMP-4.1.2",
+          "code": "LOGISTIC_VS_POISSON",
+          "title": "Distinguish logistic regression (binary) and Poisson regression (counts/rates)",
+          "learning_objective": "Distinguish between logistic regression and Poisson regression based on the types of outcomes they model",
+          "bloom_level": "Analyze",
+          "pre_test_slots": [
+            20
+          ],
+          "quiz_slots": [
+            2,
+            3
+          ],
+          "recommended_microlearning": "ML-4.1-DIFF",
+          "prerequisites": [
+            "COMP-4.1.1"
+          ]
+        },
+        {
+          "id": "COMP-4.1.3",
+          "code": "RISK_ODDS_INTERPRETATION",
+          "title": "Interpret Odds Ratios, Relative Risks, and Rate Ratios with confidence intervals",
+          "learning_objective": "Explain how GLMs are used to estimate risks, counts, and rates of health events",
+          "bloom_level": "Apply/Interpret",
+          "pre_test_slots": [
+            21
+          ],
+          "quiz_slots": [
+            4,
+            5
+          ],
+          "recommended_microlearning": "ML-4.1-OR",
+          "prerequisites": [
+            "COMP-4.1.2"
+          ]
+        },
+        {
+          "id": "COMP-4.1.4",
+          "code": "GLM_DECISION_MAKING",
+          "title": "Formulate GLM specifications for vaccine effectiveness and disease risk analysis",
+          "learning_objective": "Identify common public health situations where GLMs support data-driven decisions",
+          "bloom_level": "Evaluate",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            6
+          ],
+          "recommended_microlearning": "ML-4.1-CASE",
+          "prerequisites": [
+            "COMP-4.1.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4.2",
+      "title": "Applied Analytics: Machine Learning",
+      "competencies": [
+        {
+          "id": "COMP-4.2.1",
+          "code": "ML_VS_STATISTICS",
+          "title": "Contrast hypothesis-driven statistics with predictive machine learning",
+          "learning_objective": "Define Machine Learning and describe how it complements traditional statistical methods in public health",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            22
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-4.2-STATS",
+          "prerequisites": [
+            "COMP-4.1.1"
+          ]
+        },
+        {
+          "id": "COMP-4.2.2",
+          "code": "CLASSIFICATION_VS_REGRESSION",
+          "title": "Distinguish supervised classification from regression problem formulations",
+          "learning_objective": "Distinguish supervised learning problems as classification or regression tasks, based on the type of outcome",
+          "bloom_level": "Analyze",
+          "pre_test_slots": [
+            23
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-4.2-TASKS",
+          "prerequisites": [
+            "COMP-4.2.1"
+          ]
+        },
+        {
+          "id": "COMP-4.2.3",
+          "code": "DECISION_TREES_FORESTS",
+          "title": "Explain prediction mechanisms of decision trees and random forest ensembles",
+          "learning_objective": "Explain in simple terms how decision trees and random forests learn from past data to make predictions",
+          "bloom_level": "Understand/Apply",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            3
+          ],
+          "recommended_microlearning": "ML-4.2-TREES",
+          "prerequisites": [
+            "COMP-4.2.2"
+          ]
+        },
+        {
+          "id": "COMP-4.2.4",
+          "code": "VALIDATION_BIAS_OVERFITTING",
+          "title": "Evaluate overfitting, train/test split, and demographic bias in health AI",
+          "learning_objective": "Describe why validation, bias checks, and interpretability are important when applying Machine Learning models in public health",
+          "bloom_level": "Evaluate",
+          "pre_test_slots": [
+            24
+          ],
+          "quiz_slots": [
+            4,
+            5
+          ],
+          "recommended_microlearning": "ML-4.2-EVAL",
+          "prerequisites": [
+            "COMP-4.2.3"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "4.3",
+      "title": "Advanced Methods: Natural Language Processing (NLP)",
+      "competencies": [
+        {
+          "id": "COMP-4.3.1",
+          "code": "NLP_FOUNDATIONS",
+          "title": "Define NLP and explain its utility for unstructured health narratives",
+          "learning_objective": "Define Natural Language Processing (NLP) and describe its role in turning unstructured text into usable data for public health",
+          "bloom_level": "Understand",
+          "pre_test_slots": [
+            25
+          ],
+          "quiz_slots": [
+            1
+          ],
+          "recommended_microlearning": "ML-4.3-NLP",
+          "prerequisites": [
+            "COMP-1.1.2"
+          ]
+        },
+        {
+          "id": "COMP-4.3.2",
+          "code": "NLP_PIPELINE",
+          "title": "Sequence text normalization, tokenization, and stop-word removal steps",
+          "learning_objective": "Describe a simple NLP pipeline that converts raw text into numerical representations for analysis",
+          "bloom_level": "Apply",
+          "pre_test_slots": [
+            26
+          ],
+          "quiz_slots": [
+            2
+          ],
+          "recommended_microlearning": "ML-4.3-PIPE",
+          "prerequisites": [
+            "COMP-4.3.1"
+          ]
+        },
+        {
+          "id": "COMP-4.3.3",
+          "code": "BOW_VS_TFIDF",
+          "title": "Compare Bag-of-Words and TF-IDF numerical text representations",
+          "learning_objective": "Distinguish between Bag-of-Words and TF-IDF as basic methods for representing text as numbers",
+          "bloom_level": "Analyze",
+          "pre_test_slots": [
+            27
+          ],
+          "quiz_slots": [
+            3,
+            4
+          ],
+          "recommended_microlearning": "ML-4.3-TFIDF",
+          "prerequisites": [
+            "COMP-4.3.2"
+          ]
+        },
+        {
+          "id": "COMP-4.3.4",
+          "code": "NLP_SURVEILLANCE_APPLICATIONS",
+          "title": "Identify NLP use cases for outbreak signal detection and report summarization",
+          "learning_objective": "Identify key public health applications of NLP, including event detection, sentiment monitoring, and report triage",
+          "bloom_level": "Evaluate/Apply",
+          "pre_test_slots": [],
+          "quiz_slots": [
+            5
+          ],
+          "recommended_microlearning": "ML-4.3-OUTBREAK",
+          "prerequisites": [
+            "COMP-4.3.3"
+          ]
+        }
+      ]
+    }
+  ]
+}

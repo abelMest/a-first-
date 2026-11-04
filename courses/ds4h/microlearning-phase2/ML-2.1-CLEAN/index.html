@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-FIRST Microlearning: Resolving Missing Values & Outliers (ML-2.1-CLEAN)</title>
+    <style>
+        :root {
+            --primary: #005a8e;
+            --primary-dark: #003e63;
+            --accent: #22c55e;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        .container {
+            max-width: 780px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #ffffff;
+            padding: 24px;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .header h1 { font-size: 20px; margin-bottom: 6px; }
+        .header p { font-size: 13px; opacity: 0.9; }
+        .content { padding: 24px; }
+        .progress-bar-wrap {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            margin-bottom: 24px;
+            overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 25%;
+            transition: width 0.3s ease;
+        }
+        .step-card {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        .step-card.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+        h2 { font-size: 17px; color: var(--primary); margin-bottom: 12px; }
+        .scenario-box {
+            background: #eff6ff;
+            border-left: 4px solid var(--primary);
+            padding: 14px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 18px;
+            font-size: 13px;
+        }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 16px 0;
+            font-size: 12px;
+        }
+        table.data-table th, table.data-table td {
+            border: 1px solid var(--border);
+            padding: 8px 10px;
+            text-align: left;
+        }
+        table.data-table th { background: #f1f5f9; color: var(--primary); font-weight: 600; }
+        .highlight-err { background: #fee2e2; color: #991b1b; font-weight: bold; border-radius: 4px; padding: 2px 4px; }
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 18px 0;
+        }
+        .option-btn {
+            background: #ffffff;
+            border: 1.5px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            text-align: left;
+            font-size: 13px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .option-btn:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+        }
+        .option-btn.selected-correct {
+            border-color: var(--accent);
+            background: #f0fdf4;
+            color: #166534;
+            font-weight: 600;
+        }
+        .option-btn.selected-wrong {
+            border-color: var(--danger);
+            background: #fef2f2;
+            color: #991b1b;
+        }
+        .feedback-box {
+            padding: 12px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 14px;
+            display: none;
+        }
+        .feedback-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+        .feedback-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 24px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .btn {
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: background 0.2s;
+        }
+        .btn-primary { background: var(--primary); color: #ffffff; }
+        .btn-primary:hover { background: var(--primary-dark); }
+        .btn-primary:disabled { background: #cbd5e1; cursor: not-allowed; }
+        .score-display {
+            text-align: center;
+            padding: 24px;
+        }
+        .score-circle {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            background: #dcfce7;
+            color: #166534;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            font-weight: 700;
+            margin: 0 auto 16px;
+            border: 3px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <span class="badge">A-FIRST Adaptive Microlearning &bull; 7 Mins</span>
+        <h1>Resolving Missing Values & Outliers in Health Data</h1>
+        <p>Target Competency: COMP-2.1.3 (Data Cleaning Techniques) &bull; Module 2.1</p>
+    </div>
+
+    <div class="content">
+        <div class="progress-bar-wrap">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+
+        <!-- STEP 1: Problem Identification -->
+        <div class="step-card active" id="step1">
+            <h2>Scenario: Kifaru Outbreak Line List</h2>
+            <div class="scenario-box">
+                You receive an outbreak surveillance dataset from Kifaru District. Before you can conduct risk analysis, you must audit and clean these records.
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th>
+                        <th>Age</th>
+                        <th>Facility</th>
+                        <th>Systolic BP</th>
+                        <th>Vaccinated?</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>P001</td><td>34</td><td>Kifaru Central</td><td>120</td><td>Yes</td></tr>
+                    <tr><td>P002</td><td><span class="highlight-err">NULL</span></td><td>Health Centre A</td><td>115</td><td>No</td></tr>
+                    <tr><td>P003</td><td>45</td><td>Kifaru Central</td><td><span class="highlight-err">999</span></td><td>Yes</td></tr>
+                    <tr><td>P004</td><td>28</td><td>Health Centre B</td><td>125</td><td><span class="highlight-err">Unknown</span></td></tr>
+                </tbody>
+            </table>
+
+            <p style="font-size:13px; margin-bottom: 10px;"><strong>Challenge 1:</strong> Look at Patient <strong>P003</strong> with Systolic BP = <code>999</code>. What is the most appropriate public health data cleaning action?</p>
+
+            <div class="options-group">
+                <button class="option-btn" onclick="checkAnswer(1, 0, false)">A) Leave 999 in the dataset because it represents extreme severe hypertension.</button>
+                <button class="option-btn" onclick="checkAnswer(1, 1, false)">B) Impute the mean blood pressure of the entire district dataset (120) without flagging.</button>
+                <button class="option-btn" onclick="checkAnswer(1, 2, true)">C) Identify 999 as an implausible sentinel coding error, replace with missing (NaN), and document the change.</button>
+                <button class="option-btn" onclick="checkAnswer(1, 3, false)">D) Delete the entire patient record row from the surveillance registry.</button>
+            </div>
+            <div class="feedback-box" id="feedback1"></div>
+        </div>
+
+        <!-- STEP 2: Handling Missing Values -->
+        <div class="step-card" id="step2">
+            <h2>Handling Missing Values Strategically</h2>
+            <div class="scenario-box">
+                In line list surveillance, missing data cannot always be filled the same way. The strategy depends on whether the variable is categorical, continuous, or mandatory.
+            </div>
+
+            <p style="font-size:13px; margin-bottom: 10px;"><strong>Challenge 2:</strong> In Patient <strong>P002</strong>, Age is missing (<code>NULL</code>). When preparing a multi-variable regression model where age is a primary confounder, what should you do?</p>
+
+            <div class="options-group">
+                <button class="option-btn" onclick="checkAnswer(2, 0, false)">A) Fill in Age = 0 so the calculation software does not crash.</button>
+                <button class="option-btn" onclick="checkAnswer(2, 1, true)">B) Check original paper registries for retrieval; if unavailable, use explicit missing value coding or complete-case analysis with sensitivity analysis.</button>
+                <button class="option-btn" onclick="checkAnswer(2, 2, false)">C) Guess the patient's age based on their blood pressure.</button>
+            </div>
+            <div class="feedback-box" id="feedback2"></div>
+        </div>
+
+        <!-- STEP 3: Documentation & Reproducibility -->
+        <div class="step-card" id="step3">
+            <h2>Reproducibility in Data Cleaning</h2>
+            <div class="scenario-box">
+                Modifying raw Excel spreadsheets directly without scripts causes permanent data loss and untraceable errors.
+            </div>
+
+            <p style="font-size:13px; margin-bottom: 10px;"><strong>Challenge 3:</strong> Why is script-based data cleaning (e.g. Python / R with Git) superior to manual point-and-click edits in public health?</p>
+
+            <div class="options-group">
+                <button class="option-btn" onclick="checkAnswer(3, 0, true)">A) Scripts provide an exact, auditable record of every transformation and can be re-run on fresh monthly data.</button>
+                <button class="option-btn" onclick="checkAnswer(3, 1, false)">B) Python scripts automatically fix all medical errors without human review.</button>
+                <button class="option-btn" onclick="checkAnswer(3, 2, false)">C) Manual edits in Excel are encrypted while scripts are insecure.</button>
+            </div>
+            <div class="feedback-box" id="feedback3"></div>
+        </div>
+
+        <!-- STEP 4: Summary & xAPI Statement -->
+        <div class="step-card" id="step4">
+            <div class="score-display">
+                <div class="score-circle" id="scoreCircle">100%</div>
+                <h2>Competency Mastery Confirmed!</h2>
+                <p style="font-size:13px; color:var(--text-muted); margin-bottom: 16px;" id="summaryText">
+                    You have successfully completed <strong>ML-2.1-CLEAN</strong>. Your competency profile for <strong>COMP-2.1.3</strong> has been updated to <strong>COMPETENT</strong>.
+                </p>
+                <div style="background:#f1f5f9; padding:12px; border-radius:8px; font-size:11px; text-align:left; font-family:monospace; color:#334155;">
+                    [xAPI Statement Emitted]<br>
+                    Verb: "completed" &bull; Object: "ML-2.1-CLEAN" &bull; Score: 1.0 &bull; Success: true
+                </div>
+                <div id="syncStatus" style="display:none; background:#dcfce7; color:#166534; padding:8px 12px; border-radius:6px; font-size:12px; margin-top:12px; border:1px solid #bbf7d0;"></div>
+                <div style="margin-top:16px;">
+                    <a href="/course/view.php?id=2" class="btn btn-primary" style="display:inline-block; text-decoration:none; padding:10px 20px;">&larr; Return to Moodle Course</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-buttons">
+            <button class="btn" id="prevBtn" onclick="prevStep()" style="display:none;">Back</button>
+            <div></div>
+            <button class="btn btn-primary" id="nextBtn" onclick="nextStep()" disabled>Continue</button>
+        </div>
+    </div>
+</div>
+
+<script>
+var currentStep = 1;
+var totalSteps = 4;
+var userScore = 0;
+var answered = [false, false, false];
+
+function updateProgress() {
+    var pct = (currentStep / totalSteps) * 100;
+    document.getElementById("progressBar").style.width = pct + "%";
+}
+
+function checkAnswer(questionNum, optionIdx, isCorrect) {
+    if (answered[questionNum - 1]) return;
+    answered[questionNum - 1] = true;
+
+    var stepElem = document.getElementById("step" + questionNum);
+    var buttons = stepElem.getElementsByClassName("option-btn");
+    var feedback = document.getElementById("feedback" + questionNum);
+
+    if (isCorrect) {
+        buttons[optionIdx].className += " selected-correct";
+        feedback.className = "feedback-box feedback-success";
+        feedback.innerHTML = "<strong>Correct!</strong> Great clinical and data reasoning. Sentinel values like 999 must be recognized and normalized to missing values to prevent statistical distortion.";
+        feedback.style.display = "block";
+        userScore++;
+    } else {
+        buttons[optionIdx].className += " selected-wrong";
+        feedback.className = "feedback-box feedback-error";
+        feedback.innerHTML = "<strong>Not quite.</strong> Sentinel values like 999 are legacy codes for 'unknown/missing' and will severely distort average blood pressure if left as numbers.";
+        feedback.style.display = "block";
+    }
+
+    document.getElementById("nextBtn").disabled = false;
+}
+
+function nextStep() {
+    if (currentStep < totalSteps) {
+        document.getElementById("step" + currentStep).classList.remove("active");
+        currentStep++;
+        document.getElementById("step" + currentStep).classList.add("active");
+        updateProgress();
+
+        if (currentStep === totalSteps) {
+            document.getElementById("nextBtn").style.display = "none";
+            document.getElementById("prevBtn").style.display = "none";
+            var pct = Math.round((userScore / 3) * 100);
+            document.getElementById("scoreCircle").innerText = pct + "%";
+            if (pct < 80) {
+                document.getElementById("scoreCircle").style.background = "#fee2e2";
+                document.getElementById("scoreCircle").style.color = "#991b1b";
+                document.getElementById("scoreCircle").style.borderColor = "#ef4444";
+                document.getElementById("summaryText").innerText = "Review recommended. You scored " + pct + "%. Please retake to demonstrate mastery.";
+            } else {
+                // Sync completion with Moodle Adaptive Profile (Evaluation Gate 5)
+                // Units run in an iframe inside Moodle, so the parent page holds the session key
+                var sesskey = (window.parent && window.parent.M && window.parent.M.cfg) ? window.parent.M.cfg.sesskey : "";
+                fetch('/blocks/ollama_chat/profile_api.php?action=log_completion', {
+                    method: 'POST',
+                    credentials: 'same-origin',
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                    body: 'unit_id=ML-2.1-CLEAN&competency_id=COMP-2.1.3&score=' + pct + '&sesskey=' + encodeURIComponent(sesskey)
+                })
+                    .then(function(r) { return r.json(); })
+                    .then(function(data) {
+                        var syncDiv = document.getElementById("syncStatus");
+                        if (syncDiv && data.status === "ok") {
+                            syncDiv.innerHTML = "✅ <strong>Profile Synchronized:</strong> Competency COMP-2.1.3 has been marked as resolved in your Moodle Learning Profile!";
+                            syncDiv.style.display = "block";
+                        }
+                    })
+                    .catch(function(err) { console.error("Profile sync error:", err); });
+            }
+        } else {
+            document.getElementById("nextBtn").disabled = !answered[currentStep - 1];
+            document.getElementById("prevBtn").style.display = "inline-block";
+        }
+    }
+}
+
+function prevStep() {
+    if (currentStep > 1) {
+        document.getElementById("step" + currentStep).classList.remove("active");
+        currentStep--;
+        document.getElementById("step" + currentStep).classList.add("active");
+        updateProgress();
+        document.getElementById("nextBtn").disabled = !answered[currentStep - 1];
+        if (currentStep === 1) {
+            document.getElementById("prevBtn").style.display = "none";
+        }
+    }
+}
+</script>
+
+</body>
+</html>

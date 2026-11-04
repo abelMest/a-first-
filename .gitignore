@@ -1,0 +1,9 @@
+# Local Moodle source and docker tooling (cloned by dev/setup.sh)
+dev/moodle/
+dev/moodle-docker/
+dev/.env
+*.log
+__pycache__/
+deploy/docker/.env
+deploy/docker/secrets/*
+!deploy/docker/secrets/README.md

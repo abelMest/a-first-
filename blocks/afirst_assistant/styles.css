@@ -1,0 +1,27 @@
+.block_afirst_assistant-conversation {
+    max-height: 28rem;
+    overflow-y: auto;
+}
+
+.block_afirst_assistant-conversation:empty {
+    display: none;
+}
+
+.block_afirst_assistant-question {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.block_afirst_assistant-answer {
+    word-break: break-word;
+}
+
+.block_afirst_assistant-answer summary {
+    cursor: pointer;
+}
+
+.block_afirst_assistant-passage {
+    font-size: 0.85em;
+    max-height: 12rem;
+    overflow-y: auto;
+}

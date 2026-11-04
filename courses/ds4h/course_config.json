@@ -1,0 +1,20 @@
+{
+  "_comment": "Course 2 (Data Science for Health). knowledgecheck_cmid and content_cmids come from the local dump afirst_db_phase2_evaluated.sql.gz (quiz 2-10 and SCORM 1-9); re-check them on the target site. Fill diagnostic_cmid, microlearning_cmids and (optionally) retake_cmid after creating those activities; null or [] means 'not created yet' and the matching rule is skipped.",
+  "courseid": 2,
+  "thresholds": {
+    "fasttrack_min_percent": 90,
+    "remediation_below_percent": 80
+  },
+  "hide_microlearning_until_unlocked": true,
+  "modules": {
+    "1.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 12, "content_cmids": [11], "microlearning_cmids": [], "retake_cmid": null},
+    "1.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 14, "content_cmids": [13], "microlearning_cmids": [], "retake_cmid": null},
+    "2.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 16, "content_cmids": [15], "microlearning_cmids": [], "retake_cmid": null},
+    "2.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 18, "content_cmids": [17], "microlearning_cmids": [], "retake_cmid": null},
+    "3.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 22, "content_cmids": [21], "microlearning_cmids": [], "retake_cmid": null},
+    "3.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 24, "content_cmids": [23], "microlearning_cmids": [], "retake_cmid": null},
+    "4.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 28, "content_cmids": [27], "microlearning_cmids": [], "retake_cmid": null},
+    "4.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 30, "content_cmids": [29], "microlearning_cmids": [], "retake_cmid": null},
+    "4.3": {"diagnostic_cmid": null, "knowledgecheck_cmid": 32, "content_cmids": [31], "microlearning_cmids": [], "retake_cmid": null}
+  }
+}

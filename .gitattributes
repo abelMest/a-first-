@@ -1,0 +1,7 @@
+* text=auto
+*.sh text eol=lf
+deploy/docker/* text eol=lf
+*.docx binary
+*.pptx binary
+*.pdf binary
+*.jpeg binary

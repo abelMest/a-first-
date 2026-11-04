@@ -1,0 +1,9 @@
+.git
+dev/moodle
+dev/moodle-docker
+dev/.env
+deploy/docker/secrets
+deploy/docker/.env
+docs
+**/__pycache__
+*.log

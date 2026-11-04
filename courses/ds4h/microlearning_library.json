@@ -1,0 +1,728 @@
+{
+  "catalog_id": "A-FIRST-MICROLEARNING-V1",
+  "version": "1.0",
+  "course_id": 2,
+  "course_name": "Data Science for Health",
+  "total_units": 35,
+  "target_duration_mins_range": [
+    5,
+    10
+  ],
+  "units": [
+    {
+      "unit_id": "ML-1.1-DEF",
+      "title": "Defining Health Data Literacy",
+      "module": "1.1",
+      "competency_id": "COMP-1.1.1",
+      "learning_objective": "Define data literacy and core concepts related to health data",
+      "bloom_level": "Remember/Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 5,
+      "h5p_format": "Flashcards",
+      "mastery_criterion": 0.8,
+      "prerequisites": [],
+      "key_concepts": [
+        "data literacy",
+        "reading data",
+        "communicating numbers"
+      ]
+    },
+    {
+      "unit_id": "ML-1.1-STRUCT",
+      "title": "Classifying Health Data by Structure & Function",
+      "module": "1.1",
+      "competency_id": "COMP-1.1.2",
+      "learning_objective": "Distinguish between the main types of health data",
+      "bloom_level": "Understand/Analyze",
+      "difficulty": "Beginner",
+      "est_time_mins": 7,
+      "h5p_format": "Drag-and-Drop",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-1.1.1"
+      ],
+      "key_concepts": [
+        "structured",
+        "unstructured",
+        "semi-structured",
+        "clinical",
+        "surveillance"
+      ]
+    },
+    {
+      "unit_id": "ML-1.1-SOURCE",
+      "title": "Navigating Public Health Surveillance & HMIS Sources",
+      "module": "1.1",
+      "competency_id": "COMP-1.1.3",
+      "learning_objective": "Identify typical internal and external data sources used for key public health questions",
+      "bloom_level": "Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Interactive Decision Tree",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.1.2"
+      ],
+      "key_concepts": [
+        "DHIS2",
+        "HMIS",
+        "line list",
+        "vital registration",
+        "census"
+      ]
+    },
+    {
+      "unit_id": "ML-1.2-GOV",
+      "title": "Core Principles of Health Data Governance",
+      "module": "1.2",
+      "competency_id": "COMP-1.2.1",
+      "learning_objective": "Define data governance and data quality in the public health context",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 6,
+      "h5p_format": "Interactive Book",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.1.1"
+      ],
+      "key_concepts": [
+        "stewardship",
+        "privacy",
+        "access control",
+        "security"
+      ]
+    },
+    {
+      "unit_id": "ML-1.2-RISK",
+      "title": "Evaluating Governance Risks & Breaches",
+      "module": "1.2",
+      "competency_id": "COMP-1.2.2",
+      "learning_objective": "Explain why good data governance and high data quality are essential for sound public health decision-making",
+      "bloom_level": "Understand/Evaluate",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Branching Scenario",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.2.1"
+      ],
+      "key_concepts": [
+        "data breach",
+        "compromised records",
+        "accountability"
+      ]
+    },
+    {
+      "unit_id": "ML-1.2-DIMS",
+      "title": "The 5 Dimensions of Health Data Quality",
+      "module": "1.2",
+      "competency_id": "COMP-1.2.3",
+      "learning_objective": "Describe key dimensions of data quality and simple checks that can be used to assess them",
+      "bloom_level": "Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Interactive Table",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-1.1.2"
+      ],
+      "key_concepts": [
+        "completeness",
+        "timeliness",
+        "consistency",
+        "validity",
+        "accuracy"
+      ]
+    },
+    {
+      "unit_id": "ML-1.2-ANOM",
+      "title": "Detecting Quality Anomalies: The Kifaru Case",
+      "module": "1.2",
+      "competency_id": "COMP-1.2.4",
+      "learning_objective": "Recognise common governance gaps and data quality issues in small public health datasets",
+      "bloom_level": "Apply/Evaluate",
+      "difficulty": "Intermediate",
+      "est_time_mins": 9,
+      "h5p_format": "Outbreak Case Simulation",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-1.2.3"
+      ],
+      "key_concepts": [
+        "implausible coverage",
+        "outliers",
+        "anomaly spotting"
+      ]
+    },
+    {
+      "unit_id": "ML-2.1-INTRO",
+      "title": "From Raw to Analysis-Ready: Wrangling Fundamentals",
+      "module": "2.1",
+      "competency_id": "COMP-2.1.1",
+      "learning_objective": "Define data wrangling and its importance in public health data analysis",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 5,
+      "h5p_format": "Interactive Video",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.1.2"
+      ],
+      "key_concepts": [
+        "raw data",
+        "tidy data",
+        "analysis-ready"
+      ]
+    },
+    {
+      "unit_id": "ML-2.1-STEPS",
+      "title": "The 5 Stages of the Data Wrangling Pipeline",
+      "module": "2.1",
+      "competency_id": "COMP-2.1.2",
+      "learning_objective": "Explain the core steps in the data wrangling process, from discovery to validation",
+      "bloom_level": "Understand/Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Interactive Sequence",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-2.1.1"
+      ],
+      "key_concepts": [
+        "discovery",
+        "structuring",
+        "cleaning",
+        "enriching",
+        "validating"
+      ]
+    },
+    {
+      "unit_id": "ML-2.1-CLEAN",
+      "title": "Resolving Missing Values, Duplicates & Outliers",
+      "module": "2.1",
+      "competency_id": "COMP-2.1.3",
+      "learning_objective": "Describe basic data cleaning techniques and how they improve data quality",
+      "bloom_level": "Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Interactive Step-by-Step Task",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-1.2.3",
+        "COMP-2.1.2"
+      ],
+      "key_concepts": [
+        "missing data imputation",
+        "deduplication",
+        "implausible outliers"
+      ]
+    },
+    {
+      "unit_id": "ML-2.1-REPRO",
+      "title": "Reproducible Workflows with Git and Scripts",
+      "module": "2.1",
+      "competency_id": "COMP-2.1.4",
+      "learning_objective": "Recognise the importance of reproducible workflows and their role in ensuring transparency and consistency in data analysis",
+      "bloom_level": "Analyze/Create",
+      "difficulty": "Advanced",
+      "est_time_mins": 8,
+      "h5p_format": "Column Architecture Tour",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-2.1.2"
+      ],
+      "key_concepts": [
+        "Git",
+        "version control",
+        "script automation",
+        "Quarto"
+      ]
+    },
+    {
+      "unit_id": "ML-2.2-EDA",
+      "title": "The Purpose and Scope of EDA in Surveillance",
+      "module": "2.2",
+      "competency_id": "COMP-2.2.1",
+      "learning_objective": "Explain what exploratory data analysis (EDA) is and why it is important in public health",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 6,
+      "h5p_format": "Interactive Presentation",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-2.1.1"
+      ],
+      "key_concepts": [
+        "distribution",
+        "summary statistics",
+        "pattern discovery"
+      ]
+    },
+    {
+      "unit_id": "ML-2.2-TABLES",
+      "title": "Constructing & Interpreting 2x2 Contingency Tables",
+      "module": "2.2",
+      "competency_id": "COMP-2.2.2",
+      "learning_objective": "Describe how to explore single variables and simple relationships between variables using basic summaries and tables",
+      "bloom_level": "Apply/Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 9,
+      "h5p_format": "Interactive Calculator",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-2.2.1"
+      ],
+      "key_concepts": [
+        "2x2 table",
+        "cross-tabulation",
+        "exposure vs outcome"
+      ]
+    },
+    {
+      "unit_id": "ML-2.2-CHECK",
+      "title": "Spotting Residual Data Defects via Summary Stats",
+      "module": "2.2",
+      "competency_id": "COMP-2.2.3",
+      "learning_objective": "Explain how EDA can reveal remaining data quality issues and guide further analysis",
+      "bloom_level": "Evaluate",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Diagnostic Audit Scenario",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-2.2.2"
+      ],
+      "key_concepts": [
+        "skewness",
+        "univariate checks",
+        "coding errors"
+      ]
+    },
+    {
+      "unit_id": "ML-2.2-PY",
+      "title": "Python Scripts for Rapid EDA & Distributions",
+      "module": "2.2",
+      "competency_id": "COMP-2.2.4",
+      "learning_objective": "Describe, in simple terms, how Python scripts can be used to carry out basic data wrangling, EDA, and produce summary statistics",
+      "bloom_level": "Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Interactive Code Tour",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-2.1.4"
+      ],
+      "key_concepts": [
+        "Pandas describe",
+        "crosstab",
+        "value_counts"
+      ]
+    },
+    {
+      "unit_id": "ML-3.1-VALUE",
+      "title": "Visual Perception and Cognitive Encoding in Health",
+      "module": "3.1",
+      "competency_id": "COMP-3.1.1",
+      "learning_objective": "Explain why data visualisation is important for public health decisions",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 6,
+      "h5p_format": "Interactive Graphic Tour",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.1.1"
+      ],
+      "key_concepts": [
+        "visual encoding",
+        "cognitive load",
+        "fast decision-making"
+      ]
+    },
+    {
+      "unit_id": "ML-3.1-TYPES",
+      "title": "Matching Data Scales to Visual Attributes",
+      "module": "3.1",
+      "competency_id": "COMP-3.1.2",
+      "learning_objective": "Distinguish between different data types",
+      "bloom_level": "Understand/Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Drag-and-Drop",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-1.1.2"
+      ],
+      "key_concepts": [
+        "nominal",
+        "ordinal",
+        "continuous",
+        "discrete"
+      ]
+    },
+    {
+      "unit_id": "ML-3.1-SELECT",
+      "title": "The Chart Selection Decision Matrix",
+      "module": "3.1",
+      "competency_id": "COMP-3.1.3",
+      "learning_objective": "Describe which types of visualisation are appropriate for different data types and public health questions",
+      "bloom_level": "Apply/Create",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Branching Decision Tree",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-3.1.2"
+      ],
+      "key_concepts": [
+        "bar chart",
+        "histogram",
+        "scatter plot",
+        "box plot"
+      ]
+    },
+    {
+      "unit_id": "ML-3.1-AUDIT",
+      "title": "Auditing Visuals: Detecting Truncated Axes & Distortion",
+      "module": "3.1",
+      "competency_id": "COMP-3.1.4",
+      "learning_objective": "Interpret key messages from these visualisations",
+      "bloom_level": "Evaluate",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Image Hotspot Investigation",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-3.1.3"
+      ],
+      "key_concepts": [
+        "truncated axis",
+        "misleading 3D",
+        "baseline distortion"
+      ]
+    },
+    {
+      "unit_id": "ML-3.2-TIME",
+      "title": "Deconstructing Level, Trend, and Seasonality",
+      "module": "3.2",
+      "competency_id": "COMP-3.2.1",
+      "learning_objective": "Explain the importance of time-series analysis in tracking public health trends and interventions",
+      "bloom_level": "Understand/Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Interactive Time-Series Plot",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-3.1.3"
+      ],
+      "key_concepts": [
+        "trend line",
+        "seasonal peaks",
+        "cyclical variation"
+      ]
+    },
+    {
+      "unit_id": "ML-3.2-EPICURVE",
+      "title": "Constructing Epidemic Curves and Alert Thresholds",
+      "module": "3.2",
+      "competency_id": "COMP-3.2.2",
+      "learning_objective": "Identify key features of time-series data",
+      "bloom_level": "Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Epi Curve Simulator",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-3.2.1"
+      ],
+      "key_concepts": [
+        "epi curve",
+        "moving average",
+        "epidemic threshold"
+      ]
+    },
+    {
+      "unit_id": "ML-3.2-KPI",
+      "title": "Architecting Health Dashboards: KPIs and Filters",
+      "module": "3.2",
+      "competency_id": "COMP-3.2.3",
+      "learning_objective": "Describe how dashboards combine multiple visualisations to support public health decision-making",
+      "bloom_level": "Analyze/Create",
+      "difficulty": "Intermediate",
+      "est_time_mins": 9,
+      "h5p_format": "Dashboard Hotspot Tour",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-3.2.1"
+      ],
+      "key_concepts": [
+        "KPIs",
+        "interactive drill-down",
+        "spatial map"
+      ]
+    },
+    {
+      "unit_id": "ML-3.2-RULES",
+      "title": "Dashboard Usability & 5-Second Glance Rules",
+      "module": "3.2",
+      "competency_id": "COMP-3.2.4",
+      "learning_objective": "Apply best practices in dashboard design to ensure clarity, usability, and ethical data representation",
+      "bloom_level": "Evaluate",
+      "difficulty": "Intermediate",
+      "est_time_mins": 6,
+      "h5p_format": "Checklist Challenge",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-3.2.3"
+      ],
+      "key_concepts": [
+        "5-second rule",
+        "color blindness palette",
+        "visual clutter"
+      ]
+    },
+    {
+      "unit_id": "ML-4.1-GLM",
+      "title": "Understanding Generalized Linear Models (GLMs)",
+      "module": "4.1",
+      "competency_id": "COMP-4.1.1",
+      "learning_objective": "Define Generalised Linear Models (GLMs) and their role in public health",
+      "bloom_level": "Understand",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Interactive Concept Guide",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-2.2.2"
+      ],
+      "key_concepts": [
+        "link function",
+        "exponential family",
+        "multivariable modeling"
+      ]
+    },
+    {
+      "unit_id": "ML-4.1-DIFF",
+      "title": "Logistic vs. Poisson Regression: Selecting the Right Model",
+      "module": "4.1",
+      "competency_id": "COMP-4.1.2",
+      "learning_objective": "Distinguish between logistic regression and Poisson regression based on the types of outcomes they model",
+      "bloom_level": "Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Scenario Sorting",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.1.1"
+      ],
+      "key_concepts": [
+        "binary outcome",
+        "count outcome",
+        "incidence rates",
+        "odds"
+      ]
+    },
+    {
+      "unit_id": "ML-4.1-OR",
+      "title": "Interpreting Odds Ratios, Relative Risks & Rates",
+      "module": "4.1",
+      "competency_id": "COMP-4.1.3",
+      "learning_objective": "Explain how GLMs are used to estimate risks, counts, and rates of health events",
+      "bloom_level": "Apply/Interpret",
+      "difficulty": "Advanced",
+      "est_time_mins": 9,
+      "h5p_format": "Risk Calculator",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.1.2"
+      ],
+      "key_concepts": [
+        "Odds Ratio (OR)",
+        "Incident Rate Ratio (IRR)",
+        "95% CI"
+      ]
+    },
+    {
+      "unit_id": "ML-4.1-CASE",
+      "title": "Applying GLMs to Vaccine Effectiveness & Risk Studies",
+      "module": "4.1",
+      "competency_id": "COMP-4.1.4",
+      "learning_objective": "Identify common public health situations where GLMs support data-driven decisions",
+      "bloom_level": "Evaluate",
+      "difficulty": "Advanced",
+      "est_time_mins": 8,
+      "h5p_format": "Outbreak Study Challenge",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-4.1.3"
+      ],
+      "key_concepts": [
+        "vaccine effectiveness",
+        "confounding control",
+        "adjusted risk"
+      ]
+    },
+    {
+      "unit_id": "ML-4.2-STATS",
+      "title": "Machine Learning vs. Classical Biostatistics",
+      "module": "4.2",
+      "competency_id": "COMP-4.2.1",
+      "learning_objective": "Define Machine Learning and describe how it complements traditional statistical methods in public health",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 6,
+      "h5p_format": "Comparison Table",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-4.1.1"
+      ],
+      "key_concepts": [
+        "prediction vs explanation",
+        "hypothesis-driven vs data-driven"
+      ]
+    },
+    {
+      "unit_id": "ML-4.2-TASKS",
+      "title": "Formulating Classification vs. Regression Problems",
+      "module": "4.2",
+      "competency_id": "COMP-4.2.2",
+      "learning_objective": "Distinguish supervised learning problems as classification or regression tasks, based on the type of outcome",
+      "bloom_level": "Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 7,
+      "h5p_format": "Task Sorting Exercise",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.2.1"
+      ],
+      "key_concepts": [
+        "classification",
+        "regression",
+        "target labels",
+        "continuous targets"
+      ]
+    },
+    {
+      "unit_id": "ML-4.2-TREES",
+      "title": "How Decision Trees and Random Forests Predict Outcomes",
+      "module": "4.2",
+      "competency_id": "COMP-4.2.3",
+      "learning_objective": "Explain in simple terms how decision trees and random forests learn from past data to make predictions",
+      "bloom_level": "Understand/Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Visual Tree Traversal",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.2.2"
+      ],
+      "key_concepts": [
+        "decision nodes",
+        "random forest ensemble",
+        "stability"
+      ]
+    },
+    {
+      "unit_id": "ML-4.2-EVAL",
+      "title": "Validating ML Models: Overfitting, Splits & Bias Checks",
+      "module": "4.2",
+      "competency_id": "COMP-4.2.4",
+      "learning_objective": "Describe why validation, bias checks, and interpretability are important when applying Machine Learning models in public health",
+      "bloom_level": "Evaluate",
+      "difficulty": "Advanced",
+      "est_time_mins": 8,
+      "h5p_format": "Model Bias & Audit Lab",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.2.3"
+      ],
+      "key_concepts": [
+        "train/test split",
+        "overfitting",
+        "demographic bias",
+        "fairness"
+      ]
+    },
+    {
+      "unit_id": "ML-4.3-NLP",
+      "title": "Unlocking Unstructured Text in Public Health",
+      "module": "4.3",
+      "competency_id": "COMP-4.3.1",
+      "learning_objective": "Define Natural Language Processing (NLP) and describe its role in turning unstructured text into usable data for public health",
+      "bloom_level": "Understand",
+      "difficulty": "Beginner",
+      "est_time_mins": 6,
+      "h5p_format": "Narrative Text Explorer",
+      "mastery_criterion": 0.8,
+      "prerequisites": [
+        "COMP-1.1.2"
+      ],
+      "key_concepts": [
+        "unstructured clinical notes",
+        "rumor monitoring",
+        "narrative reports"
+      ]
+    },
+    {
+      "unit_id": "ML-4.3-PIPE",
+      "title": "The Text Preprocessing Pipeline: Cleaning to Tokens",
+      "module": "4.3",
+      "competency_id": "COMP-4.3.2",
+      "learning_objective": "Describe a simple NLP pipeline that converts raw text into numerical representations for analysis",
+      "bloom_level": "Apply",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Interactive Step Pipeline",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.3.1"
+      ],
+      "key_concepts": [
+        "tokenization",
+        "stop words",
+        "lowercasing",
+        "normalization"
+      ]
+    },
+    {
+      "unit_id": "ML-4.3-TFIDF",
+      "title": "Representing Text as Numbers: Bag-of-Words vs. TF-IDF",
+      "module": "4.3",
+      "competency_id": "COMP-4.3.3",
+      "learning_objective": "Distinguish between Bag-of-Words and TF-IDF as basic methods for representing text as numbers",
+      "bloom_level": "Analyze",
+      "difficulty": "Intermediate",
+      "est_time_mins": 8,
+      "h5p_format": "Interactive Vectorizer",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.3.2"
+      ],
+      "key_concepts": [
+        "Bag-of-Words",
+        "TF-IDF",
+        "word frequencies",
+        "informative terms"
+      ]
+    },
+    {
+      "unit_id": "ML-4.3-OUTBREAK",
+      "title": "NLP for Early Outbreak Signal Detection & Rumor Triage",
+      "module": "4.3",
+      "competency_id": "COMP-4.3.4",
+      "learning_objective": "Identify key public health applications of NLP, including event detection, sentiment monitoring, and report triage",
+      "bloom_level": "Evaluate/Apply",
+      "difficulty": "Advanced",
+      "est_time_mins": 9,
+      "h5p_format": "Epidemic Signal Simulation",
+      "mastery_criterion": 0.85,
+      "prerequisites": [
+        "COMP-4.3.3"
+      ],
+      "key_concepts": [
+        "event detection",
+        "syndromic surveillance",
+        "sentiment analysis"
+      ]
+    }
+  ]
+}

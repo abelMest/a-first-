@@ -1,0 +1,43 @@
+{
+  "timestamp": "2026-09-04T13:25:44.548985",
+  "cohort_size": 100,
+  "total_evaluations": 3500,
+  "variant_a": {
+    "threshold": 3.0,
+    "metrics": {
+      "sensitivity": 0.9371395617070357,
+      "specificity": 0.9597961494903737,
+      "precision": 0.9581367924528302,
+      "f1": 0.9475218658892129,
+      "false_positive_rate": 0.04020385050962627,
+      "false_negative_rate": 0.06286043829296424,
+      "avg_bypass_rate": 0.14222222222222222,
+      "avg_remedial_units_per_student": 16.96,
+      "raw": {
+        "tp": 1625,
+        "fp": 71,
+        "fn": 109,
+        "tn": 1695
+      }
+    }
+  },
+  "variant_b": {
+    "threshold": 5.0,
+    "metrics": {
+      "sensitivity": 0.7214532871972318,
+      "specificity": 0.9983012457531144,
+      "precision": 0.9976076555023924,
+      "f1": 0.8373493975903614,
+      "false_positive_rate": 0.0016987542468856172,
+      "false_negative_rate": 0.27854671280276816,
+      "avg_bypass_rate": 0.14222222222222222,
+      "avg_remedial_units_per_student": 12.54,
+      "raw": {
+        "tp": 1251,
+        "fp": 3,
+        "fn": 483,
+        "tn": 1763
+      }
+    }
+  }
+}
