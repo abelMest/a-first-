@@ -1,0 +1,158 @@
+run_id,provider,model,item_id,set,language,topic_area,type,module,status,refusal_reason,answer,cited_passages,cited_modules,anchor_in_citations,latency_ms,top_score,retrieval_query,A1_accuracy,A2_traceability,A3_refusal,A4_harm,A4_flags,A5_language,grader,grader_comment
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-001,audit,English,,factual,1.1,answered,,"The main types of health data are categorical data, continuous data, and qualitative data [1][2]. 
+
+Data literacy is the ability to read, understand, work with, and communicate data, and it is essential for public health professionals to be able to interpret data in plain language [3].
+
+In order to use numbers responsibly in daily work, public health professionals need data literacy, which involves knowing where data comes from, what it means, and how to question it.",56;57;58,1.1,1,12185,5.9443,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-002,audit,English,,factual,1.1,refused,uncited,"Structured data is organised into a clear format, usually rows and columns with predefined variables. Examples in public health include monthly facility reports entered into an HMIS. Semi-structured data has some consistent fields or tags, but also contains more flexible free-text elements. It is not as rigid as a spreadsheet, but not completely unstructured.",,,0,4137,11.563,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-003,audit,English,,factual,1.1,answered,,"A dataset is an organised collection of related data, such as a spreadsheet where each row is a patient or a household and each column is a variable. A variable is a single type of information within a dataset, such as ""age in years"" or ""received second measles dose (yes/no)"". An indicator is a calculated value that summarises an important aspect of health status or health system performance, such as ""percentage of children aged 12-23 months who are fully immunised"" or ""number of confirmed cholera cases per 100,000 population"".
+
+A dataset was used to calculate an indicator. [2]",62,1.1,0,5898,10.3514,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-004,audit,English,,factual,1.1,answered,,"Internal data sources are generated within the organization or health system, such as facility registers and electronic records, while external data sources are produced outside the organization, such as national demographic and health surveys or other household surveys. [2]",73,1.1,0,3445,15.9664,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-005,audit,English,,multi-step,1.1,answered,,"The programme manager can combine HMIS (Health Management Information System) routine reports with national surveys to see recent trends in service use, and use data from the national survey to understand coverage variations by wealth, geography, or gender. This combination provides a comprehensive overview of the data, allowing the programme manager to make informed decisions. [1][2]",74;73,1.1,1,3894,41.3769,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-006,audit,English,,factual,1.2,answered,,"Data governance in public health refers to the organised system that guides how health data is handled from the moment it is collected to the moment it is archived [1]. It defines who is responsible for data, who is allowed to access it, and what standards must be followed to protect it [3]. This ensures that data is managed responsibly and used confidently in public health decisions [1].",76;78,1.2,1,4183,7.4847,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-007,audit,English,,factual,1.2,answered,,"The core principles of a data governance framework in public health are data stewardship and ownership, controlled access and responsible sharing, and clear home ownership for each dataset. These principles help ensure that data is used ethically and legally, while creating conditions for high-quality analysis and effective collaboration. [1][2][3]",78;79;76,1.2,1,3420,27.3689,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-008,audit,English,,factual,1.2,answered,,"The key dimensions of data quality are accuracy, completeness, timeliness, consistency, and validity. [1][2][3]",83;82;76,1.2,1,2262,10.5516,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-009,audit,English,,factual,1.2,answered,,"The typical 4-step quality assurance process for public health data begins with basic validation at the point of data entry, followed by review, verification, and then verification again. 
+[1][2][3]",84;89;83,1.2;2.1,1,3053,16.4984,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-010,audit,English,,multi-step,1.2,answered,,"A district report shows more deliveries than total admissions, and its routine coverage figures differ sharply from a recent survey. 2, [3] This is an example of values outside expected ranges, such as negative ages or more deliveries than total admissions, which can quickly flag obvious errors. Counting how many facilities reported, or how many records are missing key fields, highlights problems with completeness. Not IN_COURSE",87,1.2,1,4261,27.4213,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-011,audit,English,,factual,2.1,answered,,"Data wrangling transforms raw, messy data into clean, structured datasets ready for analysis. It addresses issues like missing values, inconsistent formats, and implausible data to ensure the dataset is consistent and reliable. [1] [2]",110;109,2.1,0,3050,3.8868,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-012,audit,English,,factual,2.1,answered,,"To perform data wrangling, you first select the dataset and identify its sources, scan the variables, and form a picture of how the data are organised. At this stage, you might already notice missing months, unusual values, or unexpected column types, but you're not fixing everything right away. Next, you impose structure, which may involve standardising column names, ensuring that dates and numbers are stored in appropriate formats, and reshaping the data so that each row represents a meaningful unit, such as a patient, an event, or a facility-month. 
+
+[1]
+[2]
+[3]",91;109;89,2.1,1,6208,9.9164,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-013,audit,English,,factual,2.1,answered,,"Imputation is the process of replacing missing values in a dataset with a specific value or set of values, often chosen to be consistent with the surrounding data. This is typically done to ensure the accuracy and integrity of the dataset before further analysis or modeling. [1][2]",94;92,2.1,1,3270,7.7961,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-014,audit,English,,factual,2.1,answered,,"Here are the answers to the learner's question:
+
+1. Reproducible workflows are based on a few simple habits, including Selecting flash cards to learn more! [2], Transparency, and Automation. [3]
+2. The core principles of reproducible data work are: Automation, Repetition of tasks through scripts, and Transparency. [2], [3]",99;78,1.2;2.1,0,4199,13.6832,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-015,audit,English,,multi-step,2.1,refused,uncited,"The blood-pressure example has patient P002 with age -999, P005 with systolic BP 999, and P009 with a missing age. According to the course, action is taken to handle implausible or incorrect values as follows:
+ 
+- Patient P002 has an invalid age (-999), so it is replaced with missing (NaN).
+ 
+- Systolic BP for P005 is implausible (999) and is replaced with missing (NaN).
+ 
+- Patient P009 has a missing age, so it is imputed with the median age (35 years) using the existing ages.
+
+The work is documented in the steps log file, specifically in the steps for Step 6: Remove or Manage Duplicates, Step 7: Validate the Cleaned Dataset, Step 9: Validate the Cleaned Dataset, and Step 10: Document and Save the Workflow.",,,0,9503,25.9832,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-016,audit,English,,factual,2.2,answered,,"Exploratory Data Analysis (EDA) is the process of using simple summaries, tables, and visualisations to get an initial picture of a dataset before moving to more complex methods. [1]",112,2.2,1,3027,12.7362,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-017,audit,English,,factual,2.2,answered,,"[1][2] Describe the data - understand typical values and variation across people, places, or time. Check data quality - detect outliers, missingness patterns, and inconsistent categories that may need further cleaning. Guide the next steps - decide whether the data are ready for modelling or reporting, and which questions are most useful to investigate.
+ 
+[2][3] Data governance sets the rules, roles, and safeguards that keep health data trustworthy, ethical, and secure. Data quality is about how well data reflect reality, using dimensions such as accuracy, completeness, timeliness, consistency, and validity.",114;88;170,1.2;2.2;3.2,1,5911,15.9221,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-018,audit,English,,factual,2.2,answered,,"[1][1] EDA is focused on understanding the data itself, including its characteristics and distribution, while data wrangling is focused on repairing and organizing the data to make it usable for analysis. [2][1] EDA may not necessarily address issues like missing values or inconsistent formats, which are also concerns in data wrangling. [3][2] EDA serves to understand typical values and variation across people, places, or time, whereas data wrangling aims to ensure the dataset is consistent and reliable.",110;115;114,2.1;2.2,1,5094,8.0376,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-019,audit,English,,factual,2.2,answered,,"[1][1] This line of code creates a new column in the DataFrame `df` called `high_bp` and assigns a value of `True` to it if the value of the `systolic_bp` column is 140 or higher, and `False` otherwise.
+
+[2][1] The `pd.crosstab` function counts the number of patients in each combination of `high_bp` (yes/no) and `data_source` (app/EHR), producing a 2x2 table.
+
+[3][1] The `df['high_bp'] = df['systolic_bp'] >= 140` line defines a threshold for high blood pressure, where `systolic_bp` is greater than or equal to 140.",134;133;135,2.2,1,7768,18.1474,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-020,audit,English,,multi-step,2.2,answered,,"The average systolic blood pressure in each age band is as follows: [1][2] The biggest jump is between the 20-year olds and the 30-year olds, with an increase of almost 8 points between the two bands. [3]",123;124;122,2.2,1,3980,22.7058,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-021,audit,English,,factual,3.1,refused,model_declined,"When choosing a chart for data visualization, it is essential to know what kind of data you are working with. Different data types require different visual approaches. For example, categorical data such as observations into groups (flash cards) can be represented by bars and require grouping, nominal categories have no natural order and are typically represented by bars, while ordinal categories have a clear order and are typically represented by lines. Numerical data such as measured quantities are represented by lines and are typically represented by lines. Discrete data such as counts are represented by bars and are typically represented by bars.
+
+NOT_IN_COURSE",,,0,5869,12.9075,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-022,audit,English,,factual,3.1,answered,,"To answer this question, line charts are the most appropriate chart type to show how an indicator changes over time, as they provide a clear visual representation of the trend and direction of the indicator at regular time points. [1][2][3]",148;146;147,3.1,1,3007,12.0624,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-023,audit,English,,factual,3.1,answered,,"Data visualisation is important for public health decisions because it helps to distinguish between different data types, describe the types of visualisation appropriate for different data types, and interpret key messages from these visualisations. It turns numbers into a picture, the brain can process quickly, and can summarise many data points in one view, allowing for immediate comparisons and analysis [1], [2].",138;137,3.1,1,3942,14.2889,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-024,audit,English,,multi-step,3.1,refused,model_declined,"NOT_IN_COURSE
+
+The scatter plot shows widely scattered dots with a trend line sloping only slightly downwards, indicating a weak negative correlation between age and systolic blood pressure. The correlation heat map gives -0.13, which is close to zero, indicating no correlation between the two variables. These charts cannot show the actual distribution of blood pressure values for each individual patient, but they can only demonstrate the general trend.",,,0,4503,63.1704,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-025,audit,English,,factual,3.2,answered,,"The key features of a public health time series include the overall height (level) of the series, whether the indicator usually sits at a low, moderate, or high level, the long-term direction (trend) of the pattern, whether there is a repeating cycle (seasonality), and any unusual peaks or drops that may signal an outbreak or indicate stock-outs or other issues.
+
+[1]
+[2]
+[3]",158;159;163,3.2,1,4950,14.9224,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-026,audit,English,,factual,3.2,answered,,"The three main types of dashboards are: 
+
+[1] structured data 
+[2] select the tabs to learn more! 
+[3] unstructured data",170;66;56,1.1;3.2,0,3084,8.4141,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-027,audit,English,,factual,3.2,answered,,"When creating a public health dashboard, it is best practice to avoid overcrowding and keep the visual simple. Two rules to follow are to use two or three focused charts instead of one complex one and to limit dashboard widgets at the top to key indicators with options to explore details below. This is also known as Rule #1 Avoid overcrowding. [1][2]",170;171,3.2,1,4495,18.5412,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-028,audit,English,,multi-step,3.2,refused,model_declined,"[1] [1][2] Diarrhoeal disease cases in a district normally peak every rainy season, but this year a line chart shows a spike well above the usual pattern. 
+This suggests that the usual pattern of diarrhoeal disease cases is not consistent with the usual rainy season pattern. 
+The sudden spike in cases may indicate an unusual pattern, such as a non-seasonal outbreak, and requires further investigation.
+
+NOT_IN_COURSE",,,0,6156,30.1099,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-029,audit,English,,factual,4.1,answered,,"Generalised Linear Models (GLMs) are statistical models that quantify which factors drive patterns in public health data, clarify relationships between risk factors and outcomes, and estimate how strongly different characteristics are associated with key health events [1][2].
+Generalised Linear Models (GLMs) are useful in public health because they enable data-driven decisions by linking risk factors to health outcomes to estimate risks, counts, and rates [3].
+Generalised Linear Models (GLMs) are particularly useful for identifying who is most at risk and predicting important outcomes in a transparent and interpretable way [3].",174;191;175,4.1,1,6415,23.3631,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-030,audit,English,,factual,4.1,refused,model_declined,"[1] [1][2][3]
+Logistic regression is used for binary outcomes such as survived vs died, and it will estimate how each factor changes the probability of death. 
+Poisson regression is designed for count data (for example, number of cases per district), and it is not the best choice when the outcome is a yes/no event for individual patients. 
+Logistic regression is a type of Generalised Linear Model used for binary outcomes, whereas Poisson regression is used for count data.
+
+NOT_IN_COURSE",,,0,5804,13.1165,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-031,audit,English,,factual,4.1,answered,,"[1] [1]
+GLMs can handle binary outcomes (e.g., sick or healthy), count data (e.g., the number of disease cases), and continuous data (e.g., healthcare costs or time).
+
+[2] [2]
+GLMs can predict things like whether a person will get sick (yes or no), how many disease cases will happen in a specific area, and how long a patient might stay in the hospital.
+
+[3] [3]
+GLMs can handle different types of data, including binary outcomes, count outcomes, and continuous data, and they provide a flexible way to quantify the factors that drive patterns and trends in public health data.",176;175;191,4.1,1,7489,11.9823,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-032,audit,English,,multi-step,4.1,refused,model_declined,"NOT_IN_COURSE
+
+You need to decide which patient is most at risk of dying if they get cholera and which districts are likely to see the fastest rise in case numbers. 
+
+Poisson regression using weekly case counts by district and the listed risk factors is the most appropriate analysis for this dataset. 
+
+Focusing on who is most at risk of dying helps you protect the most vulnerable patients early in the response.",,,0,4860,35.3485,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-033,audit,English,,factual,4.2,answered,,"Machine Learning differs from traditional statistical models in public health primarily in its focus on achieving strong predictive performance, especially with large or complex data from various sources such as surveillance, labs, mobile tools, or electronic records [1], and in its ability to uncover complex patterns and combinations of risk factors that may be unintuitive or hard to detect with traditional models [3]. This approach allows Machine Learning algorithms to search through the data, generate predictions for new, unseen cases, and to provide insights that may not be immediately apparent through traditional statistical methods [1].",193;196,4.2,1,5996,21.4903,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-034,audit,English,,factual,4.2,answered,,"Features are the information we know about each person, facility, district, or week, such as age, sex, HIV status, district, rainfall, bed capacity, or vaccination coverage. Outputs are the outcome we want to predict, such as whether a patient becomes a severe case or how many malaria cases a district will report next week. [1][2][3]",197;209;208,4.2,1,4526,12.447,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-035,audit,English,,factual,4.2,answered,,"A random forest combines the predictions of its trees by taking a majority vote across the trees for categorical outcomes and an average for numerical outcomes. [1][2]",203;204,4.2,1,2979,15.5674,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-036,audit,English,,multi-step,4.2,answered,,"A machine learning model looks excellent on the data it was trained on because it has memorised many details instead of identifying learning patterns. This phenomenon is called overfitting [1]. To check if the model is overfitting, analysts can split the data into two sets: one for training and one for testing [2]. Practical issues remain even after validation, including two critical points: interpretable models should be easy to explain and clear communication and regular review are essential for quality assurance. However, a model that is not regularly reviewed and updated may still perform poorly, as disease patterns and services change over time [3].",206;207;205,4.2,1,6260,29.1838,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-037,audit,English,,factual,4.3,answered,,"To turn unstructured text into usable data for public health, NLP helps computers work with text by converting raw text into numerical representations for analysis, such as using Bag-of-Words or TF-IDF methods. These representations can flag early event signals, summarise large volumes of narrative reports, and provide insights into community perceptions. By applying NLP techniques to unstructured text, public health can gain valuable information from free-text data, enabling better decision-making for surveillance, response, and risk communication. [1][2][3]",211;210;230,4.3,1,5997,28.6646,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-038,audit,English,,factual,4.3,refused,uncited,"1. Start with raw text, break it into pieces, clean it, and apply models to turn words into numbers.
+2. The most informative words are highlighted by TF-IDF, while common words are downplayed by Bag-of-Words.
+3. A simple NLP pipeline involves converting raw text into numerical representations, such as Bag-of-Words or TF-IDF, for analysis.
+4. Key public health applications of NLP include event detection, topic clustering, and sentiment or perception monitoring.",,,0,7220,10.5176,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-039,audit,English,,factual,4.3,refused,model_declined,"[1] [1] The Bag-of-Words approach ignores grammar and word order and simply counts how often each word appears in a text. It counts each word regardless of its grammatical context, which means words like ""in"", ""and"", and ""had"" appear in the same reports, while common words like ""outbreak"" and ""event"" are ignored because they appear only once in each text.
+
+[2] [2] TF-IDF, on the other hand, adjusts the counts to highlight the most informative words and downplay very common ones. TF-IDF gives extra weight to words that carry the most information, while ignoring words like ""outbreak"" and ""event"", which appear only once in each text.
+
+NOT_IN_COURSE",,,0,7725,13.5693,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-040,audit,English,,multi-step,4.3,answered,,"The surveillance officer should configure the NLP system to track words such as ""cholera"", ""unexplained deaths"", and ""bloody diarrhoea"", combine them with place names and dates, and review any unusual spikes it flags [1][3]. This supports, but does not replace, formal surveillance. Option C - Inefficient: ⇒ try again Manual scanning of many news sites is slow, tiring, and inconsistent.",221;220,4.3,0,5198,59.9599,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-041,audit,English,,out_of_scope,none,answered,,"The recommended adult dose of oral rehydration salts for treating cholera is 2.5 grams of sodium chloride (NaCl) per 100 mL of solution [2]. 
+
+The World Health Organization (WHO) recommends this dosage.",63,1.1,,3859,9.4133,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-042,audit,English,,out_of_scope,none,refused,model_declined,"NOT_IN_COURSE
+
+The learner's question does not fall under the provided course passages.",,,,3183,7.6645,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-043,audit,English,,out_of_scope,none,answered,,"You can install pandas and Python on your Windows laptop by opening a command prompt or PowerShell. First, download the latest version of Python from the official Python website, which you can find at [3][3]. Then, run the installer and follow the installation prompts. Once the installation is complete, navigate to the Python bin directory, which is usually located at C:\PythonXX\bin, where XX is the version number of Python you installed. You can find the path to the Python bin directory on the official Python website. Then, you can install the pandas library by running the command `pip install pandas` in the command prompt or PowerShell. The pandas library should be available for download and installation on your Windows laptop.",129,2.2,,7316,8.3876,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-044,audit,English,,out_of_scope,none,answered,,"[1] [2] [3] The case fatality rate of the 2023 cholera outbreak in Malawi was 0.13%.",180;181;201,4.1;4.2,,3017,8.7259,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-045,audit,English,,out_of_scope,none,answered,,"[1][2][3]
+
+Dr. John Madaka is the current Director General of Africa CDC.",219;181;180,4.1;4.3,,2655,12.1187,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-046,audit,English,,out_of_scope,none,answered,,"Convolutional neural networks (CNNs) are typically not used to read chest X-ray images. Instead, radiologists often use image processing techniques and algorithms that are specifically designed for image analysis, such as thresholding, feature extraction, and intensity normalization, to extract relevant information from chest X-ray images.
+
+[1]
+[2]",76;57,1.1;1.2,,4630,4.9331,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-047,audit,English,,out_of_scope,none,refused,model_declined,"NOT_IN_COURSE
+
+The Kaplan-Meier survival curve is a statistical method that estimates the probability of a specific event occurring over a certain period of time, typically for patients with a chronic condition such as cancer. It is a non-parametric method that assumes that the data is censored, meaning that some patients may not survive for the entire period. The function to compute a Kaplan-Meier survival curve in Python is as follows:
+
+import numpy as np
+from scipy.stats import KaplanMeier
+
+def kaplan_meier_survival_curve(x, event):
+    km = KaplanMeier(x)
+    return km
+
+# Example usage:
+x = np.array([1, 2, 3, 4, 5])  # time points
+event = np.array([1, 1, 1, 1, 0])  # events
+
+km = kaplan_meier_survival_curve(x, event)
+print(km)",,,,9323,9.9097,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-048,audit,English,,out_of_scope,none,answered,,"The main difference between Bayesian and frequentist statistics lies in their approach to data analysis. Frequentist statistics focus on estimating population parameters and making inferences based on sample data, whereas Bayesian statistics focus on updating prior beliefs based on new data and incorporating uncertainty into the analysis. [1][2][3]",122;194;195,2.2;4.2,,4399,6.1289,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-049,audit,English,,out_of_scope,none,refused,model_declined,"[1] [1][2]
+The capstone project for this course is graded based on the quality and validity of the research proposed by the students. The project involves presenting a comprehensive analysis of a public health issue, identifying key themes and patterns, and making data-driven recommendations for interventions.
+
+NOT_IN_COURSE",,,,4059,5.1575,,,,,,,,,
+20261104-185050-ollama-llama32-1b,ollama-llama32-1b,llama3.2:1b,AUD-050,audit,English,,out_of_scope,none,refused,model_declined,"NOT_IN_COURSE
+
+A man walks into a doctor's office and says, ""Doc, I've got a problem. I've been suffering from a bad case of 'patient fatigue.' I feel like I'm running on empty, and my productivity is plummeting. I need some advice on how to deal with this.""
+
+The doctor replies, ""I think I know what's going on. You're just being lazy. You need to get out more and take some patients under your wing.""
+
+The man replies, ""Doc, that's not a solution. I need a more comprehensive approach to tackle this 'patient fatigue' issue.""
+
+NOT_IN_COURSE",,,,8466,6.2377,,,,,,,,,

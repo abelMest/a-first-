@@ -26,8 +26,9 @@ use block_afirst_assistant\external\ask;
  *
  * Flow: retrieve passages; refuse without calling the model when none clears the grounding
  * threshold; otherwise ask the model (through the core AI subsystem) to answer only from the
- * numbered passages and cite them; treat the model's NOT_IN_COURSE reply as a refusal. Every
- * outcome is logged for the reviewer audit and the unanswered-question log.
+ * numbered passages and cite them; treat the model's NOT_IN_COURSE reply as a refusal; withhold
+ * answers that cite nothing or whose content is not in the cited passages. Every outcome is
+ * logged for the reviewer audit and the unanswered-question log.
  *
  * @package    block_afirst_assistant
  * @copyright  2026 Africa CDC
@@ -138,6 +139,19 @@ class answerer {
             // An answer with no valid marker is kept in the log for review but not shown.
             return $this->finish($log, $started, answer_result::STATUS_REFUSED, answer_result::REASON_UNCITED, $text,
                 self::citations($grounded, []));
+        }
+
+        // A marker is only the model's claim. Withhold answers whose content is not in the passages they cite (DE A-12).
+        $minsupport = get_config('block_afirst_assistant', 'minsupport');
+        $support = support_checker::check($text, $question,
+            array_map(fn(int $n) => $grounded[$n - 1]->text, $cited),
+            $minsupport === false ? support_checker::DEFAULT_MIN_SUPPORT : (float)$minsupport,
+            // Passages found through a translated query are in another language than the answer (D-17).
+            checkwords: empty($log->retrievalquery));
+        $log->supportscore = $support['coverage'];
+        if (!$support['supported']) {
+            return $this->finish($log, $started, answer_result::STATUS_REFUSED, answer_result::REASON_UNSUPPORTED, $text,
+                self::citations($grounded, $cited));
         }
         return $this->finish($log, $started, answer_result::STATUS_ANSWERED, null, $text,
             self::citations($grounded, $cited));

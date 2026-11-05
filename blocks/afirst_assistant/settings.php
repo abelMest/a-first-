@@ -32,6 +32,11 @@ if ($ADMIN->fulltree) {
         new lang_string('minscore_desc', 'block_afirst_assistant'),
         answerer::DEFAULT_MIN_SCORE, PARAM_FLOAT));
 
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/minsupport',
+        new lang_string('minsupport', 'block_afirst_assistant'),
+        new lang_string('minsupport_desc', 'block_afirst_assistant'),
+        \block_afirst_assistant\local\support_checker::DEFAULT_MIN_SUPPORT, PARAM_FLOAT));
+
     $settings->add(new admin_setting_configselect('block_afirst_assistant/maxpassages',
         new lang_string('maxpassages', 'block_afirst_assistant'),
         new lang_string('maxpassages_desc', 'block_afirst_assistant'),

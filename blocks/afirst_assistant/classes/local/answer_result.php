@@ -46,6 +46,9 @@ class answer_result {
     /** @var string The model answered but cited no supplied passage, so the answer is withheld. */
     public const REASON_UNCITED = 'uncited';
 
+    /** @var string The answer's content is not found in the passages it cites, so it is withheld. */
+    public const REASON_UNSUPPORTED = 'unsupported';
+
     /** @var string The provider returned an error or nothing. */
     public const REASON_ERROR = 'error';
 

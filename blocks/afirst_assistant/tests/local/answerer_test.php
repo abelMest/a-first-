@@ -186,6 +186,30 @@ final class answerer_test extends \advanced_testcase {
         $this->assertSame('Completeness checks reports .', $log->answer);
     }
 
+    public function test_cited_answer_whose_content_is_not_in_the_passage_is_withheld(): void {
+        global $DB;
+        // The rehearsal failure (DE A-12): invented content dressed with a valid citation marker.
+        $result = (new answerer($this->manager_returning('Completeness is defined by Dr John Madaka at 0.13 per week [1].')))
+            ->answer($this->course->id, $this->student->id, 'What does completeness check?');
+
+        $this->assertSame(answer_result::STATUS_REFUSED, $result->status);
+        $this->assertSame(answer_result::REASON_UNSUPPORTED, $result->reason);
+        $this->assertNull($result->answer);
+        $log = $DB->get_record('block_afirst_log', ['id' => $result->logid]);
+        $this->assertSame('unsupported', $log->refusalreason);
+        $this->assertLessThan(0.5, (float)$log->supportscore);
+        $this->assertStringContainsString('Madaka', $log->answer, 'kept in the log for reviewers');
+    }
+
+    public function test_supported_answer_records_its_support_score(): void {
+        global $DB;
+        $result = (new answerer($this->manager_returning('Completeness checks whether expected reports were received [1].')))
+            ->answer($this->course->id, $this->student->id, 'What does completeness check?');
+
+        $this->assertSame(answer_result::STATUS_ANSWERED, $result->status);
+        $this->assertEquals(1.0, (float)$DB->get_field('block_afirst_log', 'supportscore', ['id' => $result->logid]));
+    }
+
     public function test_question_is_fenced_in_the_prompt(): void {
         $prompt = null;
         (new answerer($this->manager_returning('Completeness checks reports [1].', $prompt)))->answer($this->course->id,

@@ -42,5 +42,15 @@ function xmldb_block_afirst_assistant_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2026110402, 'afirst_assistant');
     }
 
+    if ($oldversion < 2026110403) {
+        // Support check (DE A-12): how much of each answer is found in the passages it cites.
+        $table = new xmldb_table('block_afirst_log');
+        $field = new xmldb_field('supportscore', XMLDB_TYPE_NUMBER, '10, 4', null, null, null, null, 'retrievalquery');
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+        upgrade_block_savepoint(true, 2026110403, 'afirst_assistant');
+    }
+
     return true;
 }

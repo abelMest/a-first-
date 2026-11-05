@@ -60,6 +60,7 @@
         <FIELD NAME="connectiontype" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Browser-reported effective connection type, for the equity analysis"/>
         <FIELD NAME="downlinkmbps" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="retrievalquery" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The question as translated for retrieval, when cross-lingual retrieval found the passages"/>
+        <FIELD NAME="supportscore" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="4" COMMENT="Share of the answer's content words found in the cited passages (support check)"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

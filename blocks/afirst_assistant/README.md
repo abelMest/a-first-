@@ -6,7 +6,8 @@ A Moodle 5.0 block that answers learner questions **only from course text a teac
 1. The question is matched against passages cut from approved sources (BM25 keyword retrieval).
 2. If no passage reaches the **grounding threshold** (site setting, default 3.0), the assistant refuses **without calling the AI model**.
 3. Otherwise the best passages are numbered and sent, through Moodle's core AI subsystem (`generate_text`), with instructions to answer only from them, cite `[n]`, and reply `NOT_IN_COURSE` if they don't contain the answer. That reply becomes a refusal.
-4. The learner sees the answer, the passages behind it (expandable), the AI disclaimer, and a **Report a problem** button.
+4. The answer is checked before it is shown. It is withheld if it cites no supplied passage (D-14), or if its content is not found in the passages it cites: under the **support threshold** (site setting, default 0.5) of its content words, or a number that appears in neither the cited passages nor the question (D-20). Withheld answers stay in the log for reviewers.
+5. The learner sees the answer, the passages behind it (expandable), the AI disclaimer, and a **Report a problem** button.
 
 No name or other identity is sent to the model. The AI provider, model, quotas and rate limits are configured by the site administrator in core (Site administration > General > AI).
 

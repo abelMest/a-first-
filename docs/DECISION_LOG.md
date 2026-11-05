@@ -312,6 +312,18 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-04). **Pending: advisory team.**
 - **Status:** Approved by the fellow.
 
+### D-20: Answers are withheld unless their content is found in the cited passages
+
+- **Date:** 2026-11-04
+- **Decision:**
+  - After the citation check (D-14), the assistant compares each answer with the passages it cites. It withholds the answer (refusal reason `unsupported`) when under 50% of its content words appear in those passages, or when it states a number found neither in them nor in the question. Whole numbers 0–10 are ignored.
+  - The threshold is a site setting (*Support threshold*, default 0.5); the score is logged per answer (`supportscore`) and in the audit results.
+  - With cross-lingual retrieval (D-17), only the number check applies.
+- **Rationale:** the Gate 1 rehearsal (DE A-12) showed invented answers, including a cholera ORS dose, passing D-14 because they carried citation markers. Prop §1.2 and §2.2 require answers traceable to approved sources and protection from unsupported AI output. Calibrated on the rehearsal answers and re-run (DE A-13): out-of-scope answered 6 → 1, no anchored answer withheld.
+- **Alternatives:** a higher retrieval threshold (rejected: out-of-scope scores overlap in-scope ones, see the threshold sweep); a second model call to judge support (more cost and latency, and a model judging a model; reconsider if the lexical check proves too strict with the cloud model).
+- **Approver:** Fellow (2026-11-04). **Pending: advisory team** (with Gate 1).
+- **Status:** Approved by the fellow. Plugin 0.4.0.
+
 ---
 
 ## Template

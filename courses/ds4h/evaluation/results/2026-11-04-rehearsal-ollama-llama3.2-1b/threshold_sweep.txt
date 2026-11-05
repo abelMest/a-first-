@@ -1,0 +1,35 @@
+items 50: in scope 40, out of scope 10
+status (in scope): {'answered': 31, 'refused': 9}
+status (out of scope): {'answered': 6, 'refused': 4}
+refusal reasons (all): {'uncited': 3, 'model_declined': 10}
+in-scope answered with expected anchor in cited passages: 25
+latency ms: median 4526, p90 7768, max 12185
+top_score in scope:  min 3.89 median 14.92
+top_score out scope: max 12.12 median 8.39
+
+threshold | in-scope answered | anchored | in-scope refused | out-of-scope answered
+      0.0 |                31 |       25 |                9 |                     6
+      0.5 |                31 |       25 |                9 |                     6
+      1.0 |                31 |       25 |                9 |                     6
+      1.5 |                31 |       25 |                9 |                     6
+      2.0 |                31 |       25 |                9 |                     6
+      2.5 |                31 |       25 |                9 |                     6
+      3.0 |                31 |       25 |                9 |                     6
+      3.5 |                31 |       25 |                9 |                     6
+      4.0 |                30 |       25 |               10 |                     6
+      4.5 |                30 |       25 |               10 |                     6
+      5.0 |                30 |       25 |               10 |                     5
+      5.5 |                30 |       25 |               10 |                     5
+      6.0 |                29 |       24 |               11 |                     5
+      6.5 |                29 |       24 |               11 |                     4
+      7.0 |                29 |       24 |               11 |                     4
+      7.5 |                28 |       23 |               12 |                     4
+      8.0 |                27 |       22 |               13 |                     4
+      8.5 |                25 |       21 |               15 |                     3
+      9.0 |                25 |       21 |               15 |                     2
+      9.5 |                25 |       21 |               15 |                     1
+     10.0 |                24 |       20 |               16 |                     1
+     10.5 |                23 |       20 |               17 |                     1
+     11.0 |                22 |       19 |               18 |                     1
+     11.5 |                22 |       19 |               18 |                     1
+     12.0 |                21 |       18 |               19 |                     1

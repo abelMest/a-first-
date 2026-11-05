@@ -19,7 +19,8 @@ Criteria are the plan's own (Plan v3 §7, D-11). All must be met, and the adviso
 | 1.3 | Out-of-scope questions are refused | The 10 out-of-scope items in the audit set | Fellow | Pending |
 | 1.4 | Bias audit done: 3 language groups × 5 topic areas, WHO-adapted checklist, one external reviewer (Prop §3.9) | `courses/ds4h/evaluation/bias_audit_sample.csv` scored with `evaluation/fairness_checklist.md` | Fellow, external reviewer | Pending: reviewer not named (Q2); FR/PT wording unchecked |
 | 1.5 | Model chosen from the evaluation matrix: 2 open and 2 cloud models on accuracy, latency and cost (Plan §6, Sprint 3) | Audit runs per provider instance | Fellow, admin | Pending: cloud provider and key (Q4) |
-| 1.6 | Grounding threshold set from the audit (not the default 3.0) | Threshold recorded in `DECISION_LOG.md` | Fellow | Pending |
+| 1.6 | Grounding threshold set from the audit (not the default 3.0) | Threshold recorded in `DECISION_LOG.md` | Fellow | Pending. Rehearsal (DE A-12): retrieval scores alone cannot separate out-of-scope questions, so the threshold is a weak filter |
+| 1.10 | Answers whose facts are not in the cited passages are withheld (support check), verified by re-running the audit | Audit results | Fellow | Built in plugin 0.4.0 (D-20). Rehearsal run 2: out-of-scope answered 6 → 1, no anchored answer withheld (DE A-13). Re-verify on the cloud model |
 | 1.7 | Ethics status allows a beta, and the cloud provider's data handling is covered (Prop §3.6, §3.9) | Ethics correspondence | Fellow, supervisor | Pending (Q1, Q4) |
 | 1.8 | Plugin tests pass on Moodle 5.0 (PHPUnit and Behat) | CI or local run log | Fellow | Done locally (2026-10-26); re-run on the release tag |
 | 1.9 | Advisory team decision recorded | `DECISION_LOG.md` entry | Advisory team | Pending |
