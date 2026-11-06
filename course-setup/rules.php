@@ -40,6 +40,7 @@ function afirst_cs_validate_config($config): array {
         return $errors;
     }
     $seen = [];
+    $diagnostics = [];
     foreach ($config['modules'] as $code => $m) {
         $code = (string)$code;
         if (!is_array($m)) {
@@ -52,6 +53,8 @@ function afirst_cs_validate_config($config): array {
             $v = $m[$key] ?? null;
             if ($v !== null && (!is_int($v) || $v <= 0)) {
                 $errors[] = "modules.$code.$key must be a positive integer or null";
+            } else if ($v !== null && $key === 'diagnostic_cmid') {
+                $diagnostics[$v][] = "$code.$key"; // One diagnostic may cover several sub-modules (D-23).
             } else if ($v !== null) {
                 $seen[$v][] = "$code.$key";
             }
@@ -74,6 +77,11 @@ function afirst_cs_validate_config($config): array {
     foreach ($seen as $cmid => $uses) {
         if (count($uses) > 1) {
             $errors[] = "cmid $cmid is used more than once: " . implode(', ', $uses);
+        }
+    }
+    foreach ($diagnostics as $cmid => $uses) {
+        if (isset($seen[$cmid])) {
+            $errors[] = "cmid $cmid is a diagnostic and also: " . implode(', ', $seen[$cmid]);
         }
     }
     return $errors;

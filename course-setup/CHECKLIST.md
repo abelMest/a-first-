@@ -1,157 +1,95 @@
-# Course 2 setup checklist: competencies, diagnostics, restrict access
+# ADAPTIVE setup checklist: diagnostics, review units, restrict access, competencies
 
-This checklist covers the ADAPTIVE layer for *Data Science for Health* (course id 2) using Moodle 5.0 core features only. Do it first on the local docker Moodle (`dev/`). Production (`10.215.70.14`) is changed only with the project lead's go-ahead at deployment time (Sprint 8).
+This checklist sets up the ADAPTIVE layer (Stage 2, [`docs/STAGE_GATES.md`](../docs/STAGE_GATES.md)) on a Moodle 5.0 course with core features only, plus four repeatable CLI scripts. It was run end to end on the local docker Moodle (`dev/`) on 2026-11-06, on *Data Science & Analytics for Public Health* restored without user data (dev course 4). Production (`10.215.70.14`) is changed only with the project lead's go-ahead, after Gate 1.
 
 ## What is in this folder, and what is per course
 
-The tools here work for any course. Each course's data lives in its own folder, `courses/<course>/`. The pilot course is `courses/ds4h/`. To add another course, follow [`docs/ONBOARDING_A_COURSE.md`](../docs/ONBOARDING_A_COURSE.md).
+The tools work for any course. Each course's data lives in `courses/<course>/`; the pilot course is `courses/ds4h/`. To add another course, follow [`docs/ONBOARDING_A_COURSE.md`](../docs/ONBOARDING_A_COURSE.md).
 
 | File | Purpose |
 |---|---|
-| `taxonomy_to_csv.py` | Turns `courses/<course>/taxonomy.json` into the import CSV and the prerequisite file (`--course=<course>`). |
-| `generate_course_config.php` | Reads a live course and writes a draft `course_config.json` with the cmids filled in, for review. |
-| `rules.php` | The rules as pure functions, with no Moodle dependency. |
-| `apply_course_config.php` | Moodle CLI script that writes the restrict-access rules. Supports `--dry-run` and is idempotent. |
-| `selfcheck.php` | Plain-PHP tests for `rules.php`. |
+| `build_diagnostics.php` | Builds the module diagnostics from `diagnostics_map.json` (copies the Placement Test's settings, adds the listed bank questions). Idempotent, `--dry-run`. |
+| `microlearning.php` | Pure functions that extract a review unit (objectives, key points, key terms) word for word from course text and write the H5P content. |
+| `build_microlearning.php` | Builds one hidden H5P review unit and one hidden retake per sub-module, placed after its Knowledge Check, and writes the `.h5p` files and `REVIEW.md`. `--show` / `--hide` after owner review. |
+| `import_competencies.php` | Imports the competency CSV (core `tool_lpimportcsv`) and links module competencies to the course, Knowledge Checks and retakes. |
+| `rules.php` | The restrict-access rules as pure functions, with no Moodle dependency. |
+| `apply_course_config.php` | Writes the restrict-access rules from `course_config.json`. Idempotent, `--dry-run`, `--replace`. |
+| `generate_course_config.php` | Drafts a `course_config.json` from a course whose sections are one sub-module each. Courses with several sub-modules per section (like ds4h) need the config written by hand. |
+| `taxonomy_to_csv.py` | Turns `courses/<course>/taxonomy.json` into the competency CSV and the prerequisite file. |
+| `selfcheck.php` | Plain-PHP tests for `rules.php` and `microlearning.php` (41 checks). |
 
 | Per-course file (`courses/<course>/`) | Purpose |
 |---|---|
-| `taxonomy.json` | Modules, competencies, prerequisites and recommended microlearning. |
-| `competency_framework_<framework_id>.csv` | Generated output, ready for **Import competency framework**. For ds4h: 1 framework row, 9 module parents (`MOD-1.1` to `MOD-4.3`) and 35 competencies (`COMP-x.y.z`). |
-| `competency_prerequisites.json` | Generated output (ds4h: 40 directed prerequisite edges). Not imported, because Moodle cross-references are symmetric. |
-| `diagnostics_map.json` | Which placement-test questions go into each module diagnostic. |
-| `course_config.json` | Module → diagnostic, knowledge check, content, microlearning and retake cmids. Read by the script. |
-| `evaluation/` | The course's audit set and bias sample (format in `evaluation/README.md`). |
+| `diagnostics_map.json` | Each module diagnostic: ID number, name, sub-modules and question bank entry ids. |
+| `course_config.json` | Sub-module → diagnostic, Knowledge Check, content, review unit and retake cmids, and the thresholds. |
+| `competency_framework_<id>.csv` | Generated competency import (ds4h: 1 framework, 9 module parents `MOD-x.y`, 35 competencies `COMP-x.y.z`). |
+| `microlearning/` | The built `.h5p` review units and `REVIEW.md`, the content owner's review sheet. |
+| `taxonomy.json`, `competency_prerequisites.json`, `evaluation/` | Source taxonomy, prerequisite edges (not imported), audit and bias sets. |
 
-The rules applied to each module:
+The rules for each sub-module (thresholds in `course_config.json`):
 
-- **Fast-track:** the module knowledge check opens when the learner has completed the module content (SCORM) **or** scored ≥ 90% on the module diagnostic.
-- **Remediation:** each H5P microlearning unit for the module opens only when the knowledge check grade is **below 80%**. It is hidden until then.
-- **Retake (optional):** a separate retake quiz opens when the knowledge check is below 80% **and** all of the module's microlearning units are complete.
+- **Fast-track:** the Knowledge Check opens when the learner has completed the sub-module's SCORM **or** scored ≥ 90% on the module's diagnostic (one diagnostic per module, D-23).
+- **Remediation:** the "Review: Module X.Y" unit opens when the Knowledge Check grade is **below 70%**, the course pass mark (D-22). It is invisible to everyone else.
+- **Retake:** "Module X.Y Knowledge Check (retake)" opens when the Knowledge Check is below 70% **and** the review unit is complete (viewed).
 
-Thresholds are set in `course_config.json`. Gating is per module, not per competency, because individual quiz questions don't reach the gradebook.
+Gating is per sub-module, not per competency, because individual quiz questions don't reach the gradebook.
 
-> **Behaviour change to agree before production:** knowledge checks are open to everyone today. After the script runs, a learner who hasn't completed the module's SCORM package and hasn't fast-tracked will see the knowledge check as locked. The existing quiz text says "70% to access the next module", but nothing enforces it. The new remediation threshold is 80%. Update the quiz intro text to match.
+> **Behaviour change to agree before production:** Knowledge Checks are open to everyone today. After the rules are applied, a learner who hasn't completed the SCORM and hasn't fast-tracked sees the Knowledge Check as locked. This enforces what the quiz text already says ("pass it (70% or higher) to continue").
 
 ## Steps
 
-Each step lists who does it and what it needs.
+All scripts run from the Moodle root as the web-server user. On the dev stack, copy `course-setup/` and `courses/` into the container (e.g. `/opt/afirst`) and use `afirst_exec`. Every script refuses a site that is not `localhost`, `*.localhost` or `*.test` unless `--allow-host` is given; pass it only on production, with the go-ahead.
 
-### 1. Enable the site features
-**Who:** site admin.
+### 1. Site features (site admin)
+Site administration › Advanced features: **Enable restricted access**, **Enable completion tracking**, **Competencies**. Plugins › Availability restrictions: **Grade** and **Activity completion** enabled. In the course settings, **Completion tracking = Yes**. Then fetch the H5P content types: run the scheduled task `\core\task\h5p_get_content_types_task` (needs internet access to h5p.org).
 
-Go to Site administration › General › Advanced features and turn on:
-- **Enable restricted access** (`enableavailability`)
-- **Enable completion tracking** (`enablecompletion`)
-- **Competencies** (`core_competency | enabled`, under Site administration › Competencies › Competencies settings)
-
-Then go to Plugins › Availability restrictions › Manage restrictions and check that **Grade** and **Activity completion** are enabled.
-
-### 2. Course settings
-**Who:** teacher or manager on course 2.
-
-In Course › Settings › Completion tracking, set **Enable completion tracking = Yes**.
-
-Each SCORM package (cms 11, 13, 15, 17, 21, 23, 27, 29, 31) and each new H5P activity needs completion conditions. The local dump shows SCORMs already set to automatic completion, but confirm it.
-
-### 3. Import the competency framework
-**Who:** site admin, or a user with `moodle/competency:competencymanage` at system level.
-
-1. Run:
-   ```bash
-   python taxonomy_to_csv.py --course=ds4h
-   ```
-   For ds4h it must report 9 module parents and 35 child competencies.
-2. Go to Site administration › Competencies › **Import competency framework**. Upload `courses/ds4h/competency_framework_A-FIRST-DS4H-V1.csv` with separator **comma** and encoding **UTF-8**.
-3. On the column-mapping screen, every header should map to itself. Confirm.
-4. Check the result:
-   - The framework `A-FIRST-DS4H-V1` uses the "Default competence scale" (Not yet competent / Competent). If no matching scale exists, the importer creates one.
-   - The taxonomies are *domain* at level 1 and *competency* at level 2.
-   - There are 9 domains, each with its competencies.
-
-### 4. Link competencies to the course and activities
-**Who:** teacher with `moodle/competency:coursecompetencymanage`.
-
-1. In Course › More › **Competencies**, add all 35 competencies (or the 9 module parents plus children).
-2. In each activity's settings › Competencies, link the module's competencies to:
-   - the **knowledge check**
-   - the new **diagnostic**
-   - each **H5P microlearning** unit
-
-   Each competency's `recommended_microlearning` in the taxonomy names its unit. Set "Upon activity completion" to **Attach evidence**, so ratings stay a teacher decision.
-3. Optional: use `competency_prerequisites.json` to order learning-plan templates. Moodle doesn't enforce prerequisites.
-
-### 5. Create the 9 module diagnostics
-**Who:** teacher with question-bank access to course 2.
-
-Do not edit the Placement Test (quiz 1, cm 10). It keeps all 27 questions for the baseline and endline scores.
-
-For each module in `diagnostics_map.json`:
-1. Add a Quiz in the module's course section, before the SCORM. Name it `Module X.Y Diagnostic` and set ID number `AFIRST-DIAG-X.Y`.
-   - Grade to pass: 90%
-   - Attempts allowed: 1
-   - Grading method: highest grade
-   - Completion: "receive a grade"
-2. Add the three questions listed under `questions` from the existing course question bank. They are the same question bank entries the placement test uses: search by topic or name, since the UI shows names, not entry ids. Give each question a mark of 1.
-3. Write down the new cmid (shown as `?id=` in the URL) and put it in `course_config.json` as `diagnostic_cmid`.
-
-### 6. Add the microlearning and (optionally) retakes
-**Who:** teacher.
-
-1. Add each module's H5P activity (from the content bank) with completion set to "view" or "receive a grade". Put its cmid in `microlearning_cmids`.
-2. Choose a retake option:
-   - **(a)** Allow 2 attempts on the knowledge check. This is the simplest, but the second attempt is not gated behind the microlearning.
-   - **(b)** Add a separate "Module X.Y Knowledge Check (retake)" quiz using the same questions, and put its cmid in `retake_cmid`. The script then gates it.
-
-### 7. Run the script
-**Who:** server admin with shell access to the Moodle host, running as the web-server user.
-
-Copy this folder to the server, outside the web root. From the Moodle root:
-
+### 2. Diagnostics
 ```bash
-sudo -u www-data php /path/to/course-setup/selfcheck.php
+php /opt/afirst/course-setup/build_diagnostics.php --courseid=4 --map=/opt/afirst/courses/ds4h/diagnostics_map.json --dry-run
+php /opt/afirst/course-setup/build_diagnostics.php --courseid=4 --map=/opt/afirst/courses/ds4h/diagnostics_map.json
 ```
+Expect: the Placement Test gets ID number `AFIRST-DIAG-M1`; three "Module N diagnostic (optional)" quizzes are created with 10 questions each, no completion requirement. A rerun prints "unchanged" four times. Write the cmids into `course_config.json` (`diagnostic_cmid`; sub-modules of one module share it).
 
+### 3. Review units and retakes
 ```bash
-sudo -u www-data php /path/to/course-setup/apply_course_config.php --config=/path/to/courses/ds4h/course_config.json --dry-run
+php /opt/afirst/course-setup/build_microlearning.php --courseid=4 --outdir=/opt/afirst/out --dry-run
+php /opt/afirst/course-setup/build_microlearning.php --courseid=4 --outdir=/opt/afirst/out
 ```
+Expect: per sub-module, a hidden "Review: Module X.Y" (H5P, completion on view, attempt tracking, no share buttons) and a hidden retake, in the order Knowledge Check → Review → Retake. Copy `out/` to `courses/<course>/microlearning/` and send `REVIEW.md` to the content owner. Write the cmids into `course_config.json` (`microlearning_cmids`, `retake_cmid`).
 
-Read the dry run:
-- Every activity is listed as CREATE, UPDATE, UNCHANGED or CONFLICT, with the planned availability JSON.
-- WARNING and NOTICE lines name missing settings or activities that aren't created yet.
-- CONFLICT means the activity already has hand-made restrictions. They are kept unless you add `--replace`.
+After the owner approves (Gate 2.3), show the approved units: `--show --codes=1.1,1.2,...`. A rejected unit stays hidden; replace its package (Nolej or the H5P editor) or rebuild with `--update-package`.
 
-Then apply:
-
+### 4. Restrict access
 ```bash
-sudo -u www-data php /path/to/course-setup/apply_course_config.php --config=/path/to/courses/ds4h/course_config.json
+php /opt/afirst/course-setup/selfcheck.php
+php /opt/afirst/course-setup/apply_course_config.php --config=/opt/afirst/courses/ds4h/course_config.json --dry-run
+php /opt/afirst/course-setup/apply_course_config.php --config=/opt/afirst/courses/ds4h/course_config.json
 ```
+Read the dry run: each activity is CREATE, UPDATE, UNCHANGED or CONFLICT (hand-made restrictions, kept unless `--replace`). A rerun must report only UNCHANGED. Take a course backup first on production.
 
-Running it again should report only UNCHANGED. Changing a threshold and re-running updates the rules the script wrote, in place.
+### 5. Competencies
+```bash
+python taxonomy_to_csv.py --course=ds4h
+php /opt/afirst/course-setup/import_competencies.php --csv=/opt/afirst/courses/ds4h/competency_framework_A-FIRST-DS4H-V1.csv --config=/opt/afirst/courses/ds4h/course_config.json
+```
+Expect: 44 competencies imported (skipped if the framework exists), the 9 module competencies linked to the course and to each Knowledge Check and retake with "Attach evidence" on completion, so ratings stay a teacher decision.
 
-Take a course backup before running it on production.
+### 6. Verify as test learners (never real learners)
+On dev, `dev/simulate_attempt.php` makes test learners and scripted attempts through the core quiz API, and `--report` lists what a learner can open.
 
-### 8. Verify as test students
-**Who:** teacher with "Log in as", or test accounts. Use local or beta test users only, never real learners.
+| Test learner | Do | Expect | Dev result (2026-11-06) |
+|---|---|---|---|
+| A (strong) | 10/10 on the Module 2 diagnostic | Knowledge Checks 2.1 and 2.2 open without the SCORM | ✔ student1 |
+| B (gap) | Below 70% on Knowledge Check 1.1 (units shown) | Review 1.1 appears; the retake opens after the review is viewed | ✔ student2 (20%); unit played in the browser |
+| C (new) | Nothing yet | Every Knowledge Check locked with its "any of" conditions; reviews invisible | ✔ student3 |
+| D (pass) | ≥ 70% on a Knowledge Check | No review or retake | Covered by `selfcheck.php` threshold checks |
 
-| Test student | Do | Expect |
-|---|---|---|
-| A (strong) | Score 3/3 on the Module 1.1 diagnostic | Knowledge check 1.1 opens without the SCORM. H5P 1.1 stays hidden. |
-| B (normal) | Score 1/3 on the diagnostic, complete the SCORM | Knowledge check opens after the SCORM is complete. |
-| C (gap) | As B, then score < 80% on the knowledge check | H5P 1.1 appears. The retake (if any) opens after the H5P is complete. |
-| D (pass) | As B, then score ≥ 80% on the knowledge check | No H5P or retake shown. |
+Also check Reports › Competency breakdown after completions. Grades may need cron (`php admin/cli/cron.php`) before availability updates.
 
-Also check that the activity's **Restrictions** text shows on the course page for knowledge checks, and that Reports › Competency breakdown shows evidence after completions. Grades can take a moment to reach the gradebook; if needed, run cron, or `php admin/cli/cron.php` locally.
+## Known limits
 
-## Known limits and what was not tested
-
-- `apply_course_config.php` has passed `php -l` (PHP 8.3), and the rule logic has passed `selfcheck.php` (28 checks: rule shapes, threshold edges, skipping on missing activities, idempotency, conflict and `--replace`). The Moodle-facing parts haven't been run against a Moodle instance yet:
-  - the grade-item lookup
-  - `core_availability\tree` validation
-  - the write, the cache rebuild and the event
-  - the enabled-feature checks
-
-  Run it first on the local docker Moodle (plan › Verification step 2).
-- The CSV column layout was checked against the `MOODLE_500_STABLE` source of `tool_lpimportcsv`: `framework_importer::read_mapping_data()` and the language strings. It hasn't been imported into a real site yet.
-- The ds4h cmids in `course_config.json` and `diagnostics_map.json` come from the local dump `afirst_db_phase2_evaluated.sql.gz`. A backup/restore into the dev site renumbers them, so update the config there.
-- The availability is written with the DML API (`$DB->set_field` on `course_modules.availability`, then `rebuild_course_cache`), the same as core's `\core_availability\info::update_dependency_id_across_course()`. Moodle has no `set_coursemodule_availability()`; the `set_coursemodule_*` helpers cover visibility, ID number and the like, not availability. No raw SQL is used.
+- The ds4h cmids are those of the dev restore. A backup/restore renumbers them: rebuild with the scripts on the target site (they find activities by ID number and name) and update `course_config.json`.
+- Review units are rule-based extracts: depth varies (0–9 key terms), and some objectives copied from the course look misplaced (Module 4.1 lists "prepare abstracts, posters, or slides"). The owner review is the quality gate.
+- Retakes reuse the Knowledge Check's questions.
+- Moodle core logs each step of the backup/restore behind `duplicate_module()` to the CLI; that output is harmless.
+- The final "Quiz" in *Final Course Activities & Assessment* holds questions from a different course (preparedness). It is untouched and flagged for the content owner (`docs/PLAN_VS_ACTUAL.md`).

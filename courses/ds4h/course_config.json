@@ -1,20 +1,20 @@
 {
-  "_comment": "Course 2 (Data Science for Health). knowledgecheck_cmid and content_cmids come from the local dump afirst_db_phase2_evaluated.sql.gz (quiz 2-10 and SCORM 1-9); re-check them on the target site. Fill diagnostic_cmid, microlearning_cmids and (optionally) retake_cmid after creating those activities; null or [] means 'not created yet' and the matching rule is skipped.",
-  "courseid": 2,
+  "_comment": "DS4H course as restored on the local dev site without user data (course 4). cmids are those of the dev restore; re-check them on any other site (they change on backup/restore). Diagnostics are per course module (D-23): one cmid covers that module's sub-modules (cm 9 is the Placement Test, Module 1). Review units (h5pactivity) and retakes were built by course-setup/build_microlearning.php and stay hidden until the content owner approves them. Thresholds: fast-track at 90% (9/10 on a diagnostic); remediation below 70%, the course pass mark (D-22). The previous version (old production course 2 ids) is in git history.",
+  "courseid": 4,
   "thresholds": {
     "fasttrack_min_percent": 90,
-    "remediation_below_percent": 80
+    "remediation_below_percent": 70
   },
   "hide_microlearning_until_unlocked": true,
   "modules": {
-    "1.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 12, "content_cmids": [11], "microlearning_cmids": [], "retake_cmid": null},
-    "1.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 14, "content_cmids": [13], "microlearning_cmids": [], "retake_cmid": null},
-    "2.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 16, "content_cmids": [15], "microlearning_cmids": [], "retake_cmid": null},
-    "2.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 18, "content_cmids": [17], "microlearning_cmids": [], "retake_cmid": null},
-    "3.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 22, "content_cmids": [21], "microlearning_cmids": [], "retake_cmid": null},
-    "3.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 24, "content_cmids": [23], "microlearning_cmids": [], "retake_cmid": null},
-    "4.1": {"diagnostic_cmid": null, "knowledgecheck_cmid": 28, "content_cmids": [27], "microlearning_cmids": [], "retake_cmid": null},
-    "4.2": {"diagnostic_cmid": null, "knowledgecheck_cmid": 30, "content_cmids": [29], "microlearning_cmids": [], "retake_cmid": null},
-    "4.3": {"diagnostic_cmid": null, "knowledgecheck_cmid": 32, "content_cmids": [31], "microlearning_cmids": [], "retake_cmid": null}
+    "1.1": {"diagnostic_cmid": 9, "knowledgecheck_cmid": 11, "content_cmids": [10], "microlearning_cmids": [42], "retake_cmid": 43},
+    "1.2": {"diagnostic_cmid": 9, "knowledgecheck_cmid": 13, "content_cmids": [12], "microlearning_cmids": [44], "retake_cmid": 45},
+    "2.1": {"diagnostic_cmid": 38, "knowledgecheck_cmid": 15, "content_cmids": [14], "microlearning_cmids": [46], "retake_cmid": 47},
+    "2.2": {"diagnostic_cmid": 38, "knowledgecheck_cmid": 17, "content_cmids": [16], "microlearning_cmids": [48], "retake_cmid": 49},
+    "3.1": {"diagnostic_cmid": 39, "knowledgecheck_cmid": 21, "content_cmids": [20], "microlearning_cmids": [50], "retake_cmid": 51},
+    "3.2": {"diagnostic_cmid": 39, "knowledgecheck_cmid": 23, "content_cmids": [22], "microlearning_cmids": [52], "retake_cmid": 53},
+    "4.1": {"diagnostic_cmid": 40, "knowledgecheck_cmid": 27, "content_cmids": [26], "microlearning_cmids": [54], "retake_cmid": 55},
+    "4.2": {"diagnostic_cmid": 40, "knowledgecheck_cmid": 29, "content_cmids": [28], "microlearning_cmids": [56], "retake_cmid": 57},
+    "4.3": {"diagnostic_cmid": 40, "knowledgecheck_cmid": 31, "content_cmids": [30], "microlearning_cmids": [58], "retake_cmid": 59}
   }
 }

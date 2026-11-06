@@ -5,7 +5,7 @@ A-FIRST is built and released one layer at a time (D-19). Each layer starts only
 | Stage | Layer | Window (Prop §4.1, monthly sprints) | Status |
 |---|---|---|---|
 | 1 | **BASIC**: source-grounded assistant | Now → end of Sprint 6 (November 2026) | **In progress.** Plugin built and tested on local Moodle; gate not yet run |
-| 2 | **ADAPTIVE**: diagnostics, fast-track, remediation | Opens when Gate 1 passes → Sprints 7–8 | **Not started.** Tooling exists in `course-setup/`; not applied to any course |
+| 2 | **ADAPTIVE**: diagnostics, fast-track, remediation | Opens when Gate 1 passes → Sprints 7–8 | **Built on the local dev site only** (2026-11-06, D-22–D-24): diagnostics, review units, retakes, rules and competencies on the restored DS4H course; review units hidden pending owner review. Nothing in production; the stage formally opens when Gate 1 passes |
 | 3 | **READINESS**: scenario-based readiness | Opens when Gate 2 passes | **Parked.** v1 exists in `report/afirst_readiness/` (D-18); not deployed |
 
 ## Gate 1: BASIC go/no-go (end of Sprint 6)
@@ -31,15 +31,15 @@ Criteria are the plan's own (Plan v3 §7, D-11). All must be met, and the adviso
 
 ## Gate 2: ADAPTIVE ready for the pilot (end of Sprint 8)
 
-| # | Criterion | Evidence | Owner |
-|---|---|---|---|
-| 2.1 | BASIC running in production with no open critical issues | Smoke test (DEPLOYMENT §7), reviewer queue | Fellow |
-| 2.2 | Competency framework imported and linked; 9 per-module diagnostics built from the existing question bank | Moodle course 2 | Fellow, content owner |
-| 2.3 | 9 H5P microlearning units built and reviewed by the content owner (D-05) | Content bank | Content owner |
-| 2.4 | Fast-track (diagnostic ≥ 90%) and remediation (knowledge check < 80%) rules verified as test students | `course-setup/CHECKLIST.md` sign-off | Fellow |
-| 2.5 | Beta with 3–5 volunteers covering BASIC and ADAPTIVE; critical issues fixed (Prop §4.1 Sprint 8) | Beta notes, DE log | Fellow |
-| 2.6 | Synthetic Phase 2 data purged before the Sprint 9 baseline (D-13) | Purge record | Admin |
-| 2.7 | Advisory team decision recorded | `DECISION_LOG.md` | Advisory team |
+| # | Criterion | Evidence | Owner | Status (2026-11-06) |
+|---|---|---|---|---|
+| 2.1 | BASIC running in production with no open critical issues | Smoke test (DEPLOYMENT §7), reviewer queue | Fellow | Pending (Gate 1) |
+| 2.2 | Competency framework imported and linked; module diagnostics built from the existing question bank (4 × 10 questions, D-23) | `course-setup/build_diagnostics.php`, `import_competencies.php` | Fellow, content owner | **Done on dev**: 4 diagnostics (Placement Test + 3 new, 10 bank questions each); 44 competencies imported, the 9 module competencies linked to the course, Knowledge Checks and retakes (evidence on completion). Repeat on the production course after Gate 1 |
+| 2.3 | 9 H5P microlearning units built and reviewed by the content owner (D-05, D-24) | `courses/ds4h/microlearning/REVIEW.md` signed | Content owner | **Built, awaiting review.** 9 units copied word for word from the SCORM text, hidden from learners. The owner marks each unit in `REVIEW.md`; then `build_microlearning.php --show` |
+| 2.4 | Fast-track (diagnostic ≥ 90%) and remediation (knowledge check < 70%, D-22) rules verified as test students | `course-setup/CHECKLIST.md` sign-off | Fellow | **Verified on dev** with scripted attempts (`dev/simulate_attempt.php`) and the browser: 10/10 on the Module 2 diagnostic opened both Module 2 Knowledge Checks without the SCORM; 20% on Knowledge Check 1.1 opened Review 1.1, and viewing it opened the retake; a learner with no attempts saw every Knowledge Check locked |
+| 2.5 | Beta with 3–5 volunteers covering BASIC and ADAPTIVE; critical issues fixed (Prop §4.1 Sprint 8) | Beta notes, DE log | Fellow | Pending |
+| 2.6 | Synthetic Phase 2 data purged before the Sprint 9 baseline (D-13) | Purge record | Admin | Pending |
+| 2.7 | Advisory team decision recorded | `DECISION_LOG.md` | Advisory team | Pending |
 
 **When Gate 2 passes:** the pilot launches at Sprint 9 with BASIC and ADAPTIVE. Stage 3 may open.
 

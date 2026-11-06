@@ -341,6 +341,32 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-06). **Pending: advisory team.**
 - **Status:** Approved by the fellow. Plugin 0.5.0, dev-tested.
 
+### D-22: Remediation below the course pass mark (70%), not 80%
+- **Date:** 2026-11-06
+- **Decision:** a Knowledge Check score **below 70%** opens the sub-module's review unit and then a retake. Fast-track stays at **90%** on a module diagnostic.
+- **Rationale:** the course's own rule is "pass it (70% or higher) to continue", and every Knowledge Check has a 70% pass grade. A learner who passes at 70–79% would otherwise be sent to remediate a check the course says they passed. Supersedes the 80% value in D-09.
+- **Alternatives:** 80% as planned (D-09): more learners get remediation, but it contradicts the course pass mark.
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team.**
+- **Status:** Approved by the fellow. Applied on the dev site only.
+
+### D-23: Four module diagnostics of 10 questions, instead of nine of three
+- **Date:** 2026-11-06
+- **Decision:** one optional diagnostic per course module (1–4), 10 questions each, from the course's own question bank: Module 1 is the existing Placement Test; Modules 2–4 use the 30 bank questions no quiz used yet. A score of ≥ 90% (9/10) opens all of that module's Knowledge Checks without its SCORM. Built by `course-setup/build_diagnostics.php` from `courses/ds4h/diagnostics_map.json`.
+- **Rationale:** the restored course's Placement Test has 10 questions, all on Module 1, so the planned split of a 27-question test into nine 3-question diagnostics (D-09) is not possible here. A skip decided on 3 questions is also unreliable (one lucky guess is 33%). Ten questions per module keeps the decision sound and uses only existing, reviewed questions.
+- **Cost:** fast-tracking is per module, not per sub-module (e.g. 2.1 and 2.2 together).
+- **Alternatives:** nine sub-module tests of 2–7 questions (rejected: too few questions); Knowledge Checks as a test-out (rejected: the same questions would serve as pre- and post-test).
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team, content owner.**
+- **Status:** Approved by the fellow. Built on the dev site.
+
+### D-24: Review units extracted from the SCORM text, reviewed by the content owner
+- **Date:** 2026-11-06
+- **Decision:** the 9 remediation units ("Review: Module X.Y") are H5P activities built automatically from each module's own SCORM text by `course-setup/build_microlearning.php` (rules in `course-setup/microlearning.php`): learning objectives, key points (each course heading with the first sentences under it) and key-term cards (definition sentences). Every line is copied word for word; no model writes or paraphrases anything. They stay **hidden** until the content owner approves each one in `courses/ds4h/microlearning/REVIEW.md`. Each sub-module also gets a hidden retake (a copy of its Knowledge Check).
+- **Rationale:** no H5P had been authored, Nolej needs a Pro subscription and manual work for nine units, and the pilot needs remediation content traceable to approved course text. Extraction keeps the content owner's wording and gives a reviewable sheet with line numbers.
+- **Limitations:** a review repeats module text rather than teaching it a new way; extraction is rule-based, so depth varies (Module 2.2 has no key terms, 1.1 has nine); the retake uses the same questions as the Knowledge Check. The Nolej web app or Moodle's H5P editor remain the way to replace a unit the owner rejects. The plan's Python packager was not needed: packaging is in PHP so `selfcheck.php` can test it.
+- **Alternatives:** Moodle Book/Page activities (rejected: deviates from the H5P choice, D-05); placeholders for the content team (rejected: leaves the route untestable).
+- **Approver:** Fellow (2026-11-06). **Pending: content owner (Gate 2.3), advisory team.**
+- **Status:** Built on the dev site, hidden from learners.
+
 ---
 
 ## Template

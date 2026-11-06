@@ -21,12 +21,19 @@ function check(bool $ok, string $label): void {
 
 $fakegrade = fn(int $cmid): ?int => 1000 + $cmid;
 
-// 1. The shipped config is valid and, with nothing created yet, plans nothing.
+// 1. The shipped config is valid and plans all three rules for each of the 9 sub-modules.
 $real = json_decode(file_get_contents(__DIR__ . '/../courses/ds4h/course_config.json'), true);
 check(afirst_cs_validate_config($real) === [], 'courses/ds4h/course_config.json validates');
 [$plan, $notices] = afirst_cs_build_plan($real, $fakegrade);
-check($plan === [], 'no diagnostics or microlearning yet: no activity is changed');
-check(count($notices) === 18, 'two notices per module (diagnostic, microlearning) = 18, got ' . count($notices));
+check(count($plan) === 27 && $notices === [], 'knowledge check, review unit and retake for 9 sub-modules = 27, got '
+    . count($plan) . ' with ' . count($notices) . ' notices');
+check($plan[11]['tree']['c'][1] === ['type' => 'grade', 'id' => 1009, 'min' => 90.0]
+    && $plan[13]['tree']['c'][1] === $plan[11]['tree']['c'][1], 'sub-modules 1.1 and 1.2 share the Module 1 diagnostic');
+
+// 1b. A diagnostic may be shared by sub-modules (D-23), but not reused in another role.
+$shared = $real;
+$shared['modules']['1.2']['content_cmids'] = [9];
+check(count(afirst_cs_validate_config($shared)) === 1, 'a diagnostic cmid also used as content is reported');
 
 // 2. Invalid configs are rejected.
 $bad = $real;
@@ -38,6 +45,7 @@ check(afirst_cs_validate_config('x') !== [], 'non-object config rejected');
 
 // 3. A fully filled module produces the three rules.
 $full = $real;
+$full['thresholds'] = ['fasttrack_min_percent' => 90, 'remediation_below_percent' => 80]; // Fixed, so the checks below do not follow the shipped config.
 $full['modules'] = [
     '1.1' => ['diagnostic_cmid' => 101, 'knowledgecheck_cmid' => 12, 'content_cmids' => [11],
         'microlearning_cmids' => [201], 'retake_cmid' => 301],
@@ -124,6 +132,31 @@ check($draft['2']['knowledgecheck_cmid'] === 22 && count($warnings) === 1, 'draf
 $draftconfig = ['courseid' => 5, 'thresholds' => ['fasttrack_min_percent' => 90, 'remediation_below_percent' => 80],
     'modules' => $draft];
 check(afirst_cs_validate_config($draftconfig) === [], 'draft config validates');
+
+// Review units: extraction only, verbatim (microlearning.php, D-24).
+require_once(__DIR__ . '/microlearning.php');
+$sample = "M9.9 Sample Module\n\nLearning Objectives\nBy the end of this module, you will be able to:\n\n"
+    . "define data literacy.\nexplain indicators.\n\nIntroduction\n\nWelcome to this module, which covers the basics of "
+    . "working with health data in practice.\n\nData Literacy Basics\nData literacy is the ability to read, understand, "
+    . "work with, and communicate data. It is not limited to statistics. It helps every day.\n\nNote\nThis callout "
+    . "should never become a key point because it is only a note label here.\n\nWhich statement is true?\n"
+    . "Indicators are always tables of raw values only.\nA dashboard is a single view of the most important indicators.\n\n"
+    . "A dashboard is a single view that brings together the most important indicators for a decision.\n"
+    . "Safe water is important, but the model also shows that delay to care matters more here.\n";
+$unit = afirst_ml_extract($sample);
+check(array_column($unit['objectives'], 'text') === ['define data literacy', 'explain indicators'], 'review: learning objectives');
+check(array_column($unit['panels'], 'title') === ['Data Literacy Basics'], 'review: content headings kept, Introduction and Note skipped');
+check($unit['panels'][0]['text'] === 'Data literacy is the ability to read, understand, work with, and communicate data. '
+    . 'It is not limited to statistics.', 'review: key point is the first two sentences, verbatim');
+check(array_column($unit['cards'], 'front') === ['Data literacy', 'Dashboard'],
+    'review: definitions become cards; quiz options and "X is important, but" comments do not');
+check(str_contains($sample, $unit['cards'][1]['back']), 'review: card back is a verbatim sentence');
+$versions = ['H5P.Column' => [1, 22], 'H5P.AdvancedText' => [1, 1], 'H5P.Accordion' => [1, 0], 'H5P.Dialogcards' => [1, 9]];
+$content = afirst_ml_content('9.9', 'Review', $unit, $versions);
+check(count($content['content']) === 4 && $content['content'][2]['content']['library'] === 'H5P.Accordion 1.0',
+    'review: H5P column has intro, heading, accordion and cards');
+check(afirst_ml_content('9.9', 'Review', $unit, $versions) == $content, 'review: package content is deterministic');
+check(afirst_ml_h5p_json('Review', $versions)['mainLibrary'] === 'H5P.Column', 'review: h5p.json main library');
 
 if (in_array('--print', $argv)) {
     echo "\nPlanned availability for the example config (grade item id = 1000 + cmid):\n";
