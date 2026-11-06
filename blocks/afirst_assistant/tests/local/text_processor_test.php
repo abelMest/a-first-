@@ -33,6 +33,12 @@ final class text_processor_test extends \basic_testcase {
         $this->assertSame('Data quality - the "five" dimensions', text_processor::clean($raw));
     }
 
+    public function test_terminate_lines_turns_headings_into_sentences(): void {
+        $text = "Data quality dimensions\nCompleteness checks reports.\nIs it timely?\n\nKey terms:\n- Validity";
+        $this->assertSame("Data quality dimensions.\nCompleteness checks reports.\nIs it timely?\n\nKey terms:\n- Validity.",
+            text_processor::terminate_lines($text));
+    }
+
     public function test_split_sentences_drops_fragments(): void {
         $text = 'Completeness checks expected reports arrived. Too short. Timeliness measures delay from event to report.';
         $this->assertSame([

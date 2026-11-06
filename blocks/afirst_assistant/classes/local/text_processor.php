@@ -79,6 +79,26 @@ class text_processor {
     }
 
     /**
+     * End every line with punctuation, so headings and list items become sentences of their own.
+     *
+     * Extracted course content (e.g. Rise SCORM) has headings and bullets without full stops; once whitespace is
+     * collapsed they would otherwise merge with the next sentence into one very long one.
+     *
+     * @param string $text Text with one block per line.
+     * @return string
+     */
+    public static function terminate_lines(string $text): string {
+        $lines = preg_split('/\R/u', $text);
+        foreach ($lines as $i => $line) {
+            $line = rtrim($line);
+            if ($line !== '' && !preg_match('/[.!?:;]["\')\]]?$/u', $line)) {
+                $lines[$i] = $line . '.';
+            }
+        }
+        return implode("\n", $lines);
+    }
+
+    /**
      * Split cleaned text into sentences, dropping short fragments.
      *
      * @param string $text Cleaned text.

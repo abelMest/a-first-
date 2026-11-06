@@ -42,6 +42,29 @@ Feature: Course assistant answers only from approved sources
     And I should see "What are the dimensions of data quality?"
 
   @javascript @_file_upload
+  Scenario: Learner uses the floating assistant button and the conversation follows them between pages
+    Given the following "activities" exist:
+      | activity | name                  | course | idnumber |
+      | page     | Module 1.2 Data notes | DS1    | page12   |
+    And I am on the "DS1" "Course" page logged in as "teacher1"
+    And I click on "Approved sources" "link" in the "Course assistant" "block"
+    And I set the field "Title shown to learners" to "Module 1.2 Data Governance"
+    And I upload "blocks/afirst_assistant/tests/fixtures/module12.txt" file to "File (.txt, .md or .html)" filemanager
+    And I press "Add a source document"
+    And I press "Approve"
+    And I log out
+    When I am on the "Module 1.2 Data notes" "page activity" page logged in as "student1"
+    Then I should see "Ask the course"
+    And I click on "Ask the course" "button"
+    And I should see "You are in Module 1.2"
+    And I click on "Accept and continue" "button"
+    And I set the field "Your question" to "Who won the football final?"
+    And I click on "Ask" "button" in the "form[data-region='ask-form']" "css_element"
+    And I should see "I can only answer from the approved course material"
+    And I am on the "DS1" "Course" page
+    And I should see "Who won the football final?"
+
+  @javascript @_file_upload
   Scenario: Teacher uploads a source and approves it
     Given I am on the "DS1" "Course" page logged in as "teacher1"
     When I click on "Approved sources" "link" in the "Course assistant" "block"

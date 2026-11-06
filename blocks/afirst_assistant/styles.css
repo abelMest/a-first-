@@ -25,3 +25,74 @@
     max-height: 12rem;
     overflow-y: auto;
 }
+
+/* Floating launcher: sits above Moodle's footer help button; logical properties so it mirrors for right-to-left. */
+.block_afirst_assistant-launcher .block_afirst_assistant-fab {
+    position: fixed;
+    inset-inline-end: 2rem;
+    inset-block-end: 5.5rem;
+    z-index: 1040;
+    border-radius: 2rem;
+    padding: 0.6rem 1.1rem;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.25);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.block_afirst_assistant-launcher.is-open .block_afirst_assistant-fab {
+    display: none;
+}
+
+.block_afirst_assistant-launcher .block_afirst_assistant-panel {
+    position: fixed;
+    inset-inline-end: 1.5rem;
+    inset-block-end: 1.5rem;
+    z-index: 1045;
+    width: min(26rem, calc(100vw - 2rem));
+    height: min(42rem, calc(100vh - 6rem));
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.block_afirst_assistant-launcher .block_afirst_assistant-panel[hidden] {
+    display: none;
+}
+
+.block_afirst_assistant-panelbody {
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+
+.block_afirst_assistant-panel .block_afirst_assistant-conversation {
+    max-height: none;
+    overflow: visible;
+}
+
+.block_afirst_assistant-starters .btn {
+    display: block;
+    white-space: normal;
+    width: 100%;
+}
+
+[data-action="rate"][aria-pressed="true"] {
+    color: var(--bs-white, #fff);
+    background-color: var(--bs-primary, #0f6cbf);
+    border-color: var(--bs-primary, #0f6cbf);
+}
+
+/* Phones: the panel becomes a bottom sheet across the screen. */
+@media (max-width: 575.98px) {
+    .block_afirst_assistant-launcher .block_afirst_assistant-panel {
+        inset-inline: 0;
+        inset-block-end: 0;
+        width: 100vw;
+        height: 85vh;
+        border-radius: 0.75rem 0.75rem 0 0;
+    }
+    .block_afirst_assistant-launcher .block_afirst_assistant-fab {
+        inset-inline-end: 1rem;
+        inset-block-end: 4.5rem;
+    }
+}

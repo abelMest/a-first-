@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'block_afirst_assistant';
-$plugin->version = 2026110403;
+$plugin->version = 2026110600;
 $plugin->requires = 2025041400; // Moodle 5.0: core AI subsystem with provider instances.
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_BETA;
-$plugin->release = '0.4.0';
+$plugin->release = '0.5.0';

@@ -324,6 +324,23 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-04). **Pending: advisory team** (with Gate 1).
 - **Status:** Approved by the fellow. Plugin 0.4.0.
 
+### D-21: Assistant as a floating panel, with context, follow-ups, local hybrid search and SCORM import
+
+- **Date:** 2026-11-06
+- **Decision (plugin 0.5.0):**
+  - **Floating "Ask the course" button and panel** on every page of a course with approved sources, added through Moodle 5.0's output hook (the same mechanism as core's AI course assistance). No block has to be added; an existing block just opens the panel. Site setting *Show the assistant button on course pages* (on).
+  - **Module context:** the panel knows the learner's current activity, boosts that module's passages (setting, ×1.5) and shows its **starter questions** (editable per source; DS4H set in `courses/ds4h/assistant_suggestions.json`, each one tested end to end).
+  - **Progress:** a quick `find` call shows "Found in Module X. Writing the answer… (n s)" before the slower answer call. **Follow-ups:** a short or unmatched question is retried with the previous question; the conversation persists across pages in the browser tab.
+  - **Hybrid retrieval:** optional meaning-based search with a local Ollama embedding model (`nomic-embed-text`), fused with BM25; a passage is grounded by keywords (≥ 1.0 on the demo site) or meaning (≥ 0.7). Runs on CPU by default so it does not evict the answering model from a small GPU. No cloud service.
+  - **SCORM text import** from Articulate Rise packages (button on the sources page and CLI), as pending sources a teacher approves.
+  - **Ratings** (helpful / not helpful) logged and shown in the review queue; a clear message when the provider's rate limit is reached; learner-facing strings in French, Portuguese and Arabic.
+- **Rationale:** the fellow found the block hard to use ("must be interactive and have some kind of button") and asked for all recommended improvements. Local-only components keep to the decision to avoid cloud models.
+- **Evidence (dev):** on the restored DS4H course with SCORM text, all 27 starter questions answered; follow-up answered from the right module; cholera dose and Director General traps declined. Similarity alone does not separate in- from out-of-scope questions (in 0.61–0.84, out 0.57–0.70), so the model decline and support check remain the safety layer (DE A-14).
+- **Not done:** Moodle mobile app support (needs a separate mobile add-on).
+- **Alternatives:** keep the block only (rejected: hard to find, needed per course); a cloud embedding API (rejected: cost and data leaving Africa CDC).
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team.**
+- **Status:** Approved by the fellow. Plugin 0.5.0, dev-tested.
+
 ---
 
 ## Template

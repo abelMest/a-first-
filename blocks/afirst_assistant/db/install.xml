@@ -18,6 +18,7 @@
         <FIELD NAME="usermodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="suggestions" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Starter questions shown to learners, one per line"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -36,6 +37,7 @@
         <FIELD NAME="chunkno" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="1-based position within the source"/>
         <FIELD NAME="content" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="termfreq" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON term frequencies for BM25"/>
+        <FIELD NAME="embedding" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="Base64 float32 vector from the local embedding model (hybrid retrieval)"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
@@ -61,6 +63,10 @@
         <FIELD NAME="downlinkmbps" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="2"/>
         <FIELD NAME="retrievalquery" TYPE="text" NOTNULL="false" SEQUENCE="false" COMMENT="The question as translated for retrieval, when cross-lingual retrieval found the passages"/>
         <FIELD NAME="supportscore" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="4" COMMENT="Share of the answer's content words found in the cited passages (support check)"/>
+        <FIELD NAME="topsimilarity" TYPE="number" LENGTH="10" NOTNULL="false" SEQUENCE="false" DECIMALS="4" COMMENT="Best embedding similarity, when hybrid retrieval is on"/>
+        <FIELD NAME="contextmodule" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false" COMMENT="Course module code of the page the question was asked from, e.g. 2.2"/>
+        <FIELD NAME="followup" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="1 when the previous question was used to find passages"/>
+        <FIELD NAME="rating" TYPE="int" LENGTH="2" NOTNULL="false" SEQUENCE="false" COMMENT="Learner rating: 1 helpful, -1 not helpful"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>

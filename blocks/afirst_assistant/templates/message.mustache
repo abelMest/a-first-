@@ -59,6 +59,19 @@
                 {{/citations}}
             </ol>
             <p class="fst-italic text-muted mb-1">{{disclaimer}}</p>
+            <div class="d-flex align-items-center gap-1" data-region="rating">
+                <span class="text-muted me-1">{{#str}} washelpful, block_afirst_assistant {{/str}}</span>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0" data-action="rate" data-rating="1"
+                    aria-pressed="false">
+                    <i class="icon fa fa-thumbs-up fa-fw m-0" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{#str}} helpful, block_afirst_assistant {{/str}}</span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-secondary py-0" data-action="rate" data-rating="-1"
+                    aria-pressed="false">
+                    <i class="icon fa fa-thumbs-down fa-fw m-0" aria-hidden="true"></i>
+                    <span class="visually-hidden">{{#str}} nothelpful, block_afirst_assistant {{/str}}</span>
+                </button>
+            </div>
         </div>
     </div>
     {{/answered}}
@@ -66,7 +79,12 @@
     <div class="alert alert-warning p-2 mb-0 small" role="status">{{#str}} refusal, block_afirst_assistant {{/str}}</div>
     {{/refused}}
     {{#error}}
+    {{#ratelimited}}
+    <div class="alert alert-info p-2 mb-0 small" role="alert">{{#str}} error:ratelimit, block_afirst_assistant {{/str}}</div>
+    {{/ratelimited}}
+    {{^ratelimited}}
     <div class="alert alert-danger p-2 mb-0 small" role="alert">{{#str}} error:service, block_afirst_assistant {{/str}}</div>
+    {{/ratelimited}}
     {{/error}}
     {{^error}}
     <div data-region="report">{{> block_afirst_assistant/report_button }}</div>

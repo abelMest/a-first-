@@ -17,6 +17,7 @@
 namespace block_afirst_assistant\external;
 
 use block_afirst_assistant\local\answerer;
+use block_afirst_assistant\local\page_context;
 use core_ai\manager;
 use core_external\external_api;
 use core_external\external_function_parameters;
@@ -48,6 +49,9 @@ class ask extends external_api {
             'connectiontype' => new external_value(PARAM_ALPHANUMEXT, 'Effective connection type (slow-2g, 2g, 3g, 4g)',
                 VALUE_DEFAULT, ''),
             'downlinkmbps' => new external_value(PARAM_FLOAT, 'Estimated downlink in Mbps', VALUE_DEFAULT, 0),
+            'cmid' => new external_value(PARAM_INT, 'Activity the learner is on, 0 for the course page', VALUE_DEFAULT, 0),
+            'previousquestion' => new external_value(PARAM_TEXT, 'The learner\'s previous question, for follow-ups',
+                VALUE_DEFAULT, ''),
         ]);
     }
 
@@ -58,10 +62,12 @@ class ask extends external_api {
      * @param string $question
      * @param string $connectiontype
      * @param float $downlinkmbps
+     * @param int $cmid
+     * @param string $previousquestion
      * @return array
      */
     public static function execute(int $courseid, string $question, string $connectiontype = '',
-            float $downlinkmbps = 0): array {
+            float $downlinkmbps = 0, int $cmid = 0, string $previousquestion = ''): array {
         global $USER;
 
         $params = self::validate_parameters(self::execute_parameters(), [
@@ -69,6 +75,8 @@ class ask extends external_api {
             'question' => $question,
             'connectiontype' => $connectiontype,
             'downlinkmbps' => $downlinkmbps,
+            'cmid' => $cmid,
+            'previousquestion' => $previousquestion,
         ]);
         $context = \context_course::instance($params['courseid']);
         self::validate_context($context);
@@ -88,6 +96,8 @@ class ask extends external_api {
             $question,
             $params['connectiontype'] !== '' ? \core_text::substr($params['connectiontype'], 0, 20) : null,
             $params['downlinkmbps'] > 0 ? round($params['downlinkmbps'], 2) : null,
+            page_context::for_cm($params['courseid'], $params['cmid'])['code'],
+            \core_text::substr(trim($params['previousquestion']), 0, self::MAX_QUESTION_LENGTH) ?: null,
         );
 
         return [

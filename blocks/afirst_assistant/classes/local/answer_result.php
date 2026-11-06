@@ -52,6 +52,9 @@ class answer_result {
     /** @var string The provider returned an error or nothing. */
     public const REASON_ERROR = 'error';
 
+    /** @var string The AI provider's rate limit (cost cap) was reached. */
+    public const REASON_RATE_LIMIT = 'rate_limit';
+
     /**
      * Constructor.
      *

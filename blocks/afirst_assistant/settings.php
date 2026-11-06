@@ -49,4 +49,37 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_afirst_assistant/sourcelanguage',
         new lang_string('sourcelanguage', 'block_afirst_assistant'),
         new lang_string('sourcelanguage_desc', 'block_afirst_assistant'), 'English', PARAM_TEXT));
+
+    $settings->add(new admin_setting_heading('block_afirst_assistant/launcherheading',
+        new lang_string('launcherheading', 'block_afirst_assistant'), ''));
+
+    $settings->add(new admin_setting_configcheckbox('block_afirst_assistant/launcher',
+        new lang_string('launcher', 'block_afirst_assistant'),
+        new lang_string('launcher_desc', 'block_afirst_assistant'), 1));
+
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/contextboost',
+        new lang_string('contextboost', 'block_afirst_assistant'),
+        new lang_string('contextboost_desc', 'block_afirst_assistant'),
+        \block_afirst_assistant\local\retriever::DEFAULT_CONTEXT_BOOST, PARAM_FLOAT));
+
+    $settings->add(new admin_setting_heading('block_afirst_assistant/hybridheading',
+        new lang_string('hybridheading', 'block_afirst_assistant'),
+        new lang_string('hybridheading_desc', 'block_afirst_assistant')));
+
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/embedendpoint',
+        new lang_string('embedendpoint', 'block_afirst_assistant'),
+        new lang_string('embedendpoint_desc', 'block_afirst_assistant'), '', PARAM_URL));
+
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/embedmodel',
+        new lang_string('embedmodel', 'block_afirst_assistant'),
+        new lang_string('embedmodel_desc', 'block_afirst_assistant'), 'nomic-embed-text', PARAM_TEXT));
+
+    $settings->add(new admin_setting_configcheckbox('block_afirst_assistant/embedcpu',
+        new lang_string('embedcpu', 'block_afirst_assistant'),
+        new lang_string('embedcpu_desc', 'block_afirst_assistant'), 1));
+
+    $settings->add(new admin_setting_configtext('block_afirst_assistant/minsimilarity',
+        new lang_string('minsimilarity', 'block_afirst_assistant'),
+        new lang_string('minsimilarity_desc', 'block_afirst_assistant'),
+        \block_afirst_assistant\local\embedder::DEFAULT_MIN_SIMILARITY, PARAM_FLOAT));
 }

@@ -32,6 +32,20 @@ $functions = [
         'ajax' => true,
         'capabilities' => 'block/afirst_assistant:use',
     ],
+    'block_afirst_assistant_find' => [
+        'classname' => \block_afirst_assistant\external\find::class,
+        'description' => 'Find which approved course modules match a question (progress step before the answer).',
+        'type' => 'read',
+        'ajax' => true,
+        'capabilities' => 'block/afirst_assistant:use',
+    ],
+    'block_afirst_assistant_rate' => [
+        'classname' => \block_afirst_assistant\external\rate::class,
+        'description' => 'Rate an assistant answer as helpful or not helpful.',
+        'type' => 'write',
+        'ajax' => true,
+        'capabilities' => 'block/afirst_assistant:use',
+    ],
     'block_afirst_assistant_escalate' => [
         'classname' => \block_afirst_assistant\external\escalate::class,
         'description' => 'Report an assistant answer for human review.',

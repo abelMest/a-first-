@@ -42,7 +42,15 @@ $PAGE->set_pagelayout('incourse');
 $PAGE->set_title(get_string('managesources', 'block_afirst_assistant'));
 $PAGE->set_heading($course->fullname);
 
-if ($action !== '') {
+if ($action === 'importscorm') {
+    require_sesskey();
+    $results = source_manager::import_scorm($course->id);
+    $imported = count(array_filter($results, fn($r) => $r['status'] === 'imported'));
+    redirect($url, get_string('scormimported', 'block_afirst_assistant', (object) [
+        'imported' => $imported,
+        'total' => count($results),
+    ]), null, \core\output\notification::NOTIFY_SUCCESS);
+} else if ($action !== '') {
     require_sesskey();
     $source = $DB->get_record('block_afirst_source', ['id' => required_param('id', PARAM_INT), 'courseid' => $course->id],
         '*', MUST_EXIST);
@@ -50,6 +58,8 @@ if ($action !== '') {
         source_manager::approve($source);
     } else if ($action === 'retire') {
         source_manager::retire($source);
+    } else if ($action === 'suggestions') {
+        source_manager::set_suggestions($source, preg_split('/\R/u', optional_param('suggestions', '', PARAM_TEXT)));
     }
     redirect($url);
 }
@@ -67,6 +77,11 @@ if ($form->is_cancelled()) {
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('managesources', 'block_afirst_assistant'));
 echo html_writer::tag('p', get_string('sourcesintro', 'block_afirst_assistant'));
+if (get_fast_modinfo($course)->get_instances_of('scorm')) {
+    echo $OUTPUT->single_button(new moodle_url($url, ['action' => 'importscorm', 'sesskey' => sesskey()]),
+        get_string('importscorm', 'block_afirst_assistant'), 'post');
+    echo html_writer::tag('p', get_string('importscorm_help', 'block_afirst_assistant'), ['class' => 'small text-muted']);
+}
 
 $sources = $DB->get_records('block_afirst_source', ['courseid' => $course->id], 'status ASC, title ASC');
 if (!$sources) {
@@ -100,7 +115,19 @@ if (!$sources) {
             $status .= html_writer::div(userdate($source->timeapproved, get_string('strftimedatetimeshort', 'langconfig')),
                 'small text-muted');
         }
-        $table->data[] = [$title, $status, $source->chunkcount, implode(' ', $actions)];
+        // Starter questions shown in the assistant panel when learners are in this source's module.
+        $editor = html_writer::start_tag('details', ['class' => 'mt-1 small']) .
+            html_writer::tag('summary', get_string('starterquestions', 'block_afirst_assistant')) .
+            html_writer::start_tag('form', ['method' => 'post', 'action' => $url->out(false)]) .
+            html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'sesskey', 'value' => sesskey()]) .
+            html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'action', 'value' => 'suggestions']) .
+            html_writer::empty_tag('input', ['type' => 'hidden', 'name' => 'id', 'value' => $source->id]) .
+            html_writer::tag('textarea', s($source->suggestions ?? ''), ['name' => 'suggestions', 'rows' => 4,
+                'class' => 'form-control form-control-sm my-1',
+                'aria-label' => get_string('starterquestions', 'block_afirst_assistant')]) .
+            html_writer::tag('button', get_string('savechanges'), ['type' => 'submit', 'class' => 'btn btn-secondary btn-sm']) .
+            html_writer::end_tag('form') . html_writer::end_tag('details');
+        $table->data[] = [$title . $editor, $status, $source->chunkcount, implode(' ', $actions)];
     }
     echo html_writer::table($table);
 }

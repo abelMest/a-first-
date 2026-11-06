@@ -76,7 +76,14 @@ class block_afirst_assistant extends block_base {
             return $this->content;
         }
 
-        if ($canuse) {
+        if ($canuse && \block_afirst_assistant\local\launcher::applies($this->page)) {
+            // The floating panel is on this page already; the block only opens it, so there is one conversation.
+            $this->content->text = html_writer::tag('p', get_string('launcherblockhint', 'block_afirst_assistant'),
+                ['class' => 'small text-muted']) .
+                html_writer::tag('button', get_string('launcherbutton', 'block_afirst_assistant'), [
+                    'type' => 'button', 'class' => 'btn btn-primary btn-sm', 'data-action' => 'open-afirst-launcher',
+                ]);
+        } else if ($canuse) {
             $this->content->text = $OUTPUT->render_from_template('block_afirst_assistant/assistant', [
                 'uniqid' => html_writer::random_id('afirst'),
                 'disclaimer' => get_string('disclaimer', 'block_afirst_assistant'),

@@ -210,6 +210,34 @@ final class answerer_test extends \advanced_testcase {
         $this->assertEquals(1.0, (float)$DB->get_field('block_afirst_log', 'supportscore', ['id' => $result->logid]));
     }
 
+    public function test_short_follow_up_uses_the_previous_question_and_records_context(): void {
+        global $DB;
+        $prompt = null;
+        $manager = $this->manager_returning('Completeness checks whether expected reports were received [1].', $prompt);
+
+        $result = (new answerer($manager))->answer($this->course->id, $this->student->id, 'Why?', null, null, '1.2',
+            'What does completeness check?');
+
+        $this->assertSame(answer_result::STATUS_ANSWERED, $result->status);
+        $this->assertStringContainsString("previous question, for context only: What does completeness check?", $prompt);
+        $log = $DB->get_record('block_afirst_log', ['id' => $result->logid]);
+        $this->assertEquals(1, $log->followup);
+        $this->assertSame('1.2', $log->contextmodule);
+        $this->assertSame('What does completeness check? Why?', $log->retrievalquery);
+    }
+
+    public function test_full_question_is_not_treated_as_follow_up(): void {
+        global $DB;
+        $prompt = null;
+        $manager = $this->manager_returning('Completeness checks whether expected reports were received [1].', $prompt);
+
+        $result = (new answerer($manager))->answer($this->course->id, $this->student->id,
+            'What does completeness check in reports?', null, null, null, 'Something unrelated earlier');
+
+        $this->assertStringNotContainsString('previous question', $prompt);
+        $this->assertEquals(0, $DB->get_field('block_afirst_log', 'followup', ['id' => $result->logid]));
+    }
+
     public function test_question_is_fenced_in_the_prompt(): void {
         $prompt = null;
         (new answerer($this->manager_returning('Completeness checks reports [1].', $prompt)))->answer($this->course->id,

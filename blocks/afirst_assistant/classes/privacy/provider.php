@@ -43,6 +43,8 @@ class provider implements
             'question' => 'privacy:metadata:log:question',
             'answer' => 'privacy:metadata:log:answer',
             'connectiontype' => 'privacy:metadata:log:connectiontype',
+            'contextmodule' => 'privacy:metadata:log:contextmodule',
+            'rating' => 'privacy:metadata:log:rating',
             'retrievalquery' => 'privacy:metadata:log:retrievalquery',
             'timecreated' => 'privacy:metadata:log:timecreated',
         ], 'privacy:metadata:log');
@@ -119,6 +121,9 @@ class provider implements
                     'answer' => $l->answer,
                     'refused' => transform::yesno($l->refused),
                     'connectiontype' => $l->connectiontype,
+                    'module' => $l->contextmodule,
+                    'rating' => $l->rating === null ? null : ((int)$l->rating > 0 ?
+                        get_string('helpful', 'block_afirst_assistant') : get_string('nothelpful', 'block_afirst_assistant')),
                     'retrievalquery' => $l->retrievalquery,
                     'timecreated' => transform::datetime($l->timecreated),
                 ], $logs)),

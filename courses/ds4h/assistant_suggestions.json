@@ -1,0 +1,47 @@
+{
+  "1.1": [
+    "What is data literacy?",
+    "What is the difference between structured and unstructured health data?",
+    "Where does routine health data come from?"
+  ],
+  "1.2": [
+    "What are the dimensions of data quality?",
+    "What does data governance mean in public health?",
+    "How can I spot implausible values in a dataset?"
+  ],
+  "2.1": [
+    "What is data wrangling?",
+    "How should I handle missing values?",
+    "Why does reproducible data work matter?"
+  ],
+  "2.2": [
+    "What is exploratory data analysis?",
+    "What are summary statistics used for?",
+    "How can I use Python to explore a dataset?"
+  ],
+  "3.1": [
+    "How do I choose the right chart for my data?",
+    "When should I use a bar chart?",
+    "Which chart should I use for categorical data?"
+  ],
+  "3.2": [
+    "What is a time series?",
+    "What makes a good public health dashboard?",
+    "How do I show trends over time?"
+  ],
+  "4.1": [
+    "What is the difference between logistic and Poisson regression?",
+    "What is a generalized linear model?",
+    "What is an odds ratio?"
+  ],
+  "4.2": [
+    "What is overfitting in machine learning?",
+    "What is the difference between classification and regression?",
+    "Why do we split data into training and test sets?"
+  ],
+  "4.3": [
+    "What is natural language processing used for in public health?",
+    "What is the difference between Bag-of-Words and TF-IDF?",
+    "What are the steps of a text preprocessing pipeline?"
+  ]
+}

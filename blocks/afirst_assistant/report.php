@@ -63,7 +63,9 @@ $citedlike = $DB->sql_like('citations', ':citedpattern');
 $stats = $DB->get_record_sql("
     SELECT COUNT(1) AS total,
            SUM(refused) AS refused,
-           SUM(CASE WHEN refused = 0 AND $citedlike THEN 1 ELSE 0 END) AS cited
+           SUM(CASE WHEN refused = 0 AND $citedlike THEN 1 ELSE 0 END) AS cited,
+           SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) AS helpful,
+           SUM(CASE WHEN rating IS NOT NULL THEN 1 ELSE 0 END) AS rated
       FROM {block_afirst_log}
      WHERE courseid = :courseid", ['courseid' => $course->id, 'citedpattern' => '%"cited":true%']);
 $open = $DB->count_records('block_afirst_escalation', ['courseid' => $course->id, 'status' => escalation_manager::STATUS_OPEN]);
@@ -73,6 +75,8 @@ foreach ([
     get_string('interactions', 'block_afirst_assistant') => (int)$stats->total,
     get_string('refusalrate', 'block_afirst_assistant') => $stats->total ? round(100 * $stats->refused / $stats->total) . '%' : '-',
     get_string('citedanswers', 'block_afirst_assistant') => $stats->total ? round(100 * $stats->cited / $answered) . '%' : '-',
+    get_string('helpfulrate', 'block_afirst_assistant') . " ({$stats->rated})" =>
+        $stats->rated ? round(100 * $stats->helpful / $stats->rated) . '%' : '-',
     get_string('escalations', 'block_afirst_assistant') . ' (' . get_string('open', 'block_afirst_assistant') . ')' => $open,
 ] as $label => $value) {
     echo html_writer::div(html_writer::div($value, 'h4 mb-0') . html_writer::div($label, 'small text-muted'),

@@ -52,5 +52,30 @@ function xmldb_block_afirst_assistant_upgrade($oldversion) {
         upgrade_block_savepoint(true, 2026110403, 'afirst_assistant');
     }
 
+    if ($oldversion < 2026110600) {
+        // Launcher, module context, follow-ups, hybrid retrieval and ratings (0.5.0).
+        $fields = [
+            'block_afirst_source' => [new xmldb_field('suggestions', XMLDB_TYPE_TEXT, null, null, null, null, null,
+                'timemodified')],
+            'block_afirst_chunk' => [new xmldb_field('embedding', XMLDB_TYPE_TEXT, null, null, null, null, null,
+                'termfreq')],
+            'block_afirst_log' => [
+                new xmldb_field('topsimilarity', XMLDB_TYPE_NUMBER, '10, 4', null, null, null, null, 'supportscore'),
+                new xmldb_field('contextmodule', XMLDB_TYPE_CHAR, '20', null, null, null, null, 'topsimilarity'),
+                new xmldb_field('followup', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'contextmodule'),
+                new xmldb_field('rating', XMLDB_TYPE_INTEGER, '2', null, null, null, null, 'followup'),
+            ],
+        ];
+        foreach ($fields as $tablename => $tablefields) {
+            $table = new xmldb_table($tablename);
+            foreach ($tablefields as $field) {
+                if (!$dbman->field_exists($table, $field)) {
+                    $dbman->add_field($table, $field);
+                }
+            }
+        }
+        upgrade_block_savepoint(true, 2026110600, 'afirst_assistant');
+    }
+
     return true;
 }

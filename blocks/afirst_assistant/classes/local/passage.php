@@ -33,7 +33,8 @@ class passage {
      * @param string $sourcetitle Human-readable source name shown in citations.
      * @param int $chunkno Position of the passage within its source.
      * @param string $text
-     * @param float $score BM25 score.
+     * @param float $score BM25 score (0 when the passage was found by meaning only).
+     * @param float|null $similarity Cosine similarity to the question, when hybrid retrieval is on.
      */
     public function __construct(
         public readonly int $chunkid,
@@ -42,6 +43,18 @@ class passage {
         public readonly int $chunkno,
         public readonly string $text,
         public readonly float $score,
+        public readonly ?float $similarity = null,
     ) {
+    }
+
+    /**
+     * Whether this passage is strong enough to ground an answer: by keywords or by meaning.
+     *
+     * @param float $minscore Minimum BM25 score.
+     * @param float $minsimilarity Minimum cosine similarity.
+     * @return bool
+     */
+    public function is_grounded(float $minscore, float $minsimilarity): bool {
+        return $this->score >= $minscore || ($this->similarity !== null && $this->similarity >= $minsimilarity);
     }
 }

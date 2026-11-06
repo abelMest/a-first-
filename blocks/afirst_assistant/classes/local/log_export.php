@@ -52,7 +52,7 @@ class log_export {
         $writer->set_filename('afirst_assistant_log_' . $courseid);
         $writer->add_data(['logid', 'learner', 'timecreated', 'question', 'answer', 'refused', 'refusalreason', 'topscore',
             'citations', 'model', 'prompttokens', 'completiontokens', 'latencyms', 'connectiontype', 'downlinkmbps',
-            'escalations', 'retrievalquery', 'supportscore']);
+            'escalations', 'retrievalquery', 'supportscore', 'topsimilarity', 'contextmodule', 'followup', 'rating']);
 
         $sql = "SELECT l.*, (SELECT COUNT(1) FROM {block_afirst_escalation} e WHERE e.logid = l.id) AS escalations
                   FROM {block_afirst_log} l
@@ -64,7 +64,8 @@ class log_export {
                 $row->id, self::pseudonym($row->userid), date('c', $row->timecreated), $row->question, $row->answer,
                 $row->refused, $row->refusalreason, $row->topscore, $row->citations, $row->model, $row->prompttokens,
                 $row->completiontokens, $row->latencyms, $row->connectiontype, $row->downlinkmbps, $row->escalations,
-                $row->retrievalquery, $row->supportscore,
+                $row->retrievalquery, $row->supportscore, $row->topsimilarity, $row->contextmodule, $row->followup,
+                $row->rating,
             ]);
         }
         $rs->close();

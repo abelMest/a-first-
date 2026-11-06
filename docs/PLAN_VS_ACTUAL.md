@@ -102,6 +102,7 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 | Course-agnostic onboarding | **done** (dev-tested) | `courses/<key>/`, `docs/ONBOARDING_A_COURSE.md` (D-16). |
 | Cross-lingual retrieval | **built, off** | D-17 option 1 behind a setting; decide after the bias audit. |
 | READINESS layer v1 | **parked** (built, dev-tested) | `report/afirst_readiness/`, pilot scenario draft, [`READINESS_SPEC.md`](READINESS_SPEC.md) (D-18). Plan listed it as Phase 4. Not deployed until Gate 3 (D-19). |
+| Assistant usability: floating panel, module context, starter questions, follow-ups, local hybrid search, SCORM import, ratings, FR/PT/AR | **done** (dev-tested) | Plugin 0.5.0 (D-21). Mobile app support not done. |
 | Staged release BASIC → ADAPTIVE → READINESS | **adopted** | Gates and evidence in [`STAGE_GATES.md`](STAGE_GATES.md) (D-19). Current stage: BASIC. |
 
 ## Open questions for the advisory team

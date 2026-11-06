@@ -162,8 +162,87 @@ class source_manager {
         }
         $DB->insert_records('block_afirst_chunk', $records);
         $transaction->allow_commit();
+        if (embedder::enabled()) {
+            self::embed_source($sourceid);
+        }
         retriever::purge_index((int)$DB->get_field('block_afirst_source', 'courseid', ['id' => $sourceid], MUST_EXIST));
         return count($records);
+    }
+
+    /**
+     * Compute and store meaning vectors for a source's passages (hybrid retrieval).
+     *
+     * @param int $sourceid
+     * @param bool $missingonly Only passages without a vector.
+     * @return int Passages that received a vector.
+     */
+    public static function embed_source(int $sourceid, bool $missingonly = false): int {
+        global $DB;
+        $select = 'sourceid = ?' . ($missingonly ? ' AND embedding IS NULL' : '');
+        $chunks = $DB->get_records_select('block_afirst_chunk', $select, [$sourceid], 'chunkno', 'id, content');
+        if (!$chunks) {
+            return 0;
+        }
+        $vectors = embedder::embed_documents(array_column($chunks, 'content'));
+        $done = 0;
+        foreach (array_values($chunks) as $i => $chunk) {
+            if ($vectors[$i] !== null) {
+                $DB->set_field('block_afirst_chunk', 'embedding', embedder::pack($vectors[$i]), ['id' => $chunk->id]);
+                $done++;
+            }
+        }
+        retriever::purge_index((int)$DB->get_field('block_afirst_source', 'courseid', ['id' => $sourceid], MUST_EXIST));
+        return $done;
+    }
+
+    /**
+     * Create pending sources from the text inside the course's SCORM activities (teachers approve them after review).
+     *
+     * @param int $courseid
+     * @return array[] One entry per SCORM activity: title, status (imported, exists, empty, failed) and passages.
+     */
+    public static function import_scorm(int $courseid): array {
+        global $DB;
+        $modinfo = get_fast_modinfo($courseid);
+        $sequence = array_flip(array_keys($modinfo->get_cms()));
+        $cms = array_filter($modinfo->get_instances_of('scorm'), fn(\cm_info $cm) => $cm->visible
+            && !$cm->deletioninprogress);
+        uasort($cms, fn(\cm_info $a, \cm_info $b) => $sequence[$a->id] <=> $sequence[$b->id]);
+
+        $results = [];
+        foreach ($cms as $cm) {
+            $title = $cm->get_formatted_name();
+            $filename = "scorm-{$cm->id}.txt";
+            $result = ['title' => $title, 'status' => 'exists', 'passages' => 0];
+            if (!$DB->record_exists('block_afirst_source', ['courseid' => $courseid, 'filename' => $filename])) {
+                try {
+                    $text = text_processor::terminate_lines(scorm_text_extractor::from_cm($cm));
+                    $source = trim($text) === '' ? null : self::create_from_content($courseid, $title, $filename, $text);
+                    $result['status'] = $source ? 'imported' : 'empty';
+                    $result['passages'] = $source ? (int)$source->chunkcount : 0;
+                } catch (\Throwable $e) {
+                    debugging('SCORM text import failed for ' . $filename . ': ' . $e->getMessage(), DEBUG_DEVELOPER);
+                    $result['status'] = 'failed';
+                }
+            }
+            $results[] = $result;
+        }
+        return $results;
+    }
+
+    /**
+     * Set the starter questions learners see for this source's module.
+     *
+     * @param \stdClass $source
+     * @param string[] $questions
+     */
+    public static function set_suggestions(\stdClass $source, array $questions): void {
+        global $DB;
+        $clean = array_values(array_filter(array_map(fn($q) => \core_text::substr(trim(clean_param($q, PARAM_TEXT)), 0, 200),
+            $questions), fn($q) => $q !== ''));
+        $DB->set_field('block_afirst_source', 'suggestions', $clean ? implode("\n", array_slice($clean, 0, 6)) : null,
+            ['id' => $source->id]);
+        retriever::purge_index((int)$source->courseid);
     }
 
     /**
