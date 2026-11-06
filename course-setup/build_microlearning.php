@@ -88,18 +88,21 @@ function afirst_ml_cm_by_idnumber(stdClass $course, string $idnumber): ?cm_info 
 /** Moves a course-module to just after another one in the same section. */
 function afirst_ml_place_after(stdClass $course, int $cmid, int $aftercmid): void {
     global $DB;
-    $modinfo = get_fast_modinfo($course);
-    $after = $modinfo->get_cm($aftercmid);
-    $sequence = $modinfo->get_sections()[$after->sectionnum] ?? [];
-    $pos = array_search($aftercmid, $sequence);
+    // Read the order from the database and reset the cached course info first: moving with a stale cache
+    // rewrites the section from the old order and undoes earlier moves (seen on dev, 2026-11-06).
+    get_fast_modinfo($course->id, 0, true);
+    $sectionid = $DB->get_field('course_modules', 'section', ['id' => $aftercmid], MUST_EXIST);
+    $section = $DB->get_record('course_sections', ['id' => $sectionid], '*', MUST_EXIST);
+    $sequence = array_map('intval', array_filter(explode(',', (string)$section->sequence)));
+    $pos = array_search($aftercmid, $sequence, true);
     $next = $sequence[$pos + 1] ?? null;
     if ($next === $cmid) {
         return;
     }
-    $section = $DB->get_record('course_sections', ['id' => $after->section], '*', MUST_EXIST);
     $mod = get_coursemodule_from_id('', $cmid, $course->id, false, MUST_EXIST); // Includes modname.
     moveto_module($mod, $section, $next); // course_add_cm_to_section() takes the cmid to insert before.
     rebuild_course_cache($course->id, true);
+    get_fast_modinfo($course->id, 0, true);
 }
 
 // Sub-modules: SCORM activities whose name carries a code like 1.1, and their Knowledge Check.

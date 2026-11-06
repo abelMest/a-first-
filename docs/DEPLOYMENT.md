@@ -27,7 +27,7 @@ This is the rollout of the rebuilt layers to the Africa CDC Moodle 5.0 site (VM 
 | 0.2 | The plugin release is tagged in git. PHPUnit and Behat pass on Moodle 5.0. `version.php` `$plugin->version` is recorded below | F |
 | 0.3 | The rehearsal on the local docker Moodle, using this runbook, is complete with no open critical issues | F |
 | 0.4 | The approved sources (storyboards and topic texts) are signed off for upload | C |
-| 0.5 | The ethics status allows a beta with volunteers. The cloud provider's data terms are cleared (D-10) | F, S |
+| 0.5 | The ethics status allows a beta with volunteers. A model server at Africa CDC is available for the local model (D-25) | F, S, IT |
 | 0.6 | A maintenance window is agreed, and learners are told about it | F, A |
 | 0.7 | The rotated SSH and DB passwords are in use (D-02) | A |
 
@@ -52,18 +52,21 @@ Plugin release deployed: `__________`. Date: `__________`.
 | 2.3 | Purge caches with `php admin/cli/purge_caches.php` | A |
 | 2.4 | Check that **Site administration > Plugins > Plugins overview** shows the expected version | F |
 
-## 3. AI provider instance (the cost cap)
+## 3. AI provider instance (local model, D-25)
+
+No cloud model and no API key: the assistant uses a local open model through Moodle's core Ollama provider, on an Africa CDC server (ideally with a GPU). Question text never leaves Africa CDC infrastructure.
 
 | # | Step | Who |
 |---|---|---|
-| 3.1 | Go to **Site administration > General > AI > AI providers** and create a provider instance (OpenAI or an OpenAI-compatible endpoint, per D-10). Name it `A-FIRST pilot` | A |
-| 3.2 | **The admin enters the API key directly in the form.** The key is never sent to the fellow, never committed, and never put in chat or e-mail. Use a key scoped to a dedicated project, with a monthly spend limit set in the vendor's billing console | **A only** |
-| 3.3 | Turn on **Set site-wide rate limit** and **Set user rate limit**. Proposed starting values: 300 requests per hour site-wide and 20 requests per hour per user. Adjust after the beta. Record the final values in the decision log | A (values from F) |
-| 3.4 | Under the instance's **Generate text** action, set the model chosen by the evaluation matrix. Leave the other actions (image generation) disabled | A |
-| 3.5 | Make sure no other provider instance (for example a leftover Ollama instance) is enabled for `generate_text` in production (D-10) | A |
-| 3.6 | Set the assistant's maximum question and prompt length (plugin setting) and its retrieval threshold. The threshold is the value set from the Sprint 6 audit (default 3.0) | F |
+| 3.1 | On the model server, install Ollama and pull the models: `ollama pull llama3.2` (answers) and `ollama pull nomic-embed-text` (meaning search). Keep the Ollama port reachable from the Moodle web servers only, never from the internet | IT |
+| 3.2 | Go to **Site administration > General > AI > AI providers** and create an **Ollama** provider instance named `A-FIRST pilot`, with the model server's endpoint. If Moodle blocks the address, add it to the HTTP security allow-list (Site administration > Security > HTTP security) | A |
+| 3.3 | Turn on **Set user rate limit** (proposed 20 requests per hour per user) and, if the server is shared, **Set site-wide rate limit**. Record the values in the decision log | A (values from F) |
+| 3.4 | Under the instance's **Generate text** action: model `llama3.2`, and **Model extra parameters** `{"num_ctx":2048,"temperature":0,"seed":42}`. Temperature 0 with a fixed seed makes answers repeatable; it is part of the safety setup (D-27). Leave the other actions disabled | A |
+| 3.5 | Make sure no other provider instance is enabled for `generate_text` (core tries every enabled one) | A |
+| 3.6 | Plugin settings (Site administration > Plugins > Blocks > A-FIRST course assistant): keyword threshold **1.0**, similarity threshold **0.7** (D-26), embedding endpoint and model `nomic-embed-text`, embeddings on CPU unless the GPU has room for both models, **cross-lingual retrieval on** and source language English (D-27) | F |
+| 3.7 | Warm the model and run the smoke test (§7). Expect about 10–20 s per answer on CPU, a few seconds on a GPU | F |
 
-Cost check: the Proposal §4.2 ceiling is USD 3,000 for the cycle. F reviews usage in the vendor console every week from beta onward and logs it.
+Cost check: there is no per-question spend. The cost is the server; F records its load (requests per hour, answer time) weekly from beta onward.
 
 ## 4. AI policy and consent
 

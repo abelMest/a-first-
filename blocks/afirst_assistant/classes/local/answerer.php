@@ -153,11 +153,23 @@ class answerer {
 
         // A marker is only the model's claim. Withhold answers whose content is not in the passages they cite (DE A-12).
         $minsupport = get_config('block_afirst_assistant', 'minsupport');
-        $support = support_checker::check($text, trim($question . ' ' . ($located['followup'] ? $previousquestion : '')),
-            array_map(fn(int $n) => $grounded[$n - 1]->text, $cited),
-            $minsupport === false ? support_checker::DEFAULT_MIN_SUPPORT : (float)$minsupport,
-            // Passages found through a translated query are in another language than the answer (D-17).
-            checkwords: !$translatedquery);
+        $minsupport = $minsupport === false ? support_checker::DEFAULT_MIN_SUPPORT : (float)$minsupport;
+        // Numbers may come from the question, its translation, or the cited modules' titles ("as Module 2.1 explains").
+        $checkquestion = trim($question . ' ' . ($located['followup'] ? $previousquestion : '') . ' ' .
+            ($translatedquery ? $log->retrievalquery : '') . ' ' .
+            implode(' ', array_unique(array_map(fn(int $n) => $grounded[$n - 1]->sourcetitle, $cited))));
+        $citedtexts = array_map(fn(int $n) => $grounded[$n - 1]->text, $cited);
+        $support = support_checker::check($text, $checkquestion, $citedtexts, $minsupport);
+        $sourcelanguage = trim((string)get_config('block_afirst_assistant', 'sourcelanguage')) ?: 'English';
+        if (!$support['supported'] && !$support['unsupportednumbers'] && get_config('block_afirst_assistant', 'crosslingual')
+                && (strcasecmp($sourcelanguage, 'English') !== 0 || !support_checker::looks_english($text))) {
+            // D-17: the answer is in the learner's language and the passages are not, so words cannot be compared
+            // directly. Check an English back-translation instead; numbers were already checked on the answer itself.
+            $backtranslation = $this->translate($courseid, $userid, $text, 'text');
+            if ($backtranslation !== null) {
+                $support = support_checker::check($backtranslation, $checkquestion, $citedtexts, $minsupport);
+            }
+        }
         $log->supportscore = $support['coverage'];
         if (!$support['supported']) {
             return $this->finish($log, $started, answer_result::STATUS_REFUSED, answer_result::REASON_UNSUPPORTED, $text,
@@ -176,13 +188,32 @@ class answerer {
      * @return string|null The translation, or null when the provider fails or returns nothing useful.
      */
     private function translate_for_retrieval(int $courseid, int $userid, string $question): ?string {
+        return $this->translate($courseid, $userid, $question, 'question');
+    }
+
+    /**
+     * Translate a question (for retrieval) or an answer (for the support check) into the sources' language.
+     *
+     * Neither translation is shown to the learner.
+     *
+     * @param int $courseid
+     * @param int $userid
+     * @param string $text
+     * @param string $kind 'question' or 'text' (an answer, whose citation markers must be kept).
+     * @return string|null The translation, or null when the provider fails or returns nothing useful.
+     */
+    private function translate(int $courseid, int $userid, string $text, string $kind): ?string {
         $language = trim((string)get_config('block_afirst_assistant', 'sourcelanguage')) ?: 'English';
+        $clean = str_ireplace(["<$kind>", "</$kind>"], '', $text);
+        $prompt = $kind === 'question'
+            ? "Translate the question between <question> tags into {$language}. Reply with the translation " .
+                "only, on one line, without answering it. If it is already in {$language}, repeat it unchanged.\n"
+            : "Translate the text between <text> tags into {$language}, sentence by sentence, adding nothing. Keep " .
+                "citation markers such as [1] where they are. Reply with the translation only.\n";
         $action = new generate_text(
             contextid: context_course::instance($courseid)->id,
             userid: $userid,
-            prompttext: "Translate the question between <question> tags into {$language}. Reply with the translation " .
-                "only, on one line, without answering it. If it is already in {$language}, repeat it unchanged.\n" .
-                "<question>\n" . str_ireplace(['<question>', '</question>'], '', $question) . "\n</question>",
+            prompttext: $prompt . "<$kind>\n" . $clean . "\n</$kind>",
         );
         try {
             $response = $this->aimanager->process_action($action);
@@ -193,12 +224,14 @@ class answerer {
         if (!$response->get_success()) {
             return null;
         }
-        $text = trim(preg_replace('/\s+/u', ' ', (string)($response->get_response_data()['generatedcontent'] ?? '')));
-        $text = \core_text::substr($text, 0, ask::MAX_QUESTION_LENGTH);
-        if ($text === '' || \core_text::strtolower($text) === \core_text::strtolower($question)) {
+        $translation = trim(preg_replace('/\s+/u', ' ', (string)($response->get_response_data()['generatedcontent'] ?? '')));
+        if ($kind === 'question') {
+            $translation = \core_text::substr($translation, 0, ask::MAX_QUESTION_LENGTH);
+        }
+        if ($translation === '' || \core_text::strtolower($translation) === \core_text::strtolower(trim($text))) {
             return null;
         }
-        return $text;
+        return $translation;
     }
 
     /**

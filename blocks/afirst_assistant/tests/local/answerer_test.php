@@ -210,6 +210,18 @@ final class answerer_test extends \advanced_testcase {
         $this->assertEquals(1.0, (float)$DB->get_field('block_afirst_log', 'supportscore', ['id' => $result->logid]));
     }
 
+    public function test_module_number_from_the_cited_source_title_is_not_an_unsupported_number(): void {
+        $result = (new answerer($this->manager_returning(
+            'Completeness checks whether all expected reports were received, as Module 1.2 explains [1].')))
+            ->answer($this->course->id, $this->student->id, 'What does completeness check?');
+        $this->assertSame(answer_result::STATUS_ANSWERED, $result->status);
+
+        $result = (new answerer($this->manager_returning(
+            'Completeness checks whether all expected reports were received, as Module 3.4 explains [1].')))
+            ->answer($this->course->id, $this->student->id, 'What does completeness check?');
+        $this->assertSame(answer_result::REASON_UNSUPPORTED, $result->reason, 'a module the passage is not from');
+    }
+
     public function test_short_follow_up_uses_the_previous_question_and_records_context(): void {
         global $DB;
         $prompt = null;
@@ -267,22 +279,28 @@ final class answerer_test extends \advanced_testcase {
     /**
      * A manager double that translates (prompts starting "Translate") and answers (everything else).
      *
-     * @param string|null $translation Null to make the translation call fail.
+     * @param string|null $translation Question translation; null to make the translation call fail.
      * @param string[] $prompts Receives every prompt sent.
+     * @param string $backtranslation English back-translation of the answer, for the support check.
+     * @param string $answer The answer, in the learner's language.
      * @return manager
      */
-    private function translating_manager(?string $translation, array &$prompts = []): manager {
+    private function translating_manager(?string $translation, array &$prompts = [],
+            string $backtranslation = 'Completeness checks whether all expected reports were received [1].',
+            string $answer = 'La complétude vérifie que tous les rapports attendus ont été reçus [1].'): manager {
         $manager = $this->createMock(manager::class);
-        $manager->method('process_action')->willReturnCallback(function(generate_text $action) use ($translation, &$prompts) {
+        $manager->method('process_action')->willReturnCallback(
+                function(generate_text $action) use ($translation, &$prompts, $backtranslation, $answer) {
             $prompt = $action->get_configuration('prompttext');
             $prompts[] = $prompt;
             $istranslation = str_starts_with($prompt, 'Translate');
             if ($istranslation && $translation === null) {
                 return new response_generate_text(false, 500, 'Provider down');
             }
+            $isback = $istranslation && str_contains($prompt, '<text>');
             $response = new response_generate_text(true);
-            $response->set_response_data(['generatedcontent' => $istranslation ? $translation :
-                'La complétude vérifie que tous les rapports attendus ont été reçus [1].', 'model' => 'test-model']);
+            $response->set_response_data(['generatedcontent' => $isback ? $backtranslation :
+                ($istranslation ? $translation : $answer), 'model' => 'test-model']);
             return $response;
         });
         return $manager;
@@ -305,8 +323,11 @@ final class answerer_test extends \advanced_testcase {
             $this->course->id, $this->student->id, 'Que vérifie la complétude ?');
 
         $this->assertSame(answer_result::STATUS_ANSWERED, $result->status);
-        $this->assertCount(2, $prompts);
+        $this->assertCount(3, $prompts);
         $this->assertStringContainsString('into English', $prompts[0]);
+        // The French answer is checked through an English back-translation (D-17), never shown to the learner.
+        $this->assertStringContainsString("<text>\nLa complétude vérifie", $prompts[2]);
+        $this->assertSame('La complétude vérifie que tous les rapports attendus ont été reçus [1].', $result->answer);
         // The answering prompt carries the learner's own question, so the answer comes back in French.
         $this->assertStringContainsString('Que vérifie la complétude ?', $prompts[1]);
         $this->assertStringContainsString('same language as the question', $prompts[1]);
@@ -314,6 +335,29 @@ final class answerer_test extends \advanced_testcase {
         $this->assertSame('What does completeness check?', $log->retrievalquery);
         $this->assertSame('Que vérifie la complétude ?', $log->question);
         $this->assertNotNull($log->topscore);
+    }
+
+    public function test_cross_lingual_answer_whose_back_translation_is_not_in_the_passage_is_withheld(): void {
+        set_config('crosslingual', 1, 'block_afirst_assistant');
+        $prompts = [];
+        $result = (new answerer($this->translating_manager('What does completeness check?', $prompts,
+            'Completeness measures vaccine stock levels in district warehouses and supply chains [1].')))->answer(
+            $this->course->id, $this->student->id, 'Que vérifie la complétude ?');
+
+        $this->assertSame(answer_result::STATUS_REFUSED, $result->status);
+        $this->assertSame(answer_result::REASON_UNSUPPORTED, $result->reason);
+        $this->assertCount(3, $prompts);
+    }
+
+    public function test_answer_in_another_language_is_withheld_when_cross_lingual_is_off(): void {
+        // Grounded by an English question, but answered in French: without the setting there is no back-translation,
+        // so the words cannot be checked and the answer is withheld rather than shown unchecked.
+        $prompts = [];
+        $result = (new answerer($this->translating_manager('unused', $prompts)))->answer(
+            $this->course->id, $this->student->id, 'What does completeness check?');
+
+        $this->assertSame(answer_result::REASON_UNSUPPORTED, $result->reason);
+        $this->assertCount(1, $prompts);
     }
 
     public function test_cross_lingual_translation_failure_still_refuses_cleanly(): void {

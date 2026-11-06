@@ -69,6 +69,16 @@ final class support_checker_test extends \basic_testcase {
             checkwords: false)['supported']);
     }
 
+    public function test_looks_english_tells_english_answers_from_french_and_portuguese(): void {
+        $this->assertTrue(support_checker::looks_english(
+            'Completeness checks whether all of the expected reports were received in time [1].'));
+        $this->assertFalse(support_checker::looks_english(
+            'La complétude vérifie que tous les rapports attendus ont été reçus à temps [1].'));
+        $this->assertFalse(support_checker::looks_english(
+            'A completude verifica se todos os relatórios esperados foram recebidos a tempo [1].'));
+        $this->assertTrue(support_checker::looks_english('Data wrangling [1].'), 'short texts count as English');
+    }
+
     public function test_stem_and_numbers_normalisation(): void {
         $this->assertSame('check', support_checker::stem('checks'));
         $this->assertSame('report', support_checker::stem('reporting'));

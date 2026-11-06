@@ -74,6 +74,33 @@ class support_checker {
      * @param string $text
      * @return string[]
      */
+    /** @var string[] Very common English words, used to tell an English answer from one in another language. */
+    private const ENGLISH_MARKERS = ['the', 'of', 'and', 'to', 'is', 'are', 'in', 'that', 'for', 'with', 'as', 'by',
+        'it', 'this', 'be', 'or', 'from', 'an', 'which', 'what', 'how', 'can', 'you', 'when', 'its', 'not'];
+
+    /** Share of English marker words above which a text counts as English (English prose is ~0.3, French ~0.03). */
+    private const ENGLISH_MIN_SHARE = 0.12;
+
+    /**
+     * Whether a text is (mostly) English, the language of the course sources (D-17).
+     *
+     * The word check compares words, so it can only judge an answer written in the passages' language. An answer in
+     * French or Portuguese is translated back before checking (see answerer). Short texts count as English.
+     *
+     * @param string $text
+     * @return bool
+     */
+    public static function looks_english(string $text): bool {
+        preg_match_all('/\p{L}+/u', \core_text::strtolower(preg_replace('/\[\d+\]/', ' ', $text)), $matches);
+        $words = $matches[0];
+        if (count($words) < 6) {
+            return true;
+        }
+        $markers = array_flip(self::ENGLISH_MARKERS);
+        $hits = count(array_filter($words, fn(string $w) => isset($markers[$w])));
+        return $hits / count($words) >= self::ENGLISH_MIN_SHARE;
+    }
+
     public static function terms(string $text): array {
         $terms = [];
         foreach (text_processor::tokenize($text) as $word) {

@@ -384,6 +384,18 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-06). **Pending: advisory team.**
 - **Status:** Approved by the fellow. Already the live setting on the dev site.
 
+### D-27: Cross-lingual answers checked by back-translation; deterministic model settings
+- **Date:** 2026-11-06
+- **Decision:**
+  - **Cross-lingual retrieval on** for the pilot (D-17 option 1).
+  - **Language-aware support check** (plugin 0.5.1): the word check always runs; an answer in another language than the sources is checked through an English back-translation (never shown); numbers are checked on the answer itself, and module numbers from the cited titles are allowed.
+  - **Provider temperature 0 with a fixed seed** (core Ollama provider, `modelextraparams`), so the same question gets the same answer and audits are repeatable.
+- **Rationale:** the Gate 1 bias run gave French and Portuguese learners 0 of 12 answers; with retrieval on but the old check, 6 of 12; with this design, **18 of 18 bias items answered** and nothing out of scope in any language. At temperature 0.2 one out-of-scope question slipped through on one run (AUD-049); at temperature 0 two full audit runs gave identical outcomes with 0 of 10 out-of-scope answered and 37 of 40 in-scope answered, all citing the expected module (`courses/ds4h/evaluation/results/2026-11-06-gate1-ollama-llama3.2-3b/README.md`). Equity of access across the pilot's languages is a protocol commitment (Prop §3.9).
+- **Cost:** one extra model call for a non-English answer that fails the direct word check (about 5–10 s more on the laptop).
+- **Alternatives:** answer in English then translate for the learner (rejected: the learner would see an unchecked translation); keep cross-lingual off (rejected: no answers for French and Portuguese learners).
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team (open questions 12 and 19), external bias reviewer.**
+- **Status:** Approved by the fellow. On the dev site; settings to repeat in production.
+
 ---
 
 ## Template

@@ -112,16 +112,18 @@ function afirst_diag_latest_question(int $entryid): int {
  */
 function afirst_diag_place_after(stdClass $course, int $cmid, int $aftercmid): void {
     global $DB;
-    $modinfo = get_fast_modinfo($course);
-    $after = $modinfo->get_cm($aftercmid);
-    $sequence = $modinfo->get_sections()[$after->sectionnum] ?? [];
-    $next = $sequence[array_search($aftercmid, $sequence) + 1] ?? null;
+    // Order from the database, with the course cache reset: a stale cache makes the move undo earlier moves.
+    get_fast_modinfo($course->id, 0, true);
+    $sectionid = $DB->get_field('course_modules', 'section', ['id' => $aftercmid], MUST_EXIST);
+    $section = $DB->get_record('course_sections', ['id' => $sectionid], '*', MUST_EXIST);
+    $sequence = array_map('intval', array_filter(explode(',', (string)$section->sequence)));
+    $next = $sequence[array_search($aftercmid, $sequence, true) + 1] ?? null;
     if ($next === $cmid) {
         return;
     }
-    moveto_module(get_coursemodule_from_id('', $cmid, $course->id, false, MUST_EXIST),
-        $DB->get_record('course_sections', ['id' => $after->section], '*', MUST_EXIST), $next);
+    moveto_module(get_coursemodule_from_id('', $cmid, $course->id, false, MUST_EXIST), $section, $next);
     rebuild_course_cache($course->id, true);
+    get_fast_modinfo($course->id, 0, true);
 }
 
 $template = null;

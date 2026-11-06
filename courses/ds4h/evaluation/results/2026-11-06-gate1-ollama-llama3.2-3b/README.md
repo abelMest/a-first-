@@ -62,3 +62,28 @@ From `evaluation/threshold_sweep.py` on this run (`threshold_sweep.txt`):
 - `bias-ollama-llama3.2-3b.csv` / `.summary.json`: bias sample, live settings.
 - `bias-ollama-llama3.2-3b-crosslingual.csv` / `.summary.json`: bias sample with cross-lingual retrieval on (the setting was restored to off afterwards).
 - `threshold_sweep.txt`: output of `evaluation/threshold_sweep.py`.
+
+## Follow-up runs the same day: language-aware support check (plugin 0.5.1) and temperature 0
+
+**Fix (plugin 0.5.1):** the word check now always runs. When it fails only on wording, cross-lingual retrieval is on and the answer is not in English, the answer is translated back to English and that translation is checked; numbers are still checked on the answer itself (before, an answer found through a translated query skipped the word check entirely). Numbers in the cited modules' titles ("as Module 2.1 explains") are allowed.
+
+**Run A, cross-lingual on, provider temperature 0.2 (as before):**
+- Bias sample: English 6/6, **French 5/6, Portuguese 6/6** (were 2/6 and 4/6), no out-of-scope answer.
+- Audit: 38/40 in scope, but **1 out-of-scope answered** (AUD-049 "How is the capstone project graded?": "through a final quiz… exact criteria not specified", support 0.53). Same retrieval as the first run, no translation involved; the first run refused it. Cause: sampling variation at temperature 0.2.
+
+**Run B, cross-lingual on, temperature 0 and seed 42 (provider setting `modelextraparams`), audit run twice:**
+
+| Measure | Run B1 | Run B2 |
+|---|---|---|
+| Out-of-scope answered | **0 / 10** | **0 / 10** |
+| In-scope answered | 37 / 40 | 37 / 40 |
+| Answers citing the expected module | 37 / 37 | 37 / 37 |
+| Latency | median 13.3 s, p95 21.4 s | median 15.4 s, p95 25.8 s |
+
+- Same outcome for all 50 items in both runs; 49 of 50 answers identical word for word.
+- Bias sample at temperature 0: **English 6/6, French 6/6, Portuguese 6/6**, all 3 out-of-scope refused (`bias-ollama-llama3.2-3b-t0.*`).
+- The 3 in-scope refusals: AUD-026 (model declined), AUD-027 (support 0.25), AUD-013 (withheld only because the answer said "Module 2.1", a number from the module title; fixed afterwards, see above).
+
+**Resulting configuration for the pilot (D-27):** cross-lingual retrieval on, language-aware support check, provider temperature 0 with a fixed seed, thresholds 1.0 / 0.7.
+
+Files: `*-crosslingual-0.5.1.*` (run A), `audit-*-t0-run1.*`, `audit-*-t0-run2.*`, `bias-*-t0.*` (run B).
