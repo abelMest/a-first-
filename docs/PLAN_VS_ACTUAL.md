@@ -124,3 +124,5 @@ Decision numbers (D-nn) refer to `DECISION_LOG.md`.
 15. **ADAPTIVE changes (D-22 to D-24):** do you accept remediation below the course pass mark of 70% (not 80%), four 10-question module diagnostics instead of nine 3-question ones, and review units copied word for word from the SCORM text (owner-reviewed) instead of units authored in Nolej?
 16. **Content owner, final assessment:** the course's final "Quiz" (*Final Course Activities & Assessment*) holds questions from a different course (preparedness topics). Which quiz should be the DS4H final assessment for the endline score? Nothing has been changed.
 17. **Content owner, review units:** who reviews the 9 review units (`courses/ds4h/microlearning/REVIEW.md`), and by when? They stay hidden from learners until approved (Gate 2.3).
+18. **Local model (D-25):** do you accept local open models only for the pilot, and can Africa CDC IT provide a server (ideally with a GPU) to run them? This replaces question 4.
+19. **Languages:** the Gate 1 run gave French and Portuguese learners no answers with cross-lingual retrieval off and 6 of 12 with it on, nothing harmful. Enable it for the pilot (question 12)?

@@ -38,7 +38,7 @@ class audit_runner {
     public const RESULT_COLUMNS = [
         'run_id', 'provider', 'model', 'item_id', 'set', 'language', 'topic_area', 'type', 'module', 'status',
         'refusal_reason', 'answer', 'cited_passages', 'cited_modules', 'anchor_in_citations', 'latency_ms', 'top_score',
-        'retrieval_query', 'support_score',
+        'retrieval_query', 'support_score', 'top_similarity',
         'A1_accuracy', 'A2_traceability', 'A3_refusal', 'A4_harm', 'A4_flags', 'A5_language', 'grader', 'grader_comment',
     ];
 
@@ -231,6 +231,7 @@ class audit_runner {
             'anchor_in_citations' => $anchorhit,
             'latency_ms' => (int)$log->latencyms,
             'top_score' => $log->topscore === null ? '' : round((float)$log->topscore, 4),
+            'top_similarity' => ($log->topsimilarity ?? null) === null ? '' : round((float)$log->topsimilarity, 4),
             'support_score' => $log->supportscore === null ? '' : round((float)$log->supportscore, 4),
             'retrieval_query' => $log->retrievalquery ?? '',
         ]);

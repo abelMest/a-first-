@@ -1,0 +1,60 @@
+items 50: in scope 40, out of scope 10
+status (in scope): {'answered': 36, 'refused': 4}
+status (out of scope): {'refused': 10}
+refusal reasons (all): {'model_declined': 8, 'unsupported': 6}
+in-scope answered with expected anchor in cited passages: 22
+latency ms: median 14279, p90 24684, max 30570
+top_score in scope:  min 4.14 median 14.45
+top_score out scope: max 12.45 median 6.53
+
+threshold | in-scope answered | anchored | in-scope refused | out-of-scope answered
+      0.0 |                36 |       22 |                4 |                     0
+      0.5 |                36 |       22 |                4 |                     0
+      1.0 |                36 |       22 |                4 |                     0
+      1.5 |                36 |       22 |                4 |                     0
+      2.0 |                36 |       22 |                4 |                     0
+      2.5 |                36 |       22 |                4 |                     0
+      3.0 |                36 |       22 |                4 |                     0
+      3.5 |                36 |       22 |                4 |                     0
+      4.0 |                36 |       22 |                4 |                     0
+      4.5 |                35 |       21 |                5 |                     0
+      5.0 |                35 |       21 |                5 |                     0
+      5.5 |                35 |       21 |                5 |                     0
+      6.0 |                34 |       20 |                6 |                     0
+      6.5 |                34 |       20 |                6 |                     0
+      7.0 |                33 |       19 |                7 |                     0
+      7.5 |                33 |       19 |                7 |                     0
+      8.0 |                30 |       18 |               10 |                     0
+      8.5 |                30 |       18 |               10 |                     0
+      9.0 |                30 |       18 |               10 |                     0
+      9.5 |                29 |       18 |               11 |                     0
+     10.0 |                29 |       18 |               11 |                     0
+     10.5 |                26 |       15 |               14 |                     0
+     11.0 |                25 |       15 |               15 |                     0
+     11.5 |                25 |       15 |               15 |                     0
+     12.0 |                23 |       15 |               17 |                     0
+
+top_similarity in scope:  min 0.631 median 0.816
+top_similarity out scope: max 0.718 median 0.635
+
+min score | min similarity | in-scope answered | anchored | out-of-scope answered
+      1.0 |           0.70 |                36 |       22 |                     0
+      1.0 |           0.75 |                36 |       22 |                     0
+      1.0 |           0.80 |                36 |       22 |                     0
+      1.0 |           0.85 |                36 |       22 |                     0
+      2.0 |           0.70 |                36 |       22 |                     0
+      2.0 |           0.75 |                36 |       22 |                     0
+      2.0 |           0.80 |                36 |       22 |                     0
+      2.0 |           0.85 |                36 |       22 |                     0
+      3.0 |           0.70 |                36 |       22 |                     0
+      3.0 |           0.75 |                36 |       22 |                     0
+      3.0 |           0.80 |                36 |       22 |                     0
+      3.0 |           0.85 |                36 |       22 |                     0
+      5.0 |           0.70 |                36 |       22 |                     0
+      5.0 |           0.75 |                36 |       22 |                     0
+      5.0 |           0.80 |                36 |       22 |                     0
+      5.0 |           0.85 |                36 |       22 |                     0
+      8.0 |           0.70 |                36 |       22 |                     0
+      8.0 |           0.75 |                35 |       22 |                     0
+      8.0 |           0.80 |                34 |       21 |                     0
+      8.0 |           0.85 |                32 |       20 |                     0

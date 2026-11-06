@@ -186,7 +186,7 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
   - **Open:** the provider's data-retention terms must be checked against the Africa CDC Data Protection and Privacy Framework (Plan v3 §10). Proposal §3.6 says "No learner data are processed on personal hardware" and data stays "on Africa CDC infrastructure". Questions sent to a cloud API need explicit clearance in the ethics protocol.
 - **Model choice:** the evaluation matrix (2 open, 2 cloud; Plan v3 §6 Sprint 3) is run with the 50-question audit harness in Sprint 6 (D-11).
 - **Approver:** Fellow. **Pending: advisory team** (vendor and budget), plus ethics.
-- **Status:** Approved by the fellow.
+- **Status:** Superseded by D-25 (2026-11-06): local open models only, no cloud.
 
 ---
 
@@ -366,6 +366,23 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Alternatives:** Moodle Book/Page activities (rejected: deviates from the H5P choice, D-05); placeholders for the content team (rejected: leaves the route untestable).
 - **Approver:** Fellow (2026-11-06). **Pending: content owner (Gate 2.3), advisory team.**
 - **Status:** Built on the dev site, hidden from learners.
+
+### D-25: Local open models only for the pilot; no cloud model
+- **Date:** 2026-11-06
+- **Decision:** the pilot answers with a **local open model through the core Ollama provider**, starting with `llama3.2` (3B), with `nomic-embed-text` embeddings, all on Africa CDC hardware. No cloud model and no cloud API key. The evaluation matrix (Plan §6) compares open models only (e.g. 3B vs 8B) on the same audit set.
+- **Rationale:** cost (no per-token spend, so no cap to police) and data sovereignty: no question text leaves Africa CDC infrastructure (Prop §3.6). This was the plan's preferred option where hardware allows (Plan §5.4). The Gate 1 candidate run on the real course text (`courses/ds4h/evaluation/results/2026-11-06-gate1-ollama-llama3.2-3b/`) refused all 10 out-of-scope questions and answered 36 of 40 in-scope questions, all citing the expected module, so a small local model with the refusal and support safeguards reaches the safety bar in automatic measures.
+- **Cost:** latency (median 14 s, p95 26 s on the fellow's laptop) and the need for a server, ideally with a GPU, at Africa CDC for the pilot. Accuracy still needs the reviewers' grading (Gate 1.1).
+- **Alternatives:** cloud model with caps (D-10, rejected: cost and data leaving Africa CDC); Africa CDC's Microsoft 365 / Azure OpenAI tenancy (possible later, if IT approves; not needed for the pilot).
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team, Africa CDC IT (server capacity).**
+- **Status:** Approved by the fellow. Supersedes D-10. Closes open question 4 unless the advisory team reopens it.
+
+### D-26: Grounding thresholds set from the Gate 1 run: keyword 1.0, similarity 0.7
+- **Date:** 2026-11-06
+- **Decision:** keep the keyword threshold at **1.0** (default was 3.0) and the meaning-similarity threshold at **0.7**.
+- **Rationale:** on the 50-item audit (real course text, 3B model) no out-of-scope question was answered at any threshold: the model's NOT_IN_COURSE decline and the support check refused all 10. Raising the keyword threshold only loses in-scope answers (one from 4.5, six at 8.0). Similarity overlaps between in-scope (min 0.63) and out-of-scope (max 0.72) questions, so it cannot be a safety filter either. The thresholds are a cheap pre-filter for questions with no course overlap at all; safety is the decline plus the support check (D-20). Gate 1.6.
+- **Re-check:** after the reviewers re-anchor and sign off the audit set, and for any new model.
+- **Approver:** Fellow (2026-11-06). **Pending: advisory team.**
+- **Status:** Approved by the fellow. Already the live setting on the dev site.
 
 ---
 
