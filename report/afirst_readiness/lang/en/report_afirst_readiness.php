@@ -38,6 +38,7 @@ $string['reason:domain'] = '{$a->domain} {$a->value}% (needs {$a->min}%)';
 $string['reason:domainmissing'] = '{$a} not assessed on this path';
 $string['reason:knowledge'] = 'knowledge check {$a->label} {$a->value}% (needs {$a->min}%)';
 $string['reason:knowledgemean'] = 'knowledge mean {$a->value}% (needs {$a->min}%)';
+$string['reason:knowledgemeanmissing'] = 'knowledge mean {$a->value}% (needs {$a->min}%; {$a->missing} not taken, counted as 0%)';
 $string['reason:knowledgemissing'] = 'knowledge check {$a} not taken';
 $string['reason:supervisor'] = 'supervisor rating {$a->value}% (needs {$a->min}%)';
 $string['reason:supervisormissing'] = 'no supervisor rating yet';

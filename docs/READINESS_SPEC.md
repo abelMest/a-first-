@@ -68,11 +68,13 @@ The report shows which rule each learner missed, so the result can be acted on. 
 Building a scenario into a course:
 
 ```bash
-php report/afirst_readiness/cli/build_scenario.php --courseid=2 --section=10 \
+php report/afirst_readiness/cli/build_scenario.php --courseid=4 --section=6 \
     --scenario=/opt/afirst/courses/ds4h/readiness/scenarios/DS4H-RDY-01.json \
     --settings=/opt/afirst/courses/ds4h/readiness/readiness_settings.json \
-    --course-config=/opt/afirst/courses/ds4h/course_config.json
+    --course-config=/opt/afirst/courses/ds4h/course_config.json     --taxonomy=/opt/afirst/courses/ds4h/taxonomy.json
 ```
+
+(Course 4, section 6 "Final Course Activities & Assessment" are the dev ids; use the production ids there. Add `--allow-draft` only on dev or for the beta.)
 
 The builder creates a hidden Lesson: custom scoring, one attempt per page, no retakes, feedback shown. It records which answer maps to which option, so the report never relies on answer text. The teacher reviews the Lesson and makes it visible.
 
@@ -97,3 +99,18 @@ The builder creates a hidden Lesson: custom scoring, one attempt per page, no re
 - One attempt per scenario. Retakes need a new attempt policy, to be decided with supervisors.
 - Domain scores come from authored option points. Their validity depends on expert review of those points.
 - The report reads the learner's latest Lesson attempt. If a teacher allows retakes, earlier attempts are ignored.
+- The builder is not idempotent: running it twice creates a second Lesson and a second report entry (the report shows the newest). Delete the old Lesson before rebuilding a new scenario version.
+
+## 9. Dev test on the real course (2026-11-08)
+
+**Evidence class: `dev`** (scripted test accounts, D-12). The draft scenario was built into dev course 4 (*Data Science & Analytics for Public Health*, restored without user data) as Lesson cm 60, hidden, with the 9 Knowledge Checks from `course_config.json` as knowledge evidence. Every domain competency was checked against `taxonomy.json`. Test learners played it through the Lesson web-service API, the same calls the Moodle app makes (`dev/simulate_attempt.php --path=...`):
+
+| Learner | Knowledge Checks | Path | Domains | Result |
+|---|---|---|---|---|
+| student1 | all 100% | best option everywhere | all 100% | **Ready for independent work** |
+| student4 | 80% (4.1: 67%) | weak cleaning step, then remediation; one weak analysis choice | DQW 60%, ANA 78%, others 100% | **Ready with supervision**, gaps listed |
+| student2 | all 100% | shares identifiable data (critical) | GOV 50% | **Not yet ready**: critical choice, governance 50% |
+| student3 | none taken | poor choices | 0–50% | **Not yet ready**: every domain, knowledge mean 0% with 9 not taken |
+| student5 | none | stopped at decision 4 | — | **In progress** |
+
+Two report fixes came out of this run (plugin 0.1.1): a critical choice is now named even when low scores already decide "not yet ready" (before, student2's reason did not mention it), and a knowledge mean pulled down by checks not taken says how many were missing.

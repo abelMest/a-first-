@@ -114,9 +114,18 @@ final class scenario_test extends \basic_testcase {
         $r = rules::classify(['domains' => ['X' => 59, 'Y' => 90]] + $base);
         $this->assertSame(rules::NOT_YET, $r['status']);
 
+        // Below the supervised bar, a critical choice is still named first.
+        $r = rules::classify(['critical' => true, 'domains' => ['X' => 50, 'Y' => 90]] + $base);
+        $this->assertSame(rules::NOT_YET, $r['status']);
+        $this->assertSame(['critical', null], $r['reasons'][0]);
+        $this->assertSame('domain', $r['reasons'][1][0]);
+
         // A knowledge check not taken blocks independence and counts as 0 in the mean.
         $r = rules::classify(['knowledge' => ['1.1' => 100, '1.2' => null]] + $base);
         $this->assertSame(rules::NOT_YET, $r['status']);
+        $this->assertSame('knowledgemeanmissing', $r['reasons'][0][0]);
+        $this->assertSame(1, $r['reasons'][0][1]['missing']);
+        $r = rules::classify(['knowledge' => ['1.1' => 50, '1.2' => 50]] + $base);
         $this->assertSame('knowledgemean', $r['reasons'][0][0]);
 
         // Supervisor rating, when configured, is required for independence.

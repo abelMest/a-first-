@@ -5,7 +5,8 @@
 //   php simulate_attempt.php --ensure-user=student2 --password-env=AFIRST_DEV_STUDENT_PASS --courseid=4
 //   php simulate_attempt.php --user=student1 --cmid=38 --correct=10      (answer 10 questions right, rest wrong)
 //   php simulate_attempt.php --user=student1 --report --courseid=4       (what is available to the learner)
-//   php simulate_attempt.php --user=student1 --reset --courseid=4        (remove the learner's quiz attempts)
+//   php simulate_attempt.php --user=student1 --reset --courseid=4        (remove the learner's quiz and lesson attempts)
+//   php simulate_attempt.php --user=student1 --cmid=60 --path=A,A,A,A,A,A,A  (play a readiness scenario Lesson)
 // Attempts go through the core quiz attempt API, so grades, completion and availability update as they
 // would for a real learner. Never run this on a site with real learners.
 
@@ -15,9 +16,10 @@ require_once($CFG->libdir . '/clilib.php');
 require_once($CFG->dirroot . '/mod/quiz/locallib.php');
 require_once($CFG->dirroot . '/user/lib.php');
 require_once($CFG->libdir . '/enrollib.php');
+require_once($CFG->dirroot . '/mod/lesson/locallib.php');
 
 [$o] = cli_get_params(['user' => null, 'cmid' => null, 'correct' => 0, 'report' => false, 'reset' => false, 'courseid' => null,
-    'ensure-user' => null, 'password-env' => null]);
+    'ensure-user' => null, 'password-env' => null, 'path' => null]);
 
 $host = parse_url($CFG->wwwroot, PHP_URL_HOST);
 if (!in_array($host, ['localhost', '127.0.0.1'], true)) {
@@ -70,6 +72,47 @@ if ($o['report']) {
         printf("  cm %-3d %-10s %-48s %s\n", $cm->id, $state, mb_strimwidth($cm->name, 0, 48), $cm->visible && !$cm->available
             ? trim(html_to_text(\core_availability\info::format_info($cm->availableinfo, $cm->get_course()), 0, false)) : '');
     }
+    exit(0);
+}
+
+if ($o['path'] !== null) {
+    // Play a readiness scenario Lesson through the Lesson web-service API (as the mobile app does).
+    // --path lists the option ids chosen at each decision point in order, e.g. --path=A,A,A,A,A,A,A.
+    $cm = get_coursemodule_from_id('lesson', $o['cmid'], 0, false, MUST_EXIST);
+    $built = $DB->get_record('report_afirst_readiness', ['lessoncmid' => $cm->id], '*', MUST_EXIST);
+    $scenario = json_decode($built->scenario, true);
+    $answerids = [];
+    foreach (json_decode($built->answermap, true) as $answerid => $m) {
+        $answerids[$m['node']][$m['option']] = (int)$answerid;
+    }
+    $nodes = array_column($scenario['nodes'], null, 'id');
+    \core\session\manager::set_user($user);
+    \mod_lesson_external::launch_attempt($cm->instance);
+    $node = $scenario['start'];
+    $taken = [];
+    foreach (explode(',', $o['path']) as $option) {
+        if ($node === 'end') {
+            cli_error('The path is longer than the scenario.');
+        }
+        $answerid = $answerids[$node][$option] ?? cli_error("No option $option at $node.");
+        $pageid = (int)$DB->get_field('lesson_answers', 'pageid', ['id' => $answerid], MUST_EXIST);
+        \mod_lesson_external::process_page($cm->instance, $pageid, [
+            // The hidden field marks the Lesson answer form as submitted, as the mobile app sends it.
+            ['name' => '_qf__lesson_display_answer_form_multichoice_singleanswer', 'value' => 1],
+            ['name' => 'answerid', 'value' => $answerid],
+        ]);
+        $taken[] = "$node:$option";
+        $node = array_column($nodes[$node]['options'], 'next', 'id')[$option];
+    }
+    if ($node !== 'end') {
+        echo "{$user->username}: stopped at $node (attempt left unfinished)
+";
+        exit(0);
+    }
+    $result = \mod_lesson_external::finish_attempt($cm->instance);
+    $grade = $DB->get_field_sql('SELECT MAX(grade) FROM {lesson_grades} WHERE lessonid = ? AND userid = ?', [$cm->instance, $user->id]);
+    printf("%s: %s -> finished, lesson grade %s%%
+", $user->username, implode(' ', $taken), format_float((float)$grade, 1));
     exit(0);
 }
 

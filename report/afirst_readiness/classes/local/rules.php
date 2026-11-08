@@ -106,12 +106,19 @@ class rules {
         if (!empty($in['knowledge'])) {
             $values = array_map(fn($v) => $v ?? 0.0, $in['knowledge']);
             $mean = round(array_sum($values) / count($values), 1);
+            $missing = count(array_filter($in['knowledge'], fn($v) => $v === null));
             if ($mean < $t['knowledge_mean_min_supervised']) {
-                $low[] = ['knowledgemean', ['value' => $mean, 'min' => $t['knowledge_mean_min_supervised']]];
+                // Say when checks not taken pulled the mean down, so the teacher knows what to ask for.
+                $low[] = [$missing ? 'knowledgemeanmissing' : 'knowledgemean',
+                    ['value' => $mean, 'min' => $t['knowledge_mean_min_supervised'], 'missing' => $missing]];
             }
         }
         if (!$low) {
             return ['status' => self::SUPERVISED, 'reasons' => $gaps];
+        }
+        // A critical choice is always reported, even when low scores already decide the result.
+        if (!empty($in['critical'])) {
+            array_unshift($low, ['critical', null]);
         }
         return ['status' => self::NOT_YET, 'reasons' => $low];
     }

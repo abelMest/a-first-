@@ -54,4 +54,6 @@ READINESS is outside the original fellowship scope (Plan §2.2, WP §13). It ope
 | 3.3 | Protocol and ethics cover READINESS outcomes; otherwise results are labelled `dev`/`beta` evidence only | Fellow, supervisor |
 | 3.4 | Readiness thresholds reviewed against the ADAPTIVE data from the pilot | Fellow |
 
+**Status (2026-11-08):** not open. v1 is built and dev-tested on the real course (dev course 4, all five result types reproduced, [`READINESS_SPEC.md`](READINESS_SPEC.md) §9). 3.1–3.4 are all pending; the scenario is still `draft` (no SME named).
+
 If Gate 3 is not opened during the fellowship, the deliverable stays the handover specification in [`READINESS_SPEC.md`](READINESS_SPEC.md), as the plan intended.

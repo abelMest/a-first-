@@ -25,9 +25,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'report_afirst_readiness';
-$plugin->version = 2026110400;
+$plugin->version = 2026110800;
 $plugin->requires = 2025041400; // Moodle 5.0.
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.1.0';
+$plugin->release = '0.1.1';
 $plugin->dependencies = ['mod_lesson' => ANY_VERSION];
