@@ -39,6 +39,7 @@ Criteria are the plan's own (Plan v3 §7, D-11). All must be met, and the adviso
 | 2.4 | Fast-track (diagnostic ≥ 90%) and remediation (knowledge check < 70%, D-22) rules verified as test students | `course-setup/CHECKLIST.md` sign-off | Fellow | **Verified on dev** with scripted attempts (`dev/simulate_attempt.php`) and the browser: 10/10 on the Module 2 diagnostic opened both Module 2 Knowledge Checks without the SCORM; 20% on Knowledge Check 1.1 opened Review 1.1, and viewing it opened the retake; a learner with no attempts saw every Knowledge Check locked |
 | 2.5 | Beta with 3–5 volunteers covering BASIC and ADAPTIVE; critical issues fixed (Prop §4.1 Sprint 8) | Beta notes, DE log | Fellow | Pending |
 | 2.6 | Synthetic Phase 2 data purged before the Sprint 9 baseline (D-13) | Purge record | Admin | Pending |
+| 2.8 | Pilot study instruments (information sheet, consent, baseline and endline tests, questionnaires) approved by the advisory team and the ethics committee, then shown (D-29) | `course-setup/build_pilot_instruments.php --show` | Fellow, advisory team, ethics | **Built on dev, hidden** (2026-11-12): consent gates every instrument; a test learner consented, answered the starting questionnaire and took the baseline test. Item set provisional (Knowledge Check questions) |
 | 2.7 | Advisory team decision recorded | `DECISION_LOG.md` | Advisory team | Pending |
 
 **When Gate 2 passes:** the pilot launches at Sprint 9 with BASIC and ADAPTIVE. Stage 3 may open.

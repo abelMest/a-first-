@@ -396,6 +396,23 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-06). **Pending: advisory team (open questions 12 and 19), external bias reviewer.**
 - **Status:** Approved by the fellow. On the dev site; settings to repeat in production.
 
+### D-28: Deploy BASIC to production before Gate 1, not visible to learners
+- **Date:** 2026-11-11
+- **Decision:** Install the course assistant (plugin 0.5.1) on the production site now, configured and tested by staff, but not added to any course page that learners use until Gate 1 passes. This departs from D-19 (deploy only after the gate) for the install step only.
+- **Rationale:** the production VM became reachable again on 2026-11-11 after a long outage. Installing now lets the fellow test the assistant against the real site, model server and course before the Gate 1 decision, so Stage 1 can open without delay when the gate passes.
+- **Safeguards:** server backup first (DEPLOYMENT §1); no learner sees the assistant before Gate 1; no pilot or learner data collected; rollback by uninstalling the plugin (§8).
+- **Found at deployment:** the production Ollama API (port 11434) answers from the office network without authentication and holds unexplained models (`p1`–`p7`, `probe_i034`). It must be restricted to the Moodle server (DEPLOYMENT §3.1) before any learner use.
+- **Approver:** Fellow (2026-11-11). **Pending:** advisory team to note the change at the next Friday review.
+- **Status:** In progress.
+
+### D-29: Pilot study instruments built in Moodle, hidden until approved
+- **Date:** 2026-11-12
+- **Decision:** The pre-post study instruments (Prop §3.2, §3.6, §3.7) are built with core activities by `course-setup/build_pilot_instruments.php` from `courses/ds4h/pilot/pilot_instruments.json`, all hidden: an information sheet (Page, draft text with placeholders for the ethics reference, contacts and retention), a consent Choice (answer can be changed, which withdraws), a starting questionnaire (confidence, connection, device), a baseline and an identical endline test of 18 questions, and mid- and end-of-pilot questionnaires (NPS, confidence, assistant use and trust, review units, connection, three open questions). Tests and questionnaires open only after the consent answer; tests weigh 0 in the course total and never show the right answers.
+- **Provisional item set:** the 18 test questions are the first two of each of the 9 Knowledge Checks, so learners meet them again during the course. This inflates endline scores (practice effect) and must be confirmed or replaced by a subject-matter expert with a dedicated parallel set before the beta.
+- **Rationale:** the pilot cannot measure comprehension, confidence or experience without these, and building them now lets the advisors and the ethics committee review the real activities, not a description.
+- **Approver:** Fellow (2026-11-12). **Pending:** advisory team (instruments and item set), ethics committee (information sheet and consent wording).
+- **Status:** Built on dev course 4, verified with a test learner. Not on production.
+
 ---
 
 ## Template

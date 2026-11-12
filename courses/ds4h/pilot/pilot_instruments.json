@@ -1,0 +1,66 @@
+{
+  "_comment": "Pilot study instruments for course ds4h (Prop §3.2, §3.6, §3.7; D-29). Built by course-setup/build_pilot_instruments.php, all hidden until the advisory team and the ethics committee approve them. Activities are found by ID number; questions are named by their source Knowledge Check and slot, so the file works on any copy of the course.",
+  "section": 1,
+  "information_sheet": {
+    "idnumber": "AFIRST-PILOT-INFO",
+    "name": "A-FIRST pilot: information sheet",
+    "content_file": "information_sheet.html"
+  },
+  "consent": {
+    "idnumber": "AFIRST-PILOT-CONSENT",
+    "name": "A-FIRST pilot: consent",
+    "intro": "<p>Please read the A-FIRST pilot information sheet above before answering. Taking part is voluntary and does not affect your course access, grades or certificate. You can change your answer at any time; changing it to \"No\" withdraws you from the study.</p>",
+    "options": [
+      "Yes, I have read the information sheet and I agree to take part in the A-FIRST pilot study.",
+      "No, I do not want to take part. I will still have full access to the course."
+    ]
+  },
+  "assessment": {
+    "intro": "<p>This short test measures what you know about the course topics. It is used only for the A-FIRST pilot study and does not count towards your course grade or certificate. Answer on your own, without the course assistant or other help. If you do not know an answer, choose the one you think is most likely.</p>",
+    "items": [
+      {"source_quiz": "Module 1.1 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 1.2 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 2.1 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 2.2 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 3.1 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 3.2 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 4.1 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 4.2 Knowledge Check", "slots": [1, 2]},
+      {"source_quiz": "Module 4.3 Knowledge Check", "slots": [1, 2]}
+    ],
+    "quizzes": [
+      {"idnumber": "AFIRST-PILOT-BASELINE", "name": "A-FIRST pilot: baseline test"},
+      {"idnumber": "AFIRST-PILOT-ENDLINE", "name": "A-FIRST pilot: endline test"}
+    ]
+  },
+  "surveys": [
+    {
+      "idnumber": "AFIRST-PILOT-SURVEY-BASELINE",
+      "name": "A-FIRST pilot: starting questionnaire",
+      "items": ["intro", "confidence", "connection", "device"]
+    },
+    {
+      "idnumber": "AFIRST-PILOT-SURVEY-MID",
+      "name": "A-FIRST pilot: mid-pilot questionnaire",
+      "items": ["intro", "nps", "confidence", "assistant_use", "assistant_trust", "review_useful", "connection", "helped", "barriers", "assistant_issues"]
+    },
+    {
+      "idnumber": "AFIRST-PILOT-SURVEY-END",
+      "name": "A-FIRST pilot: end-of-pilot questionnaire",
+      "items": ["intro", "nps", "confidence", "assistant_use", "assistant_trust", "review_useful", "connection", "helped", "barriers", "assistant_issues"]
+    }
+  ],
+  "survey_items": {
+    "intro": {"type": "label", "text": "<p>This questionnaire is part of the A-FIRST pilot study. It takes about 5 minutes. Your answers are linked to your study code, never reported with your name, and do not affect your course grade.</p>"},
+    "nps": {"type": "scale", "required": true, "question": "How likely are you to recommend this course to a colleague?", "options": ["0 (not at all likely)", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10 (extremely likely)"]},
+    "confidence": {"type": "scale", "required": true, "question": "How confident are you that you can apply the data science skills taught in this course in your work?", "options": ["1 (not at all confident)", "2", "3", "4", "5 (very confident)"]},
+    "assistant_use": {"type": "choice", "required": true, "question": "How often have you used the course assistant (\"Ask the course\")?", "options": ["Never", "Once or twice", "A few times a month", "About once a week", "Several times a week"]},
+    "assistant_trust": {"type": "choice", "required": true, "question": "When you used the course assistant, how much did you trust its answers?", "options": ["1 (not at all)", "2", "3", "4", "5 (completely)", "I have not used it"]},
+    "review_useful": {"type": "choice", "required": true, "question": "How useful were the review units that opened after a Knowledge Check?", "options": ["1 (not useful)", "2", "3", "4", "5 (very useful)", "I did not see any"]},
+    "connection": {"type": "choice", "required": true, "question": "How do you usually connect to the internet when you study this course?", "options": ["Office broadband", "Home broadband", "Mobile data", "Shared or public connection", "Other"]},
+    "device": {"type": "choice", "required": true, "question": "Which device do you mostly use for this course?", "options": ["Laptop or desktop computer", "Tablet", "Mobile phone"]},
+    "helped": {"type": "text", "required": false, "question": "What has helped you learn most in this course?"},
+    "barriers": {"type": "text", "required": false, "question": "What has made learning harder (for example time, connection, language, content)?"},
+    "assistant_issues": {"type": "text", "required": false, "question": "Did the course assistant ever give an answer that seemed wrong, incomplete or unhelpful? Please describe what you asked and what happened."}
+  }
+}
