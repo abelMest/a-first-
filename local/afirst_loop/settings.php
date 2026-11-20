@@ -42,6 +42,12 @@ if ($hassiteconfig) {
         new lang_string('earlydays', 'local_afirst_loop'), new lang_string('earlydays_desc', 'local_afirst_loop'), 7, PARAM_INT));
     $settings->add(new admin_setting_configtext('local_afirst_loop/trustdown',
         new lang_string('trustdown', 'local_afirst_loop'), new lang_string('trustdown_desc', 'local_afirst_loop'), 2, PARAM_INT));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/slowmbps',
+        new lang_string('slowmbps', 'local_afirst_loop'), new lang_string('slowmbps_desc', 'local_afirst_loop'), '1',
+        PARAM_FLOAT));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/gaplearners',
+        new lang_string('gaplearners', 'local_afirst_loop'), new lang_string('gaplearners_desc', 'local_afirst_loop'), 3,
+        PARAM_INT));
     $settings->add(new admin_setting_heading('local_afirst_loop/followup', new lang_string('followup', 'local_afirst_loop'),
         new lang_string('followup_desc', 'local_afirst_loop')));
     $settings->add(new admin_setting_configtext('local_afirst_loop/stalldays',

@@ -50,13 +50,18 @@ class observer {
     }
 
     /**
-     * A learner asked the course assistant a question (R5 early review).
+     * A learner asked the course assistant a question (R5 early review, R9 slow connection, R10 content gap).
      *
      * @param \block_afirst_assistant\event\question_asked $event
      */
     public static function question_asked(\block_afirst_assistant\event\question_asked $event): void {
         try {
             local\assistant_signals::question_asked((int)$event->courseid, (int)$event->relateduserid, (int)$event->objectid);
+            local\assistant_signals::slow_connection((int)$event->courseid, (int)$event->relateduserid,
+                (int)$event->objectid);
+            if (!empty($event->other['refused'])) {
+                local\assistant_signals::content_gap((int)$event->courseid, (int)$event->objectid);
+            }
         } catch (\Throwable $e) {
             debugging('local_afirst_loop: ' . $e->getMessage(), DEBUG_DEVELOPER);
         }

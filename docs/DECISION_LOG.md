@@ -443,6 +443,17 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-20). **Pending:** advisory team (inactivity period, digest rhythm).
 - **Status:** Built and tested on dev course 4 (nudge simulated 15 days ahead for all test learners; digest sent to teacher1). Not on production.
 
+### D-33: Slow-connection offer (R9) and content-gap alert (R10)
+- **Date:** 2026-11-20
+- **Decision:** The last two rules of the OODA design note, in `local_afirst_loop` 0.4.0.
+  - **R9:** when the median connection speed reported over a learner's last 5 questions to the assistant is below 1 Mbps (setting; browsers that report no speed are ignored, at least 3 readings needed), the learner is offered the review unit of the module they are in, once per course, through the same early-review group, with a message saying why.
+  - **R10:** when 3 or more different learners ask the same question (compared word for word after removing case and punctuation) and the assistant declines it for any reason except an error or the rate limit, the course reviewers get one message with the question text and the count, no names, linking to the assistant's unanswered questions.
+- **Rationale:** R9 serves the protocol's equity commitment for low-bandwidth learners (Prop §3.9; the assistant already records connection type and speed). R10 turns the unanswered-question log into an alert, the developmental evaluation finding of 6 November (A-18: courses need a glossary).
+- **Found in testing:** an off-topic question was declined as "unsupported" (the model tried; the support check withheld it), so the first R10 rule, which counted only no-match and model-declined refusals, missed it. All refusals except errors and rate limits now count.
+- **Limits:** the question comparison is exact after normalisation, so differently worded versions of one question are counted separately; the connection speed comes from the browser's own estimate (Chrome, Edge), not a measurement.
+- **Approver:** Fellow (2026-11-20). **Pending:** advisory team (thresholds).
+- **Status:** Built and tested on dev course 4 with the real assistant. Not on production.
+
 ---
 
 ## Template

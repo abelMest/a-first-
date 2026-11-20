@@ -58,7 +58,10 @@ foreach (['fasttrack', 'remediation', 'newlearner'] as $username) {
     }
     $DB->delete_records('block_afirst_log', ['courseid' => $course->id, 'userid' => $id]);
 }
-// Teacher alerts about the demo learners (R6, R7) go too.
+// Content-gap alerts (R10, not tied to one learner) and teacher alerts about the demo learners (R6, R7) go too.
+if ($DB->get_manager()->table_exists('local_afirst_loop_sent')) {
+    $DB->delete_records('local_afirst_loop_sent', ['courseid' => $course->id, 'kind' => 'gap']);
+}
 $teacher = $DB->get_field('user', 'id', ['username' => 'teacher1']);
 $DB->delete_records_select('notifications', "useridto = ? AND component = 'local_afirst_loop'", [$teacher]);
 $user = $DB->get_record('user', ['username' => 'remediation'], '*', MUST_EXIST);
