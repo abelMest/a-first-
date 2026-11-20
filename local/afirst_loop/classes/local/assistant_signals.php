@@ -81,7 +81,7 @@ class assistant_signals {
      * @param \stdClass $log Row of block_afirst_log (contextmodule, citations).
      * @return string|null
      */
-    private static function module_of_log(\stdClass $log): ?string {
+    public static function module_of_log(\stdClass $log): ?string {
         global $DB;
         $titles = [];
         $citations = json_decode((string)$log->citations, true) ?: [];

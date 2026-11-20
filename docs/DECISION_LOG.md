@@ -433,6 +433,16 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-20). **Pending:** advisory team (thresholds; design note questions 2 and 3).
 - **Status:** Built and tested on dev course 4 with the real assistant (newlearner: three Module 2.1 questions opened Review 2.1 with a message; two not-helpful ratings alerted teacher1). Not on production.
 
+### D-32: Inactivity nudge (R8) and weekly teacher digest
+- **Date:** 2026-11-20
+- **Decision:** Step 3 of the OODA design note, in `local_afirst_loop` 0.3.0, as two scheduled tasks.
+  - **R8, daily (06:15):** a learner who has started the course and has had no activity for 14 days (setting) gets one message naming the last activity they can see, with a link. "Activity" is the latest of a course visit, a completion, a quiz attempt or a question to the assistant. When the learner comes back, the nudge resets, so a later stall is nudged again. Learners who never started are not nudged.
+  - **Weekly digest, Monday 06:30:** each teacher gets one message for the past week: fast-tracked learners, learners sent to a review unit, early-review offers, learners still below the pass mark after the retake, stalled learners, reported answers (new and open) and assistant use (questions, declines, the three modules with most questions).
+- **Rationale:** closes the "act" step for teachers (design note question 5 proposes weekly) and for learners who drift away, using only data Moodle and the assistant already record.
+- **Safeguards:** a nudge never points to an activity hidden from the learner (found in testing: the hidden pilot test and the readiness Lesson were named before the fix). The digest names learners only to their own course's teachers.
+- **Approver:** Fellow (2026-11-20). **Pending:** advisory team (inactivity period, digest rhythm).
+- **Status:** Built and tested on dev course 4 (nudge simulated 15 days ahead for all test learners; digest sent to teacher1). Not on production.
+
 ---
 
 ## Template

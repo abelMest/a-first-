@@ -32,6 +32,14 @@ $messageproviders = [
             'email' => MESSAGE_PERMITTED,
         ],
     ],
+    // To teachers: the weekly digest.
+    'digest' => [
+        'capability' => 'local/afirst_loop:receivealerts',
+        'defaults' => [
+            'popup' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+            'email' => MESSAGE_PERMITTED + MESSAGE_DEFAULT_ENABLED,
+        ],
+    ],
     // To teachers: a learner is still below the pass mark after the review and the retake.
     'needssupport' => [
         'capability' => 'local/afirst_loop:receivealerts',

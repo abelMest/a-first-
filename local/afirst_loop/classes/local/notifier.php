@@ -274,7 +274,7 @@ class notifier {
         $message->subject = $subject;
         $message->fullmessage = $body;
         $message->fullmessageformat = FORMAT_PLAIN;
-        $message->fullmessagehtml = '<p>' . s($body) . '</p>';
+        $message->fullmessagehtml = '<p>' . nl2br(s($body)) . '</p>';
         $message->smallmessage = $body;
         $message->notification = 1;
         $message->courseid = $course->id;
