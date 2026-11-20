@@ -35,6 +35,9 @@ function afirst_cs_validate_config($config): array {
             $errors[] = "thresholds.$key must be a number in (0, 100]";
         }
     }
+    if (isset($config['early_review']) && !is_bool($config['early_review'])) {
+        $errors[] = 'early_review must be true or false';
+    }
     if (empty($config['modules']) || !is_array($config['modules'])) {
         $errors[] = 'modules must be a non-empty object keyed by module code';
         return $errors;
@@ -116,22 +119,26 @@ function afirst_cs_completion_condition(int $cmid): array {
  *    diagnostic is at least fasttrack_min_percent (fast-track route).
  *  - each microlearning unit: open when the knowledge check is below
  *    remediation_below_percent (remediation route); hidden until then unless
- *    hide_microlearning_until_unlocked is false.
+ *    hide_microlearning_until_unlocked is false. With "early_review": true it also
+ *    opens for members of the module's early-review group, which the feedback loop
+ *    (local_afirst_loop, rule R5) fills from assistant signals.
  *  - retake (optional): open when the knowledge check is below the threshold AND
  *    every microlearning unit is complete.
  * A rule whose inputs are missing (null cmid, empty list) is skipped with a notice.
  *
  * @param array $config Decoded and validated course_config.json.
  * @param callable $gradeitemid fn(int $cmid): ?int returning the activity's grade item id.
+ * @param callable|null $groupid fn(string $code): ?int returning the module's early-review group id.
  * @return array{0: array<int, array{module: string, role: string, tree: array}>, 1: string[]}
  *         [plan keyed by target cmid, notices]
  */
-function afirst_cs_build_plan(array $config, callable $gradeitemid): array {
+function afirst_cs_build_plan(array $config, callable $gradeitemid, ?callable $groupid = null): array {
     $plan = [];
     $notices = [];
     $min = (float)$config['thresholds']['fasttrack_min_percent'];
     $max = (float)$config['thresholds']['remediation_below_percent'];
     $hideml = $config['hide_microlearning_until_unlocked'] ?? true;
+    $early = !empty($config['early_review']);
 
     foreach ($config['modules'] as $code => $m) {
         $code = (string)$code;
@@ -177,15 +184,18 @@ function afirst_cs_build_plan(array $config, callable $gradeitemid): array {
         if (!$ml) {
             $notices[] = "$code: no microlearning_cmids yet, remediation rule skipped";
         }
+        $earlygroup = ($early && $groupid) ? $groupid($code) : null;
+        if ($early && $ml && $earlygroup === null) {
+            $notices[] = "$code: early_review is on but the module has no early-review group yet";
+        }
         foreach ($ml as $mlcmid) {
+            $lowkc = afirst_cs_grade_condition($kcgrade, null, $max);
             $plan[$mlcmid] = [
                 'module' => $code,
                 'role' => 'microlearning',
-                'tree' => [
-                    'op' => '&',
-                    'c' => [afirst_cs_grade_condition($kcgrade, null, $max)],
-                    'showc' => [!$hideml],
-                ],
+                'tree' => $earlygroup === null
+                    ? ['op' => '&', 'c' => [$lowkc], 'showc' => [!$hideml]]
+                    : ['op' => '|', 'c' => [$lowkc, ['type' => 'group', 'id' => $earlygroup]], 'show' => !$hideml],
             ];
         }
         if ($retake !== null) {
@@ -241,8 +251,9 @@ function afirst_cs_leaves($tree): ?array {
  * @param mixed $current Decoded existing availability.
  * @param int[] $gradeitemids Grade item ids of the module's activities.
  * @param int[] $cmids Course-module ids of the module's activities.
+ * @param int[] $groupids The module's early-review group ids.
  */
-function afirst_cs_is_managed($current, array $gradeitemids, array $cmids): bool {
+function afirst_cs_is_managed($current, array $gradeitemids, array $cmids, array $groupids = []): bool {
     $leaves = afirst_cs_leaves($current);
     if (!$leaves) {
         return false;
@@ -253,6 +264,9 @@ function afirst_cs_is_managed($current, array $gradeitemids, array $cmids): bool
             continue;
         }
         if ($type === 'completion' && in_array($leaf['cm'] ?? null, $cmids, true)) {
+            continue;
+        }
+        if ($type === 'group' && in_array($leaf['id'] ?? null, $groupids, true)) {
             continue;
         }
         return false;

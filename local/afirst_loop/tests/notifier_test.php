@@ -84,4 +84,20 @@ final class notifier_test extends \advanced_testcase {
         $this->assertSame([], notifier::process($course->id, $student->id, (int)$review->cmid, false));
         $this->assertCount(1, $sink->get_messages());
     }
+
+    public function test_module_of_question(): void {
+        $this->assertSame('2.1', \local_afirst_loop\local\assistant_signals::module_of('2.1', ['Module 4.2 X']));
+        $this->assertSame('4.2', \local_afirst_loop\local\assistant_signals::module_of(null,
+            ['Course overview', 'Module 4.2 Applied Analytics: Machine Learning']));
+        $this->assertSame('3.1', \local_afirst_loop\local\assistant_signals::module_of('', ['module 3.1: Visualisation']));
+        $this->assertNull(\local_afirst_loop\local\assistant_signals::module_of('home', ['Course overview']));
+    }
+
+    public function test_early_review_thresholds(): void {
+        $signals = \local_afirst_loop\local\assistant_signals::class;
+        $this->assertFalse($signals::warrants_early_review(2, 1, 3, 2));
+        $this->assertTrue($signals::warrants_early_review(3, 0, 3, 2));
+        $this->assertTrue($signals::warrants_early_review(2, 2, 3, 2));
+        $this->assertFalse($signals::warrants_early_review(5, 5, 0, 0), 'both signals switched off');
+    }
 }

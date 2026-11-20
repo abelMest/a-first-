@@ -136,7 +136,8 @@ class notifier {
                 continue;
             }
             $kind = self::kind((string)$cm->idnumber, (string)$trigger->idnumber);
-            if ($DB->record_exists('local_afirst_loop_sent', ['userid' => $userid, 'cmid' => $cm->id, 'kind' => $kind])) {
+            if ($DB->record_exists('local_afirst_loop_sent',
+                    ['courseid' => $courseid, 'userid' => $userid, 'cmid' => $cm->id, 'kind' => $kind])) {
                 continue;
             }
             $bykind[$kind][] = $cm;
@@ -154,7 +155,7 @@ class notifier {
         $below = (float)(get_config('local_afirst_loop', 'supportbelow') ?: 70);
         if ($graded && $score !== null && $score < $below && str_starts_with((string)$trigger->idnumber, 'AFIRST-RETAKE-')
                 && !$DB->record_exists('local_afirst_loop_sent',
-                    ['userid' => $userid, 'cmid' => $triggercmid, 'kind' => self::KIND_SUPPORT])) {
+                    ['courseid' => $courseid, 'userid' => $userid, 'cmid' => $triggercmid, 'kind' => self::KIND_SUPPORT])) {
             self::send_teachers($course, $userid, $trigger, $score, $below);
             self::record($courseid, $userid, $triggercmid, self::KIND_SUPPORT);
             $sent[] = [self::KIND_SUPPORT, [$triggercmid]];
@@ -263,7 +264,7 @@ class notifier {
      * @param \moodle_url|null $url
      * @param string $urlname
      */
-    private static function send(string $name, \stdClass $to, \stdClass $course, string $subject, string $body,
+    public static function send(string $name, \stdClass $to, \stdClass $course, string $subject, string $body,
             ?\moodle_url $url, string $urlname): void {
         $message = new \core\message\message();
         $message->component = 'local_afirst_loop';

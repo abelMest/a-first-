@@ -63,6 +63,12 @@ class rate extends external_api {
             throw new \invalid_parameter_exception('Rating must be -1, 0 or 1');
         }
         $DB->set_field('block_afirst_log', 'rating', $params['rating'] ?: null, ['id' => $log->id]);
+        \block_afirst_assistant\event\answer_rated::create([
+            'objectid' => $log->id,
+            'context' => \context_course::instance($log->courseid),
+            'relateduserid' => $USER->id,
+            'other' => ['rating' => $params['rating']],
+        ])->trigger();
         return ['rating' => $params['rating']];
     }
 

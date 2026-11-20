@@ -68,6 +68,12 @@ class escalation_manager {
             'timecreated' => time(),
         ]);
         self::notify_reviewers($id, $log, $reason);
+        \block_afirst_assistant\event\answer_reported::create([
+            'objectid' => $id,
+            'context' => \context_course::instance($log->courseid),
+            'relateduserid' => $USER->id,
+            'other' => ['logid' => (int)$log->id, 'reason' => $reason],
+        ])->trigger();
         return $id;
     }
 

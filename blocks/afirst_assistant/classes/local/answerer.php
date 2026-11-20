@@ -393,6 +393,14 @@ class answerer {
         ], $citations)) : null;
         $log->latencyms = (int)round((microtime(true) - $started) * 1000);
         $logid = $DB->insert_record('block_afirst_log', $log);
+        // Signal for the adaptive feedback loop (local_afirst_loop, rule R5): counts and reasons, never the text.
+        \block_afirst_assistant\event\question_asked::create([
+            'objectid' => $logid,
+            'context' => \context_course::instance($log->courseid),
+            'userid' => $log->userid,
+            'relateduserid' => $log->userid,
+            'other' => ['refused' => (int)$log->refused, 'reason' => $reason, 'module' => $log->contextmodule],
+        ])->trigger();
 
         // Learners only see the passages behind a real answer.
         $shown = $status === answer_result::STATUS_ANSWERED ? $citations : [];

@@ -51,7 +51,16 @@ foreach (['fasttrack', 'remediation', 'newlearner'] as $username) {
         $DB->delete_records('local_afirst_loop_sent', ['userid' => $id]);
     }
     $DB->delete_records('notifications', ['useridto' => $id]);
+    // Undo early-review offers (rule R5) and the assistant history that triggered them.
+    require_once($CFG->dirroot . '/group/lib.php');
+    foreach ($DB->get_records_select('groups', "courseid = ? AND idnumber LIKE 'AFIRST-EARLY-%'", [$course->id]) as $g) {
+        groups_remove_member($g->id, $id);
+    }
+    $DB->delete_records('block_afirst_log', ['courseid' => $course->id, 'userid' => $id]);
 }
+// Teacher alerts about the demo learners (R6, R7) go too.
+$teacher = $DB->get_field('user', 'id', ['username' => 'teacher1']);
+$DB->delete_records_select('notifications', "useridto = ? AND component = 'local_afirst_loop'", [$teacher]);
 $user = $DB->get_record('user', ['username' => 'remediation'], '*', MUST_EXIST);
 $DB->delete_records_select('course_modules_completion',
     'userid = ? AND coursemoduleid IN (SELECT id FROM {course_modules} WHERE course = ?)', [$user->id, $course->id]);

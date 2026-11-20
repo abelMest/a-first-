@@ -6,6 +6,7 @@
     "remediation_below_percent": 70
   },
   "hide_microlearning_until_unlocked": true,
+  "early_review": true,
   "modules": {
     "1.1": {"diagnostic_cmid": 9, "knowledgecheck_cmid": 11, "content_cmids": [10], "microlearning_cmids": [42], "retake_cmid": 43},
     "1.2": {"diagnostic_cmid": 9, "knowledgecheck_cmid": 13, "content_cmids": [12], "microlearning_cmids": [44], "retake_cmid": 45},

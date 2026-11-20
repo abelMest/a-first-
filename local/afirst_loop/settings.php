@@ -30,5 +30,17 @@ if ($hassiteconfig) {
     $settings->add(new admin_setting_configtext('local_afirst_loop/supportbelow',
         new lang_string('supportbelow', 'local_afirst_loop'), new lang_string('supportbelow_desc', 'local_afirst_loop'),
         70, PARAM_INT));
+    $settings->add(new admin_setting_heading('local_afirst_loop/signals', new lang_string('signals', 'local_afirst_loop'),
+        new lang_string('signals_desc', 'local_afirst_loop')));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/earlyquestions',
+        new lang_string('earlyquestions', 'local_afirst_loop'), new lang_string('earlyquestions_desc', 'local_afirst_loop'),
+        3, PARAM_INT));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/earlyunsupported',
+        new lang_string('earlyunsupported', 'local_afirst_loop'), new lang_string('earlyunsupported_desc', 'local_afirst_loop'),
+        2, PARAM_INT));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/earlydays',
+        new lang_string('earlydays', 'local_afirst_loop'), new lang_string('earlydays_desc', 'local_afirst_loop'), 7, PARAM_INT));
+    $settings->add(new admin_setting_configtext('local_afirst_loop/trustdown',
+        new lang_string('trustdown', 'local_afirst_loop'), new lang_string('trustdown_desc', 'local_afirst_loop'), 2, PARAM_INT));
     $ADMIN->add('localplugins', $settings);
 }

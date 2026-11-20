@@ -79,6 +79,22 @@ $visible = $full;
 $visible['hide_microlearning_until_unlocked'] = false;
 check(afirst_cs_build_plan($visible, $fakegrade)[0][201]['tree']['showc'] === [true], 'microlearning can be shown greyed out');
 
+// Early review (R5): the review unit also opens for the module's early-review group.
+$early = $full;
+$early['early_review'] = true;
+[$eplan, $enotes] = afirst_cs_build_plan($early, $fakegrade, fn(string $code) => 5000);
+$etree = $eplan[201]['tree'];
+check($etree['op'] === '|' && $etree['c'][1] === ['type' => 'group', 'id' => 5000] && $etree['show'] === false,
+    'early review: review unit opens on a low knowledge check OR group membership, hidden until then');
+check(afirst_cs_is_managed(json_decode(afirst_cs_encode($etree), true), [1012], [12, 201], [5000]),
+    'early review: a tree with the module group is recognised as managed');
+check(!afirst_cs_is_managed(json_decode(afirst_cs_encode($etree), true), [1012], [12, 201], [6000]),
+    'early review: another group is not managed');
+[$nplan, $nnotes] = afirst_cs_build_plan($early, $fakegrade, fn(string $code) => null);
+check(isset($nplan[201]['tree']['showc']) && (bool)preg_grep('/early-review group/', $nnotes),
+    'early review: without a group the old rule stays and a notice says why');
+check(afirst_cs_validate_config(['early_review' => 'yes'] + $full) !== [], 'early_review must be a boolean');
+
 // 4. Missing grade items skip rules instead of writing broken conditions.
 [$p, $n] = afirst_cs_build_plan($full, fn(int $cmid) => $cmid === 101 ? null : 1000 + $cmid);
 check(!isset($p[12]) && isset($p[201]), 'diagnostic without grade item: only the knowledge check rule is skipped');

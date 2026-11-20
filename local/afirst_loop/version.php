@@ -25,8 +25,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'local_afirst_loop';
-$plugin->version = 2026112000;
+$plugin->version = 2026112001;
 $plugin->requires = 2025041400; // Moodle 5.0.
 $plugin->supported = [500, 500];
 $plugin->maturity = MATURITY_ALPHA;
-$plugin->release = '0.1.0';
+$plugin->release = '0.2.0';

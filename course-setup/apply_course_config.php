@@ -130,7 +130,34 @@ if ($problems && !$dryrun) {
     cli_error('Fix the warnings above, then run again.');
 }
 
-[$plan, $notices] = afirst_cs_build_plan($config, fn(int $cmid) => $gradeitems[$cmid] ?? null);
+// Early-review groups (rule R5 of the OODA design note): one per module, found by ID number, created when missing.
+$earlygroups = [];
+if (!empty($config['early_review'])) {
+    require_once($CFG->dirroot . '/group/lib.php');
+    foreach ($config['modules'] as $code => $m) {
+        if (empty($m['microlearning_cmids'])) {
+            continue;
+        }
+        $code = (string)$code;
+        $idnumber = "AFIRST-EARLY-$code";
+        $gid = $DB->get_field('groups', 'id', ['courseid' => $course->id, 'idnumber' => $idnumber]);
+        if (!$gid && !$dryrun) {
+            $gid = groups_create_group((object)['courseid' => $course->id, 'idnumber' => $idnumber,
+                'name' => "Early review: Module $code",
+                'description' => 'Learners offered the review unit of this module early by the A-FIRST feedback loop '
+                    . '(assistant questions before the Knowledge Check). Managed automatically.']);
+            cli_writeln("CREATE group \"Early review: Module $code\" ($idnumber), id $gid");
+        } else if (!$gid) {
+            cli_writeln("NOTICE would create group \"Early review: Module $code\" ($idnumber) [dry run]");
+        }
+        if ($gid) {
+            $earlygroups[$code] = (int)$gid;
+        }
+    }
+}
+
+[$plan, $notices] = afirst_cs_build_plan($config, fn(int $cmid) => $gradeitems[$cmid] ?? null,
+    fn(string $code) => $earlygroups[$code] ?? null);
 foreach ($notices as $notice) {
     cli_writeln("NOTICE $notice");
 }
@@ -160,7 +187,8 @@ foreach ($plan as $cmid => $entry) {
     $owngrades = array_values(array_filter(array_map(fn($id) => $gradeitems[$id] ?? null, $ownids)));
     $current = $cm->availability;
     $managed = $current !== null && $current !== ''
-        && afirst_cs_is_managed(json_decode($current, true), $owngrades, $ownids);
+        && afirst_cs_is_managed(json_decode($current, true), $owngrades, $ownids,
+            isset($earlygroups[$entry['module']]) ? [$earlygroups[$entry['module']]] : []);
     $action = afirst_cs_decide($current, $entry['tree'], $managed, (bool)$options['replace']);
     $counts[$action] = ($counts[$action] ?? 0) + 1;
 

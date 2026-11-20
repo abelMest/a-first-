@@ -50,6 +50,33 @@ class observer {
     }
 
     /**
+     * A learner asked the course assistant a question (R5 early review).
+     *
+     * @param \block_afirst_assistant\event\question_asked $event
+     */
+    public static function question_asked(\block_afirst_assistant\event\question_asked $event): void {
+        try {
+            local\assistant_signals::question_asked((int)$event->courseid, (int)$event->relateduserid, (int)$event->objectid);
+        } catch (\Throwable $e) {
+            debugging('local_afirst_loop: ' . $e->getMessage(), DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
+     * A learner rated an assistant answer (R6 trust check).
+     *
+     * @param \block_afirst_assistant\event\answer_rated $event
+     */
+    public static function answer_rated(\block_afirst_assistant\event\answer_rated $event): void {
+        try {
+            local\assistant_signals::answer_rated((int)$event->courseid, (int)$event->relateduserid,
+                (int)($event->other['rating'] ?? 0));
+        } catch (\Throwable $e) {
+            debugging('local_afirst_loop: ' . $e->getMessage(), DEBUG_DEVELOPER);
+        }
+    }
+
+    /**
      * Run the notifier, never throwing.
      *
      * @param int $courseid

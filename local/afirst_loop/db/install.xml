@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="local/afirst_loop/db" VERSION="2026112000" COMMENT="A-FIRST feedback loop"
+<XMLDB PATH="local/afirst_loop/db" VERSION="2026112001" COMMENT="A-FIRST feedback loop"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
@@ -9,16 +9,15 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The learner the feedback is about"/>
-        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The activity that opened, or the retake for a support alert"/>
-        <FIELD NAME="kind" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="fasttrack, review, retake, opened or support"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="The activity that opened or was offered, the retake for a support alert, 0 for a course-level alert"/>
+        <FIELD NAME="kind" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="fasttrack, review, retake, opened, support, early or trust"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="usercmkind" UNIQUE="true" FIELDS="userid, cmid, kind"/>
-        <INDEX NAME="courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="courseusercmkind" UNIQUE="true" FIELDS="courseid, userid, cmid, kind"/>
       </INDEXES>
     </TABLE>
   </TABLES>

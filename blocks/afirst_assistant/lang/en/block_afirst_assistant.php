@@ -54,6 +54,9 @@ $string['error:nofile'] = 'Upload exactly one text, Markdown or HTML file.';
 $string['error:policynotaccepted'] = 'Please accept the AI usage policy before using the assistant.';
 $string['error:ratelimit'] = 'You have asked many questions in a short time. Please wait a while and try again.';
 $string['error:service'] = 'The assistant is unavailable right now. Please try again later.';
+$string['event:answer_rated'] = 'Assistant answer rated';
+$string['event:answer_reported'] = 'Assistant answer reported';
+$string['event:question_asked'] = 'Question asked to the course assistant';
 $string['escalation:body'] = 'A learner reported an assistant answer as "{$a->reason}".
 
 Question: {$a->question}

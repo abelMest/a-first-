@@ -30,4 +30,9 @@ $observers = [
         'internal' => false],
     ['eventname' => '\core\event\course_module_completion_updated',
         'callback' => '\local_afirst_loop\observer::completion_updated', 'internal' => false],
+    // Assistant signals (step 2).
+    ['eventname' => '\block_afirst_assistant\event\question_asked',
+        'callback' => '\local_afirst_loop\observer::question_asked', 'internal' => false],
+    ['eventname' => '\block_afirst_assistant\event\answer_rated',
+        'callback' => '\local_afirst_loop\observer::answer_rated', 'internal' => false],
 ];

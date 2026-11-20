@@ -421,6 +421,18 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-20). **Pending:** advisory team (design note questions).
 - **Status:** Built and tested on dev course 4 (demo learners: R1, R2, R3, R4 and R7 messages verified). Not on production.
 
+### D-31: Assistant signals feed the adaptive loop; early review through Moodle groups
+- **Date:** 2026-11-20
+- **Decision:** Step 2 of the OODA design note.
+  - The course assistant (block 0.5.2) raises Moodle events for every question (answered or declined, with the reason and module), every rating and every report. The events carry counts, reasons and module codes, never question text.
+  - **R5 early review** (`local_afirst_loop` 0.2.0): when a learner has asked 3 or more questions about one sub-module in 7 days, or 2 of them could not be supported by the course text, before taking its Knowledge Check, the learner joins that module's "Early review" group and is told. The review unit's access rule is now *Knowledge Check below 70% OR member of the early-review group* (`course_config.json` `"early_review": true`; groups created by `apply_course_config.php`).
+  - **R6 trust check:** a learner who marks 2 or more answers as not helpful is flagged once to the course's teachers.
+  - Thresholds are plugin settings, to be set by the advisory team and checked against beta data.
+- **Rationale:** the assistant data were collected but unused (advisory review 13 Nov, DE A-19). Groups are a core Moodle feature, so the early-review route needs no custom access code and teachers can see who was offered a review. Assistant signals only offer help: access to assessment still depends on quiz results.
+- **Not yet:** R8 inactivity, R9 slow connection, R10 content-gap threshold, the teacher digest.
+- **Approver:** Fellow (2026-11-20). **Pending:** advisory team (thresholds; design note questions 2 and 3).
+- **Status:** Built and tested on dev course 4 with the real assistant (newlearner: three Module 2.1 questions opened Review 2.1 with a message; two not-helpful ratings alerted teacher1). Not on production.
+
 ---
 
 ## Template
