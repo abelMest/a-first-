@@ -413,6 +413,14 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-12). **Pending:** advisory team (instruments and item set), ethics committee (information sheet and consent wording).
 - **Status:** Built on dev course 4, verified with a test learner. Not on production.
 
+### D-30: Learners are told when a result opens something (feedback loop, OODA "act")
+- **Date:** 2026-11-20
+- **Decision:** A new local plugin, `local_afirst_loop` 0.1.0, closes the "act" step of the adaptive loop (OODA design note, advisory reviews of 6 and 13 November). When a quiz is graded or an activity completed, it reads Moodle's own restrict-access conditions, finds activities that depend on it and have just opened for that learner, and sends one notification saying what opened and why (rules R1 fast-track, R2 review, R3 retake, R4 opened by study). A retake still below 70% alerts the course's teachers (R7). Each change is announced once. It is switched on per course in the plugin settings.
+- **Rationale:** unlocks were silent; learners had to notice them. The rules stay in restrict access (one source of truth), so the plugin works for any course configured by `apply_course_config.php` without a second rule set.
+- **Not yet:** assistant signals (R5, R6, R10), inactivity (R8), slow connection (R9) and the teacher digest; message wording to be reviewed by the content owner and translated.
+- **Approver:** Fellow (2026-11-20). **Pending:** advisory team (design note questions).
+- **Status:** Built and tested on dev course 4 (demo learners: R1, R2, R3, R4 and R7 messages verified). Not on production.
+
 ---
 
 ## Template

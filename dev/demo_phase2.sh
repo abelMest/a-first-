@@ -7,6 +7,7 @@
 #   fasttrack    scored 10/10 on the Module 2 diagnostic -> both Module 2 Knowledge Checks open without the SCORM
 #   remediation  completed Module 1.1 and scored 1/5 (20%) on its Knowledge Check -> Review 1.1 open, retake locked
 #   newlearner   no attempts -> every Knowledge Check locked, diagnostics open (take one live)
+# Each learner gets the A-FIRST feedback messages for their state (bell icon), if local_afirst_loop is installed.
 # It also shows the review units and retakes ON DEV ONLY (they stay hidden in production until the content
 # owner approves them) and keeps the pilot instruments hidden.
 set -euo pipefail
@@ -43,6 +44,14 @@ foreach (get_fast_modinfo($course)->get_cms() as $cm) {
     }
 }
 rebuild_course_cache($course->id, true);
+// Clear earlier feedback to the demo learners, so the loop announces each change again (local_afirst_loop).
+foreach (['fasttrack', 'remediation', 'newlearner'] as $username) {
+    $id = $DB->get_field('user', 'id', ['username' => $username]);
+    if ($DB->get_manager()->table_exists('local_afirst_loop_sent')) {
+        $DB->delete_records('local_afirst_loop_sent', ['userid' => $id]);
+    }
+    $DB->delete_records('notifications', ['useridto' => $id]);
+}
 $user = $DB->get_record('user', ['username' => 'remediation'], '*', MUST_EXIST);
 $DB->delete_records_select('course_modules_completion',
     'userid = ? AND coursemoduleid IN (SELECT id FROM {course_modules} WHERE course = ?)', [$user->id, $course->id]);

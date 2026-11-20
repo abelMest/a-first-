@@ -1,0 +1,48 @@
+<?php
+// This file is part of Moodle - https://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <https://www.gnu.org/licenses/>.
+/**
+ * English strings.
+ *
+ * @package    local_afirst_loop
+ * @copyright  2026 Africa CDC
+ * @license    https://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
+
+defined('MOODLE_INTERNAL') || die();
+
+$string['afirst_loop:receivealerts'] = 'Receive alerts about learners who need support';
+$string['courses'] = 'Courses';
+$string['courses_desc'] = 'Comma-separated ids of the courses where learners are told what their results have opened. Leave empty to switch the feedback off.';
+$string['messageprovider:needssupport'] = 'A learner is still below the pass mark after a review and a retake';
+$string['messageprovider:opened'] = 'An activity has opened for you because of a result or a completed activity';
+$string['msg:fasttrack:body'] = 'You scored {$a->score}% on {$a->trigger}, so these are now open: {$a->list}. You can go straight to them.';
+$string['msg:fasttrack:subject'] = '{$a->course}: you can skip ahead';
+$string['msg:opened:body'] = 'You completed {$a->trigger}, so this is now open: {$a->list}.';
+$string['msg:opened:subject'] = '{$a->course}: something new is open';
+$string['msg:retake:body'] = 'Thanks for completing {$a->trigger}. This is now open: {$a->list}.';
+$string['msg:retake:subject'] = '{$a->course}: your retake is open';
+$string['msg:review:body'] = 'Your score on {$a->trigger} was {$a->score}%. A short review is now open: {$a->list}. After it you can retake the check.';
+$string['msg:review:subject'] = '{$a->course}: a short review is ready for you';
+$string['msg:support:body'] = '{$a->learner} scored {$a->score}% on {$a->trigger}, still below {$a->below}% after the review and the retake. They may need a conversation.';
+$string['msg:support:subject'] = '{$a->course}: a learner may need support';
+$string['pluginname'] = 'A-FIRST feedback loop';
+$string['privacy:metadata:sent'] = 'Which feedback messages were sent about which activity, so each change is announced only once.';
+$string['privacy:metadata:sent:cmid'] = 'The activity the feedback was about.';
+$string['privacy:metadata:sent:kind'] = 'The kind of feedback.';
+$string['privacy:metadata:sent:timecreated'] = 'When the feedback was sent.';
+$string['privacy:metadata:sent:userid'] = 'The learner the feedback was about.';
+$string['supportbelow'] = 'Support alert below (%)';
+$string['supportbelow_desc'] = 'Teachers are alerted when a learner scores below this on a retake, after the review (design note rule R7).';
