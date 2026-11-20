@@ -62,6 +62,7 @@ The report shows which rule each learner missed, so the result can be acted on. 
 | Scenario validator and builder | `classes/local/scenario.php`, `classes/local/scenario_builder.php` |
 | Readiness rules (pure, unit-tested) | `classes/local/rules.php` |
 | Build CLI | `report/afirst_readiness/cli/build_scenario.php` |
+| Learner view ("My readiness") and end-of-scenario message | `mine.php`, `classes/observer.php` (D-34) |
 | Pilot scenario (draft) | `courses/ds4h/readiness/scenarios/DS4H-RDY-01.json` |
 | Course settings | `courses/ds4h/readiness/readiness_settings.json` |
 

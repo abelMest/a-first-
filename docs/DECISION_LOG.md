@@ -454,6 +454,15 @@ This is the decision log that Project Plan v3 §9 and Work Plan §9 require: "Ca
 - **Approver:** Fellow (2026-11-20). **Pending:** advisory team (thresholds).
 - **Status:** Built and tested on dev course 4 with the real assistant. Not on production.
 
+### D-34: Learners see their own readiness result ("My readiness")
+- **Date:** 2026-11-20
+- **Decision:** `report_afirst_readiness` 0.2.0.
+  - A **"My readiness"** page for learners (new capability `viewown`, students by default; linked in the course menu once a scenario is visible to them): their result, their score in each of the five areas against the two bars, a plain-language explanation, the course modules to revisit for each weak area (from the domain's competencies), Knowledge Checks below the bar with links, a critical-choice notice, and the statement that the result supports, not replaces, the supervisor's judgement (and is for practice while the scenario is a draft).
+  - When a learner **finishes the scenario**, Moodle tells them their result and links to the page (event `lesson_ended`).
+- **Rationale:** in the Phase 3 walkthrough the learner saw only a Lesson score; the result existed only on the teacher's report (DE A-26). An assessment whose outcome the learner cannot see is not part of a learning loop (same finding as Phase 2, A-19, D-30).
+- **Approver:** Fellow (2026-11-20). **Pending:** advisory team and the scenario expert (wording of the learner messages).
+- **Status:** Built and tested on dev course 4 (replay through the Lesson web service: the learner was told "Not yet ready" after a critical choice). Not on production.
+
 ---
 
 ## Template

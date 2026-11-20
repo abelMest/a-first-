@@ -45,6 +45,7 @@ foreach (['student1', 'student2', 'student3', 'student4', 'student5', 'scenario'
         $DB->delete_records($table, ['lessonid' => $lesson->id, 'userid' => $id]);
     }
     lesson_update_grades($lesson, $id);
+    $DB->delete_records('notifications', ['useridto' => $id, 'component' => 'report_afirst_readiness']);
 }
 rebuild_course_cache(4, true);
 echo "readiness Lesson cm {$record->lessoncmid} shown (dev), scenario attempts cleared\n";

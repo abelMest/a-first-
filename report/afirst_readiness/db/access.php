@@ -36,4 +36,12 @@ $capabilities = [
             'manager' => CAP_ALLOW,
         ],
     ],
+    // See one's own readiness result ("My readiness").
+    'report/afirst_readiness:viewown' => [
+        'captype' => 'read',
+        'contextlevel' => CONTEXT_COURSE,
+        'archetypes' => [
+            'student' => CAP_ALLOW,
+        ],
+    ],
 ];

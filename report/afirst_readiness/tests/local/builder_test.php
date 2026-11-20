@@ -124,6 +124,19 @@ final class builder_test extends \advanced_testcase {
         $this->assertEquals(0.0, $rows[$weak->id]['domains']['X']);
         $this->assertSame(rules::NOT_STARTED, $rows[$none->id]['status']);
 
+        // One learner's own result matches the report, and finishing the scenario tells them.
+        $report = new readiness_report($record);
+        $this->assertSame($rows[$critical->id]['status'], $report->row($critical->id)['status']);
+        $this->assertTrue($report->row($critical->id)['critical']);
+        $sink = $this->redirectMessages();
+        $this->assertSame(rules::INDEPENDENT, \report_afirst_readiness\observer::send_result($record->lessoncmid, $best->id));
+        $messages = $sink->get_messages();
+        $this->assertCount(1, $messages);
+        $this->assertSame((int)$best->id, (int)$messages[0]->useridto);
+        $this->assertStringContainsString('Ready for independent work', $messages[0]->fullmessage);
+        $this->assertNull(\report_afirst_readiness\observer::send_result(999999, $best->id), 'not a scenario Lesson');
+        $sink->close();
+
         $text = (new readiness_report($record))->reason_text(['domain', ['domain' => 'X', 'value' => 0.0, 'min' => 60]]);
         $this->assertStringContainsString('Domain X', $text);
     }

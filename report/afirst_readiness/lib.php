@@ -36,6 +36,18 @@ function report_afirst_readiness_extend_navigation_course($navigation, $course, 
         $url = new moodle_url('/report/afirst_readiness/index.php', ['id' => $course->id]);
         $navigation->add(get_string('pluginname', 'report_afirst_readiness'), $url, navigation_node::TYPE_SETTING,
             null, 'afirstreadiness', new pix_icon('i/report', ''));
+    } else if (has_capability('report/afirst_readiness:viewown', $context)) {
+        // Learners: "My readiness", once a scenario Lesson is visible to them.
+        $modinfo = get_fast_modinfo($course);
+        foreach ($DB->get_records('report_afirst_readiness', ['courseid' => $course->id], '', 'id, lessoncmid') as $r) {
+            $cms = $modinfo->get_cms();
+            if (isset($cms[$r->lessoncmid]) && $cms[$r->lessoncmid]->uservisible) {
+                $url = new moodle_url('/report/afirst_readiness/mine.php', ['id' => $course->id]);
+                $navigation->add(get_string('mine', 'report_afirst_readiness'), $url, navigation_node::TYPE_CUSTOM,
+                    null, 'afirstreadinessmine', new pix_icon('i/report', ''));
+                break;
+            }
+        }
     }
 }
 

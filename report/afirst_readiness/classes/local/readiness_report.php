@@ -55,6 +55,26 @@ class readiness_report {
         if (!$learners) {
             return [];
         }
+        return $this->evaluate($learners);
+    }
+
+    /**
+     * One learner's result (the "My readiness" page and the end-of-scenario message use it).
+     *
+     * @param int $userid
+     * @return array Same keys as a rows() entry.
+     */
+    public function row(int $userid): array {
+        return $this->evaluate([$userid => \core_user::get_user($userid, '*', MUST_EXIST)])[$userid];
+    }
+
+    /**
+     * Apply the rules to a set of learners.
+     *
+     * @param \stdClass[] $learners Keyed by user id.
+     * @return array<int, array>
+     */
+    private function evaluate(array $learners): array {
         $userids = array_keys($learners);
         $choices = $this->choices($userids);
         $knowledge = $this->knowledge_grades($userids);
@@ -76,6 +96,39 @@ class readiness_report {
             $rows[$id] = ['user' => $user] + $input + rules::classify($input, $this->settings['thresholds'] ?? []);
         }
         return $rows;
+    }
+
+    /**
+     * Course modules a learner should revisit for each domain below the independent bar: the SCORM modules named by
+     * the domain's competencies (COMP-x.y.z -> "Module x.y ...") that the learner can open.
+     *
+     * @param array $row A row from row() or rows().
+     * @param \course_modinfo $modinfo The learner's modinfo.
+     * @return array<string, \cm_info[]> Domain id => modules.
+     */
+    public function revisit(array $row, \course_modinfo $modinfo): array {
+        $min = (float)(($this->settings['thresholds'] ?? []) + rules::DEFAULT_THRESHOLDS)['independent_domain_min'];
+        $out = [];
+        foreach ($this->scenario['domains'] as $domain) {
+            $value = $row['domains'][$domain['id']] ?? null;
+            if ($value === null || $value >= $min) {
+                continue;
+            }
+            $codes = [];
+            foreach ($domain['competencies'] ?? [] as $comp) {
+                if (preg_match('/^COMP-(\d+\.\d+)\./', $comp, $m)) {
+                    $codes[$m[1]] = true;
+                }
+            }
+            foreach ($modinfo->get_instances_of('scorm') as $cm) {
+                foreach (array_keys($codes) as $code) {
+                    if ($cm->uservisible && preg_match('/^Module\s+' . preg_quote($code, '/') . '\b/i', $cm->name)) {
+                        $out[$domain['id']][] = $cm;
+                    }
+                }
+            }
+        }
+        return $out;
     }
 
     /**
