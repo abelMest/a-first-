@@ -5,3 +5,4 @@ deploy/docker/* text eol=lf
 *.pptx binary
 *.pdf binary
 *.jpeg binary
+.githooks/* text eol=lf
