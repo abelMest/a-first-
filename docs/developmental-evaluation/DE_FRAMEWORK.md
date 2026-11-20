@@ -54,6 +54,15 @@ These are reviewed at every sprint reflection. New questions are added with a da
 | Unanswered-question log | Plugin table `block_afirst_assistant_log` (refused rows) | System | Continuous; reviewed Sprints 10–12 |
 | Escalation record | Plugin escalation queue | Learners, reviewers | Continuous; 48-hour SLA |
 
+### 3.1 Keeping the record live (from 20 November 2026)
+
+The DE record is the primary data for the DE paper agreed with the advisors (advisory notes, 6 November 2026): the framework that emerged, the moments of change in each sprint and why, and a proposed evaluation framework. It is therefore written when a change happens, not reconstructed afterwards.
+
+- Every commit that changes documentation, plugin code, course setup or course content stages a DE record in this folder: usually a `DE_LOG.md` row (what we expected, what happened, what we learned, adaptation, evidence class), cross-referenced to its decision-log entry.
+- Findings from testing (a wrong assumption, a bug found before learners met it) are recorded as learnings, not only as fixes.
+- Advisory meetings are summarised in `advisory-meetings/` with actions; their effect on the design is traced in the log.
+- The repository enforces this: `.githooks/commit-msg` rejects such a commit without a DE record unless the message says `DE-skip: <reason>` (typo-level changes only). Enable it once per clone with `git config core.hooksPath .githooks`.
+
 ## 4. The DE cycle
 
 Each monthly sprint (Prop §4.1) runs one DE cycle, with the weekly Friday review (WP §10) as the touchpoint:
